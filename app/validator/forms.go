@@ -9,6 +9,7 @@ import (
 
 type CmdForm struct {
 	Cmd    string `json:"cmd"`
+	Value  string `json:"value"`
 	Params string `json:"params"`
 }
 
