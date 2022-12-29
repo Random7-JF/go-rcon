@@ -1,35 +1,77 @@
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <h2>{{.Title}}</h2>
     <hr />
   </div>
   <div class="row">
-    <div class="col">
-      <form action="/commands" method="post">
-        <label for="cmd">Command to send</label><br>
-        <input type="text" id="cmd" name="cmd" value="say"><br>
-        <label for="value">Params:</label><br>
-        <input type="text" id="value" name="value" value=""><br><br>
-        <input type="submit" value="Submit">
-      </form>
+    <div class="col-sm-4">
+      <div class="card text-bg-secondary h-100">
+        <div class="card-body">
+          <h5 class="card-title">Send A Message To The Server</h5>
+          <p class="card-text">
+            Use the field bellow to send a text message to the whole server.
+          </p>
+          <div class="form-floating mb-3">
+            <form action="/commands" method="post">
+              <input type="hidden" id="cmd" name="cmd" value="say" />
+              <input
+                type="text"
+                class="form-control mt-3"
+                name="value"
+                id="value"
+                placeholder="Hello Server"
+              />
+              <button type="submit" class="btn btn-primary mt-3">Send Server Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col">
-      <form action="/commands" method="post">
-        <label for="cmd">Command to send</label><br>
-        <input type="text" id="cmd" name="cmd" value="time"><br>
-        <label for="value">Params:</label><br>
-        <input type="text" id="value" name="value" value=""><br><br>
-        <input type="submit" value="Submit">
-      </form>
+    <div class="col-sm-4">
+      <div class="card text-bg-secondary h-100">
+        <div class="card-body">
+          <h5 class="card-title">Set The Time Of The Server</h5>
+          <p class="card-text">
+            Use the Field below to set the time of the server. Enter a number from 1-xxxxx
+          </p>
+          <div class="form-floating mb-3">
+            <form action="/commands" method="post">
+              <input type="hidden" id="cmd" name="cmd" value="time" />
+              <input
+                type="text"
+                class="form-control mt-3"
+                name="value"
+                id="value"
+                placeholder="1 For Day"
+              />
+              <button type="submit" class="btn btn-primary mt-3">Set Server Time</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col">
-      <form action="/commands" method="post">
-        <label for="cmd">Command to send</label><br>
-        <input type="text" id="cmd" name="cmd" value="kick"><br>
-        <label for="value">Params:</label><br>
-        <input type="text" id="value" name="value" value=""><br><br>
-        <input type="submit" value="Submit">
-      </form>
+    <div class="col-sm-4">
+      <div class="card text-bg-secondary h-100">
+        <div class="card-body">
+          <h5 class="card-title">Set Weather</h5>
+          <p class="card-text">
+          Select the weather you wish to see on the server. This will apply server wide.
+          </p>
+          <div class="form-floating mb-3">
+            <form action="/commands" method="post">
+              <input type="hidden" id="cmd" name="cmd" value="weather" />
+              <select class="form-select" id="value" name="value">
+                <option selected>Choose...</option>
+                <option value="clear">Clear</option>
+                <option value="rain">Rain</option>
+                <option value="thunder">Thunder</option>
+              </select>
+              <button type="submit" class="btn btn-primary mt-3">Set Server Weather</button>
+            </form>
+          </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

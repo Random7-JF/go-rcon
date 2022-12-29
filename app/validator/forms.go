@@ -29,6 +29,9 @@ func (c *CmdForm) CheckForBlanks() error {
 		return nil
 	}
 
+	fmt.Println(c.Cmd)
+	fmt.Println(c.Params)
+
 	err := errors.New("this form has a blank submission")
 	return err
 }
@@ -42,6 +45,15 @@ func (c *CmdForm) CheckCmd() error {
 	case "time":
 		fmt.Println("Time Command Found")
 		resp, err := rcon.SetTime(c.Params)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(resp)
+		return nil
+	case "weather":
+		fmt.Println("Weather Command Found")
+		fmt.Println(c.Params)
+		resp, err := rcon.RconSession.Rcon.SendCommand("weather " + c.Params)
 		if err != nil {
 			fmt.Println(err)
 		}
