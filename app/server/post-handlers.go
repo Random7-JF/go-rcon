@@ -13,9 +13,11 @@ func CmdHandler(c *fiber.Ctx) error {
 	var Submitted validator.CmdForm
 
 	Submitted.Cmd = c.FormValue("cmd")
-	Submitted.Params = c.FormValue("value")
+	Submitted.Value = c.FormValue("value")
+	Submitted.Options = c.FormValue("options")
 
 	err := Submitted.ValidateInputs()
+
 	if err != nil {
 		fmt.Println("Error in form submission: " + err.Error())
 		return c.Redirect("/commands")

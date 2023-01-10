@@ -8,9 +8,9 @@ import (
 )
 
 type CmdForm struct {
-	Cmd    string `json:"cmd"`
-	Value  string `json:"value"`
-	Params string `json:"params"`
+	Cmd     string `json:"cmd"`
+	Value   string `json:"value"`
+	Options string `json:"options"`
 }
 
 func (c *CmdForm) ValidateInputs() error {
@@ -26,39 +26,36 @@ func (c *CmdForm) ValidateInputs() error {
 }
 
 func (c *CmdForm) CheckForBlanks() error {
-	if len(c.Cmd) != 0 && len(c.Params) != 0 {
+	if len(c.Cmd) != 0 && len(c.Value) != 0 {
 		return nil
 	}
-
-	fmt.Println(c.Cmd)
-	fmt.Println(c.Params)
-
 	err := errors.New("this form has a blank submission")
 	return err
 }
 
 func (c *CmdForm) CheckCmd() error {
+
 	switch c.Cmd {
 	case "say":
-		fmt.Println("Say Command Found")
-		rcon.SendMessage(c.Params)
+		_, err := rcon.SendMessage(c.Value)
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
 		return nil
 	case "time":
-		fmt.Println("Time Command Found")
-		resp, err := rcon.SetTime(c.Params)
+		_, err := rcon.SetTime(c.Value)
 		if err != nil {
 			fmt.Println(err)
+			return err
 		}
-		fmt.Println(resp)
 		return nil
 	case "weather":
-		fmt.Println("Weather Command Found")
-		fmt.Println(c.Params)
-		resp, err := rcon.RconSession.Rcon.SendCommand("weather " + c.Params)
+		_, err := rcon.RconSession.Rcon.SendCommand("weather " + c.Value)
 		if err != nil {
 			fmt.Println(err)
+			return err
 		}
-		fmt.Println(resp)
 		return nil
 	default:
 		err := errors.New("no command found")
