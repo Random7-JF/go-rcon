@@ -16,7 +16,7 @@ func main() {
 	//and starting the webserver to take requests
 	go setupDB()
 	go setupRcon()
-	go server.Serve(&App)
+	server.Serve(&App)
 }
 
 // setupDB runs the SetupDB function, this updates our App variable and registers needed info inside it for
