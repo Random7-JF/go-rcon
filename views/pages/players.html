@@ -9,7 +9,6 @@
     <table class="table table-dark">
       <thead>
         <tr>
-          <th scope="col">#</th>
           <th scope="col">Player</th>
           <th scope="col">TP to Spawn</th>
           <th scope="col">OP</th>
@@ -17,10 +16,9 @@
         </tr>
       </thead>
       <tbody>
-        {{range $playerIndex, $player := .Data.Players.Players}}
+        {{range .Data.Players.Players}}
         <tr>
-          <th scope="row">{{ $playerIndex }}</th>
-          <td>{{ $player.Name}}</td>
+          <td>{{ .Name}}</td>
           <td><button type="button" class="btn btn-info">TP to Spawn</button></td>
           <td><button type="button" class="btn btn-warning">Add/Remove OP</button></td>
           <td><button type="button" class="btn btn-danger">Kick</button></td>
