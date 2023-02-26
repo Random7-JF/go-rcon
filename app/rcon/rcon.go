@@ -57,14 +57,42 @@ func SetupConnection(App *config.App) error {
 // the Current player count, Max player count and list of currently connected players in models.Players
 func GetPlayers() (model.PlayersCommand, error) {
 	var playersJson model.PlayersCommand
-
 	//cmdresp is the full string we parse
-	//"There are 2/20 players online:Random777, Dude1872"
 	cmdresp, err := RconSession.Rcon.SendCommand("list")
+	//Depending on MC version we get two responses back - will need to filter this out.
+	//"There are 2/20 players online:Random777, Dude1872"
+	//There are 10 of a max of 20 players online:"
+
 	if err != nil {
 		fmt.Println("SendCommand Failed:", err)
 		return playersJson, err
 	}
+
+	parseStr := strings.Split(cmdresp, ":")
+
+	if strings.Contains(parseStr[0], "max") {
+		playersJson, err = ParseListNew(cmdresp)
+	} else {
+		playersJson, err = ParseListOld(cmdresp)
+	}
+
+	if err != nil {
+		fmt.Println("Parse Failed Failed:", err)
+		return playersJson, err
+	}
+
+	go model.AddToCommandLog(model.CommandLog{
+		CommandType: "list",
+		Command:     "list",
+		Response:    cmdresp,
+		SentBy:      "Api",
+	})
+	return playersJson, nil
+}
+
+func ParseListOld(cmdresp string) (model.PlayersCommand, error) {
+	var playersJson model.PlayersCommand
+	var err error
 	index := strings.Index(cmdresp, "/")   // find "/" index
 	countstr := cmdresp[index-2 : index+3] // substring based off index
 	count := strings.Split(countstr, "/")  // split on "/"
@@ -72,7 +100,8 @@ func GetPlayers() (model.PlayersCommand, error) {
 	playerslist := strings.Split(cmdresp, ":")    // split at colon "There are 2/20 players online:Random777, Dude1872"
 	players := strings.Split(playerslist[1], ",") //split at comma "Random777, Dude1872"
 
-	//convert string to Int
+	playersJson.Players = ParsePlayers(players)
+
 	playersJson.CurrentCount, err = strconv.Atoi(strings.Trim(count[0], " "))
 	if err != nil {
 		fmt.Println("CurrentCount AtoI Failed:", err)
@@ -86,19 +115,50 @@ func GetPlayers() (model.PlayersCommand, error) {
 		return playersJson, err
 	}
 
-	//Populate the playersJson with each players name
-	for _, s := range players {
-		playersJson.Players = append(playersJson.Players, model.Players{Name: s})
+	return playersJson, nil
+}
+
+func ParseListNew(cmdresp string) (model.PlayersCommand, error) {
+	var playersJson model.PlayersCommand
+	var err error
+	parseStr := strings.Split(cmdresp, ":")
+	countStr := strings.Split(parseStr[0], "max")
+
+	playersJson.CurrentCount, err = strconv.Atoi(ParseForCount(countStr[0]))
+	if err != nil {
+		fmt.Println("CurrentCount AtoI Failed:", err)
+		return playersJson, err
+
+	}
+	playersJson.MaxCount, err = strconv.Atoi(ParseForCount(countStr[1]))
+	if err != nil {
+		fmt.Println("MaxCount AtoI Failed:", err)
+		return playersJson, err
 	}
 
-	go model.AddToCommandLog(model.CommandLog{
-		CommandType: "list",
-		Command:     "list",
-		Response:    cmdresp,
-		SentBy:      "Api",
-	})
+	players := strings.Split(parseStr[1], ",") //split at comma "Random777, Dude1872"
+	playersJson.Players = ParsePlayers(players)
 
 	return playersJson, nil
+}
+
+func ParsePlayers(p []string) []model.Players {
+	var Players []model.Players
+	for _, s := range p {
+		player := strings.TrimSuffix(s, "\n")
+		Players = append(Players, model.Players{Name: strings.Trim(player, " ")})
+	}
+	return Players
+}
+
+func ParseForCount(countString string) string {
+	var result string
+	for _, s := range countString {
+		if strings.ContainsAny(string(s), "0123456789") {
+			result = result + string(s)
+		}
+	}
+	return result
 }
 
 // KickPlayer send them kick command over the rcon session, the target is the players name who you wish to kick
