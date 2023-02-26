@@ -10,12 +10,12 @@ import (
 var App config.App
 
 func main() {
-	//Load app configuration from either the config.jason or env variables
+	//Load app configuration from either the config.json or env variables
 	App.SetupAppConfig()
 	//Start the main functions of the app, connecting to the DB, connecting to the Rcon server
-	//and starting the webserver to take requests
 	go setupDB()
 	go setupRcon()
+	//and start the webserver to take requests
 	server.Serve(&App)
 }
 

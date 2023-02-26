@@ -19,7 +19,7 @@ func ParseListOld(cmdresp string) (model.PlayersCommand, error) {
 	playerslist := strings.Split(cmdresp, ":")    // split at colon "There are 2/20 players online:Random777, Dude1872"
 	players := strings.Split(playerslist[1], ",") //split at comma "Random777, Dude1872"
 
-	playersJson.Players = ParsePlayers(players)
+	playersJson.Players = ParseForPlayers(players)
 
 	playersJson.CurrentCount, err = strconv.Atoi(strings.Trim(count[0], " "))
 	if err != nil {
@@ -57,13 +57,13 @@ func ParseListNew(cmdresp string) (model.PlayersCommand, error) {
 	}
 
 	players := strings.Split(parseStr[1], ",") //split at comma "Random777, Dude1872"
-	playersJson.Players = ParsePlayers(players)
+	playersJson.Players = ParseForPlayers(players)
 
 	return playersJson, nil
 }
 
 // ParsePlayers takes a string slice of all the players and splits, trims spaces and newlines and returns a slice of model.Players
-func ParsePlayers(p []string) []model.Players {
+func ParseForPlayers(p []string) []model.Players {
 	var Players []model.Players
 	for _, s := range p {
 		player := strings.TrimSuffix(s, "\n")
