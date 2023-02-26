@@ -26,8 +26,17 @@ func IndexHandler(c *fiber.Ctx) error {
 }
 
 func DashboardHandler(c *fiber.Ctx) error {
+	players, err := rcon.GetPlayers()
+	if err != nil {
+		return err
+	}
+
+	data := make(map[string]interface{})
+	data["Players"] = players
+
 	return c.Render("pages/dashboard", model.TempalteData{
 		Title: "Dashboard",
+		Data:  data,
 	}, "layouts/main")
 }
 

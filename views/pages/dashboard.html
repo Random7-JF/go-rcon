@@ -8,11 +8,13 @@
       <div class="card text-bg-secondary mb-3 h-100">
         <div class="card-header">Players</div>
         <div class="card-body">
+          {{if ne .Data.Players.CurrentCount 0}}
           <h5 class="card-title">Currently Connected Players</h5>
-          <h3 class="card-text">
-            0/20
-          </h3>
+          <h3 class="card-text">{{.Data.Players.CurrentCount}} / {{.Data.Players.MaxCount}}</h3>
           <a href="/players" class="btn btn-primary mt-3">View Players</a>
+          {{else}}
+          <h5 class="card-title">No Players Online</h5>
+          {{end}}
         </div>
       </div>
     </div>
