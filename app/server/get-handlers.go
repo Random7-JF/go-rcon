@@ -21,7 +21,7 @@ func PlayersHandler(c *fiber.Ctx) error {
 
 func IndexHandler(c *fiber.Ctx) error {
 	return c.Render("pages/index", model.TempalteData{
-		Title: "",
+		Title: "Home",
 	}, "layouts/main")
 }
 

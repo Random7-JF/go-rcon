@@ -1,7 +1,27 @@
-<div class="container">
-    <div class="row">
-        <h2>Home</h2>
-        <hr/>
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Totam ea deserunt temporibus earum quibusdam inventore, architecto consequatur accusantium dolorum iure illum quae cumque doloremque placeat explicabo optio excepturi non tempore! Illum quaerat rerum quod hic non, possimus reiciendis sunt impedit sit qui officia in obcaecati iste explicabo accusantium neque ipsa ut pariatur quidem porro quia! Numquam vel facere temporibus esse.</p>
-    </div>
+<div class="container-fluid">
+  <div class="row">
+    <h2>{{.Title}}</h2>
+    <hr />
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+        <div class="card text-bg-secondary mb-3 h-100">
+          <div class="card-header">App Purpose</div>
+          <div class="card-body">
+            <p class="card-text">
+                Go-Rcon is a web app written in Go that allows control of a
+                minecraft server with the use of Rcon.
+              </p>
+              <p class="card-text">
+                This is a side project I wrote to learn and explore programming. It
+                utilizes Go, HTML/CSS, Postgres and Docker.
+              </p>
+              <p class="card-text">
+                The source is available, feel free to use at your own risk.
+              </p>
+              <a href="https://github.com/Random7-JF/go-rcon" class="btn btn-dark">Github</a>
+          </div>
+        </div>
+      </div>
+  </div>
 </div>
