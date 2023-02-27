@@ -3,6 +3,7 @@ package validator
 import (
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/Random7-JF/go-rcon/app/rcon"
 )
@@ -55,6 +56,34 @@ func (c *CmdForm) CheckCmd() error {
 		if err != nil {
 			fmt.Println(err)
 			return err
+		}
+		return nil
+	case "whitelist":
+		_, err := rcon.RconSession.Rcon.SendCommand("whitelist add " + c.Value)
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+		return nil
+	case "kick":
+		_, err := rcon.RconSession.Rcon.SendCommand("kick " + c.Value)
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+		return nil
+	case "op":
+		resp, err := rcon.RconSession.Rcon.SendCommand("op " + c.Value)
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+		if strings.Contains(resp, "already is an operator") {
+			_, err = rcon.RconSession.Rcon.SendCommand("deop " + c.Value)
+			if err != nil {
+				fmt.Println(err)
+				return err
+			}
 		}
 		return nil
 	default:

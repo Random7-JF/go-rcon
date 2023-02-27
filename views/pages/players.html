@@ -19,9 +19,24 @@
         {{range .Data.Players.Players}}
         <tr>
           <td>{{ .Name}}</td>
-          <td><button type="button" class="btn btn-info">TP to Spawn</button></td>
-          <td><button type="button" class="btn btn-warning">Add/Remove OP</button></td>
-          <td><button type="button" class="btn btn-danger">Kick</button></td>
+          <td>
+            <form action="/players" method="post">
+            <input type="hidden" id="cmd" name="cmd" value="{{ .Name}}-tp"/>
+            <button name="{{ .Name}}-tp" type="submit" class="btn btn-info">TP to Spawn</button>
+            </form>
+          </td>
+          <td>
+            <form action="/players" method="post">
+              <input type="hidden" id="cmd" name="cmd" value="{{ .Name}}-op"/>
+              <button name="{{ .Name}}-op" type="submit" class="btn btn-warning">Add/Remove OP</button>
+          </form>
+          </td>
+          <td>
+            <form action="/players" method="post">
+              <input type="hidden" id="cmd" name="cmd" value="{{ .Name}}-kick"/>
+              <button name="{{ .Name}}-kick" type="submit" class="btn btn-danger">Kick</button>
+          </form>
+          </td>
         </tr>
         {{end}}
       </tbody>

@@ -14,6 +14,7 @@ func SetupRoutes(App *config.App) {
 	//Post
 	App.WebServer.Post("/cmd/kick", KickCmdHandler)
 	App.WebServer.Post("/commands", CmdHandler)
+	App.WebServer.Post("/players", PlayerCmdHandler)
 
 	//API routes
 	//GET routes
