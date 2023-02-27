@@ -6,14 +6,12 @@
   <div class="row mt-3">
     <div class="col-sm-2">
       <div class="card text-bg-secondary mb-3 h-100">
-        <div class="card-header">Players</div>
-        <div class="card-body">
-          {{if ne .Data.Players.CurrentCount 0}}
-          <h5 class="card-title">Currently Connected Players</h5>
-          <h3 class="card-text">{{.Data.Players.CurrentCount}} / {{.Data.Players.MaxCount}}</h3>
-          <a href="/players" class="btn btn-primary mt-3">View Players</a>
+        <div class="card-header">Rcon Status</div>
+        <div class="card-body text-center">
+          {{if .Data.Rcon}}
+          <h5 class="card-text">Go-Rcon is connected</h5>
           {{else}}
-          <h5 class="card-title">No Players Online</h5>
+          <h5 class="card-text">Go-Rcon is not connected</h5>
           {{end}}
         </div>
       </div>
@@ -27,7 +25,6 @@
             Lorem ipsum dolor sit amet consectetur adipisicing elit. In sapiente
             debitis nisi blanditiis aliquid sint vero veniam, nulla odit iure?
           </p>
-          <a href="/players" class="btn btn-primary">View Players</a>
         </div>
       </div>
     </div>
@@ -49,58 +46,31 @@
   <div class="row mt-3">
     <div class="col-sm-2">
       <div class="card text-bg-secondary mb-3 h-100">
-        <div class="card-header">#1</div>
+        <div class="card-header">Players</div>
         <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. In sapiente
-            debitis nisi blanditiis aliquid sint vero veniam, nulla odit iure?
-          </p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          {{if ne .Data.Players.CurrentCount 0}}
+          <h5 class="card-text">Currently Connected Players</h5>
+          <h3 class="card-text">{{.Data.Players.CurrentCount}} / {{.Data.Players.MaxCount}}</h3>
+          <a href="/players" class="btn btn-primary mt-3">View Players</a>
+          {{else}}
+          <h5 class="card-text">No Players Online</h5>
+          {{end}}
+
         </div>
       </div>
     </div>
     <div class="col-sm-10">
       <div class="card text-bg-secondary mb-3 h-100">
-        <div class="card-header">#2</div>
+        <div class="card-header">Command Log</div>
         <div class="card-body">
           <h5 class="card-title">Special title treatment</h5>
           <p class="card-text">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. In sapiente
             debitis nisi blanditiis aliquid sint vero veniam, nulla odit iure?
           </p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <a href="/commands" class="btn btn-primary">Send Commands</a>
         </div>
       </div>
     </div>
-  </div>
-  <!--Third Row-->
-  <div class="row mt-3">
-    <div class="col-sm-2">
-      <div class="card text-bg-secondary mb-3 h-100">
-        <div class="card-header">#1</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. In sapiente
-            debitis nisi blanditiis aliquid sint vero veniam, nulla odit iure?
-          </p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-10">
-      <div class="card text-bg-secondary mb-3 h-100">
-        <div class="card-header">#2</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. In sapiente
-            debitis nisi blanditiis aliquid sint vero veniam, nulla odit iure?
-          </p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-  </div>
+  </div>    
 </div>

@@ -8,6 +8,8 @@ import (
 	"github.com/gofiber/template/html"
 )
 
+var AppConfig *config.App
+
 func Serve(App *config.App) {
 	// Create a new engine
 	htmlEngine := html.New("./views", ".html")
@@ -27,6 +29,7 @@ func Serve(App *config.App) {
 	App.WebServer.Static("/static", "./views/static")
 
 	SetupRoutes(App)
+	AppConfig = App
 
 	url := App.WebSettings.Ip + ":" + App.WebSettings.Port
 	App.WebServer.Listen(url)

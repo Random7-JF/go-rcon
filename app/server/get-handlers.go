@@ -33,6 +33,7 @@ func DashboardHandler(c *fiber.Ctx) error {
 
 	data := make(map[string]interface{})
 	data["Players"] = players
+	data["Rcon"] = AppConfig.RconSettings.Connection
 
 	return c.Render("pages/dashboard", model.TempalteData{
 		Title: "Dashboard",
