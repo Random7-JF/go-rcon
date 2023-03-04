@@ -86,6 +86,14 @@ func (c *CmdForm) CheckCmd() error {
 			}
 		}
 		return nil
+	case "dewhitelist":
+		resp, err := rcon.RconSession.Rcon.SendCommand("whitelist remove " + c.Value)
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+		fmt.Println("whitelist remove:" + resp)
+		return nil
 	default:
 		err := errors.New("no command found")
 		return err

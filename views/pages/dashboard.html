@@ -30,14 +30,12 @@
     </div>
     <div class="col-sm-5 mt-3">
       <div class="card text-bg-secondary mb-3 h-100">
-        <div class="card-header">#3</div>
+        <div class="card-header">Whitelist</div>
         <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
           <p class="card-text">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. In sapiente
-            debitis nisi blanditiis aliquid sint vero veniam, nulla odit iure?
+            Currently there are {{ .Data.Whitelist.Count}} players allowed to play on the server.
           </p>
-          <a href="#" class="btn btn-dark">Go somewhere</a>
+          <a href="/whitelist" class="btn btn-dark">Add / Remove players</a>
         </div>
       </div>
     </div>

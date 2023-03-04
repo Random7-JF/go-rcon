@@ -2,6 +2,7 @@ package rcon
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/Random7-JF/go-rcon/app/config"
@@ -83,6 +84,34 @@ func GetPlayers() (model.PlayersCommand, error) {
 		SentBy:      "Api",
 	})
 	return playersJson, nil
+}
+
+// GetWhitelist sends the whitelist list command which returns a string of the current count of whitelisted players and the play names.
+// the function the parses the string to pull the count out and convert it to an int, and populates the model.whitelistcommand.players with names of the players.
+func GetWhitelist() (model.WhitelistCommand, error) {
+	var whitelist model.WhitelistCommand
+	cmdresp, err := RconSession.Rcon.SendCommand("whitelist list")
+
+	if err != nil {
+		fmt.Println("SendCommand failed:", err)
+		return whitelist, err
+	}
+
+	parseStr := strings.Split(cmdresp, ":")
+	count := ParseForCount(parseStr[0])
+	whitelist.Count, err = strconv.Atoi(count)
+	if err != nil {
+		fmt.Println("MaxCount AtoI Failed:", err)
+		return whitelist, err
+	}
+	players := strings.Split(parseStr[1], ",")
+
+	for _, s := range players {
+		x := strings.TrimSuffix(s, "\n")
+		whitelist.Players = append(whitelist.Players, model.Players{Name: strings.Trim(x, " ")})
+	}
+
+	return whitelist, nil
 }
 
 // KickPlayer send them kick command over the rcon session, the target is the players name who you wish to kick

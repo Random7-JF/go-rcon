@@ -25,6 +25,11 @@ type PlayersCommand struct {
 	Players      []Players `json:"players"`
 }
 
+type WhitelistCommand struct {
+	Count   int       `json:"count"`
+	Players []Players `json:"players"`
+}
+
 type Players struct {
 	Name string `json:"name"`
 }

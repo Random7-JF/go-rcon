@@ -11,8 +11,8 @@
           <p class="card-text">
             Use the field bellow to send a text message to the whole server.
           </p>
-            <form action="/commands" method="post">
-              <div class="form-floating mb-3">
+          <form action="/commands" method="post">
+            <div class="form-floating mb-3">
               <input type="hidden" id="cmd" name="cmd" value="say" />
               <input
                 type="text"
@@ -22,33 +22,37 @@
                 placeholder="Hello Server"
               />
               <label class="text-secondary" for="say-cmd">Message</label>
-              <button type="submit" class="btn btn-dark mt-3">Send Server Message</button>
+              <button type="submit" class="btn btn-dark mt-3">
+                Send Server Message
+              </button>
             </div>
-            </form>
-          </div>
+          </form>
         </div>
       </div>
+    </div>
     <div class="col-sm-4 mt-3">
       <div class="card text-bg-secondary h-100">
         <div class="card-body">
           <h5 class="card-title">Set The Time Of The Server</h5>
           <p class="card-text">
             Use the field below to set the time. Enter a number from 1-13000
-          </p> 
+          </p>
           <div class="form-floating mb-3">
             <form action="/commands" method="post">
               <div class="form-floating mb-3">
-              <input type="hidden" id="cmd" name="cmd" value="time" />
-              <input
-                type="text"
-                class="form-control mt-3"
-                name="value"
-                id="time-cmd"
-                placeholder="1 for day, 13000 for night"
-              />
-              <label class="text-secondary" for="time-cmd">Time</label>
-              <button type="submit" class="btn btn-dark mt-3">Set Server Time</button>
-            </div>
+                <input type="hidden" id="cmd" name="cmd" value="time" />
+                <input
+                  type="text"
+                  class="form-control mt-3"
+                  name="value"
+                  id="time-cmd"
+                  placeholder="1 for day, 13000 for night"
+                />
+                <label class="text-secondary" for="time-cmd">Time</label>
+                <button type="submit" class="btn btn-dark mt-3">
+                  Set Server Time
+                </button>
+              </div>
             </form>
           </div>
         </div>
@@ -59,7 +63,8 @@
         <div class="card-body">
           <h5 class="card-title">Set Weather</h5>
           <p class="card-text">
-          Select the weather you wish to see on the server. This will apply server wide.
+            Select the weather you wish to see on the server. This will apply
+            server wide.
           </p>
           <div class="form-floating mb-3">
             <form action="/commands" method="post">
@@ -70,38 +75,13 @@
                 <option value="rain">Rain</option>
                 <option value="thunder">Thunder</option>
               </select>
-              <button type="submit" class="btn btn-dark mt-3">Set Server Weather</button>
+              <button type="submit" class="btn btn-dark mt-3">
+                Set Server Weather
+              </button>
             </form>
-          </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="row mt-6">
-      <div class="col-sm-12 mt-3">
-        <div class="card text-bg-secondary h-100">
-          <div class="card-body">
-            <h5 class="card-title">Add User to the Whitelist</h5>
-            <p class="card-text">
-              Enter the users minecraft users name or UUID to add to the whitelist
-            </p>
-              <form action="/commands" method="post">
-                <div class="form-floating mb-3">
-                <input type="hidden" id="cmd" name="cmd" value="whitelist" />
-                <input
-                  type="text"
-                  class="form-control mt-3"
-                  name="value"
-                  id="whitelist-cmd"
-                  placeholder="Minecraft username or UUID"
-                />
-                <label class="text-secondary" for="whitelist-cmd">Username or UUID</label>
-                <button type="submit" class="btn btn-dark mt-3">Add to Whitelist</button>
-              </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
   </div>
 </div>

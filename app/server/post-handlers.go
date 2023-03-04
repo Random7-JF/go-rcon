@@ -2,7 +2,6 @@ package server
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/Random7-JF/go-rcon/app/model"
 	"github.com/Random7-JF/go-rcon/app/rcon"
@@ -29,11 +28,10 @@ func CmdHandler(c *fiber.Ctx) error {
 
 func PlayerCmdHandler(c *fiber.Ctx) error {
 	var Submitted validator.CmdForm
-	parseCommandValue := c.FormValue("cmd")
-	cmd := strings.Split(parseCommandValue, "-")
 
-	Submitted.Cmd = strings.Trim(cmd[1], "")
-	Submitted.Value = strings.Trim(cmd[0], "")
+	Submitted.Cmd = c.FormValue("cmd")
+	Submitted.Value = c.FormValue("value")
+	Submitted.Options = c.FormValue("options")
 
 	err := Submitted.ValidateInputs()
 
@@ -43,6 +41,23 @@ func PlayerCmdHandler(c *fiber.Ctx) error {
 	}
 
 	return c.Redirect("/players")
+}
+
+func WhitelistCmdHandler(c *fiber.Ctx) error {
+	var Submitted validator.CmdForm
+
+	Submitted.Cmd = c.FormValue("cmd")
+	Submitted.Value = c.FormValue("value")
+	Submitted.Options = c.FormValue("options")
+
+	err := Submitted.ValidateInputs()
+
+	if err != nil {
+		fmt.Println("Error in form submission: " + err.Error())
+		return c.Redirect("/whitelist")
+	}
+
+	return c.Redirect("/whitelist")
 }
 
 func KickCmdHandler(c *fiber.Ctx) error {

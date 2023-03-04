@@ -30,10 +30,15 @@ func DashboardHandler(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
+	whitelist, err := rcon.GetWhitelist()
+	if err != nil {
+		return err
+	}
 
 	data := make(map[string]interface{})
 	data["Players"] = players
 	data["Rcon"] = AppConfig.RconSettings.Connection
+	data["Whitelist"] = whitelist
 
 	return c.Render("pages/dashboard", model.TempalteData{
 		Title: "Dashboard",
@@ -57,8 +62,22 @@ func PlayersPageHandler(c *fiber.Ctx) error {
 }
 
 func CommandsHandler(c *fiber.Ctx) error {
-
 	return c.Render("pages/commands", model.TempalteData{
 		Title: "Commands",
+	}, "layouts/main")
+}
+
+func WhitelistHandler(c *fiber.Ctx) error {
+	whitelist, err := rcon.GetWhitelist()
+	if err != nil {
+		return err
+	}
+
+	data := make(map[string]interface{})
+	data["Whitelist"] = whitelist
+
+	return c.Render("pages/whitelist", model.TempalteData{
+		Title: "Whitelist",
+		Data:  data,
 	}, "layouts/main")
 }
