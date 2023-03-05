@@ -39,14 +39,14 @@
         <div class="card-body">
           <h5 class="card-title">Whitelist</h5>
           <p class="card-text">
-            Currently whitelisted users on the server.
+          {{ .Data.Whitelist.Count}} currently whitelisted users on the server.
           </p>
           <ul class="list-group">
             <table class="table table-hover table-bordered table-striped table-dark">
               <thead>
                 <tr>
-                  <th scope="col">Player</th>
-                  <th scope="col">Remove</th>
+                  <th scope="col">Player Name</th>
+                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
