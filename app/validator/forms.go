@@ -24,72 +24,72 @@ func ProcessForm(c *fiber.Ctx) Form {
 	return form
 }
 
-func (c *Form) ValidateInputs() error {
-	err := c.CheckForBlanks()
+func (form *Form) ValidateInputs() error {
+	err := form.CheckForBlanks()
 	if err != nil {
 		return err
 	}
-	err = c.CheckCmd()
+	err = form.CheckCmd()
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (c *Form) CheckForBlanks() error {
-	if len(c.Cmd) != 0 && len(c.Value) != 0 {
+func (form *Form) CheckForBlanks() error {
+	if len(form.Cmd) != 0 && len(form.Value) != 0 {
 		return nil
 	}
 	err := errors.New("this form has a blank submission")
 	return err
 }
 
-func (c *Form) CheckCmd() error {
+func (form *Form) CheckCmd() error {
 
-	switch c.Cmd {
+	switch form.Cmd {
 	case "say":
-		_, err := rcon.SendMessage(c.Value)
+		_, err := rcon.SendMessage(form.Value)
 		if err != nil {
 			fmt.Println(err)
 			return err
 		}
 		return nil
 	case "time":
-		_, err := rcon.SetTime(c.Value)
+		_, err := rcon.SetTime(form.Value)
 		if err != nil {
 			fmt.Println(err)
 			return err
 		}
 		return nil
 	case "weather":
-		_, err := rcon.RconSession.Rcon.SendCommand("weather " + c.Value)
+		_, err := rcon.RconSession.Rcon.SendCommand("weather " + form.Value)
 		if err != nil {
 			fmt.Println(err)
 			return err
 		}
 		return nil
 	case "whitelist":
-		_, err := rcon.RconSession.Rcon.SendCommand("whitelist add " + c.Value)
+		_, err := rcon.RconSession.Rcon.SendCommand("whitelist add " + form.Value)
 		if err != nil {
 			fmt.Println(err)
 			return err
 		}
 		return nil
 	case "kick":
-		_, err := rcon.RconSession.Rcon.SendCommand("kick " + c.Value)
+		_, err := rcon.RconSession.Rcon.SendCommand("kick " + form.Value)
 		if err != nil {
 			fmt.Println(err)
 			return err
 		}
 		return nil
 	case "op":
-		resp, err := rcon.RconSession.Rcon.SendCommand("op " + c.Value)
+		resp, err := rcon.RconSession.Rcon.SendCommand("op " + form.Value)
 		if err != nil {
 			fmt.Println(err)
 			return err
 		}
 		if strings.Contains(resp, "already is an operator") {
-			_, err = rcon.RconSession.Rcon.SendCommand("deop " + c.Value)
+			_, err = rcon.RconSession.Rcon.SendCommand("deop " + form.Value)
 			if err != nil {
 				fmt.Println(err)
 				return err
@@ -97,7 +97,7 @@ func (c *Form) CheckCmd() error {
 		}
 		return nil
 	case "dewhitelist":
-		resp, err := rcon.RconSession.Rcon.SendCommand("whitelist remove " + c.Value)
+		resp, err := rcon.RconSession.Rcon.SendCommand("whitelist remove " + form.Value)
 		if err != nil {
 			fmt.Println(err)
 			return err
