@@ -6,15 +6,25 @@ import (
 	"strings"
 
 	"github.com/Random7-JF/go-rcon/app/rcon"
+	"github.com/gofiber/fiber/v2"
 )
 
-type CmdForm struct {
+type Form struct {
 	Cmd     string `json:"cmd"`
 	Value   string `json:"value"`
 	Options string `json:"options"`
 }
 
-func (c *CmdForm) ValidateInputs() error {
+func ProcessForm(c *fiber.Ctx) Form {
+	var form Form
+	form.Cmd = c.FormValue("cmd")
+	form.Value = c.FormValue("value")
+	form.Options = c.FormValue("options")
+
+	return form
+}
+
+func (c *Form) ValidateInputs() error {
 	err := c.CheckForBlanks()
 	if err != nil {
 		return err
@@ -26,7 +36,7 @@ func (c *CmdForm) ValidateInputs() error {
 	return nil
 }
 
-func (c *CmdForm) CheckForBlanks() error {
+func (c *Form) CheckForBlanks() error {
 	if len(c.Cmd) != 0 && len(c.Value) != 0 {
 		return nil
 	}
@@ -34,7 +44,7 @@ func (c *CmdForm) CheckForBlanks() error {
 	return err
 }
 
-func (c *CmdForm) CheckCmd() error {
+func (c *Form) CheckCmd() error {
 
 	switch c.Cmd {
 	case "say":

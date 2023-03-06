@@ -8,14 +8,8 @@ import (
 )
 
 func CmdHandler(c *fiber.Ctx) error {
-	var Submitted validator.CmdForm
-
-	Submitted.Cmd = c.FormValue("cmd")
-	Submitted.Value = c.FormValue("value")
-	Submitted.Options = c.FormValue("options")
-
-	err := Submitted.ValidateInputs()
-
+	SubmittedForm := validator.ProcessForm(c)
+	err := SubmittedForm.ValidateInputs()
 	if err != nil {
 		fmt.Println("Error in form submission: " + err.Error())
 		return c.Redirect("/commands")
@@ -25,14 +19,8 @@ func CmdHandler(c *fiber.Ctx) error {
 }
 
 func PlayerCmdHandler(c *fiber.Ctx) error {
-	var Submitted validator.CmdForm
-
-	Submitted.Cmd = c.FormValue("cmd")
-	Submitted.Value = c.FormValue("value")
-	Submitted.Options = c.FormValue("options")
-
-	err := Submitted.ValidateInputs()
-
+	SubmittedForm := validator.ProcessForm(c)
+	err := SubmittedForm.ValidateInputs()
 	if err != nil {
 		fmt.Println("Error in form submission: " + err.Error())
 		return c.Redirect("/players")
@@ -42,13 +30,8 @@ func PlayerCmdHandler(c *fiber.Ctx) error {
 }
 
 func WhitelistCmdHandler(c *fiber.Ctx) error {
-	var Submitted validator.CmdForm
-
-	Submitted.Cmd = c.FormValue("cmd")
-	Submitted.Value = c.FormValue("value")
-	Submitted.Options = c.FormValue("options")
-
-	err := Submitted.ValidateInputs()
+	SubmittedForm := validator.ProcessForm(c)
+	err := SubmittedForm.ValidateInputs()
 
 	if err != nil {
 		fmt.Println("Error in form submission: " + err.Error())
