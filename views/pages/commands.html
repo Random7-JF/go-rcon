@@ -13,17 +13,11 @@
           </p>
           <form action="/commands" method="post">
             <div class="form-floating mb-3">
-              <input type="hidden" id="cmd" name="cmd" value="say" />
-              <input
-                type="text"
-                class="form-control mt-3"
-                name="value"
-                id="say-cmd"
-                placeholder="Hello Server"
-              />
+              <input type="hidden" id="cmd" name="cmd" value="say"/>
+              <input type="text" class="form-control mt-3" name="value" id="say-cmd" placeholder="Hello Server"/>
               <label class="text-secondary" for="say-cmd">Message</label>
               <button type="submit" class="btn btn-dark mt-3">
-                Send Server Message
+              Send Server Message
               </button>
             </div>
           </form>
@@ -35,19 +29,13 @@
         <div class="card-body">
           <h5 class="card-title">Set The Time Of The Server</h5>
           <p class="card-text">
-            Use the field below to set the time. Enter a number from 1-13000
+          Use the field below to set the time. Enter a number from 1-13000
           </p>
           <div class="form-floating mb-3">
             <form action="/commands" method="post">
               <div class="form-floating mb-3">
                 <input type="hidden" id="cmd" name="cmd" value="time" />
-                <input
-                  type="text"
-                  class="form-control mt-3"
-                  name="value"
-                  id="time-cmd"
-                  placeholder="1 for day, 13000 for night"
-                />
+                <input type="text" class="form-control mt-3" name="value" id="time-cmd" placeholder="1 for day, 13000 for night"/>
                 <label class="text-secondary" for="time-cmd">Time</label>
                 <button type="submit" class="btn btn-dark mt-3">
                   Set Server Time

@@ -7,7 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func CmdHandler(c *fiber.Ctx) error {
+func PostCommandsHandler(c *fiber.Ctx) error {
 	SubmittedForm := validator.ProcessForm(c)
 	err := SubmittedForm.ValidateInputs()
 	if err != nil {
@@ -18,7 +18,7 @@ func CmdHandler(c *fiber.Ctx) error {
 	return c.Redirect("/commands")
 }
 
-func PlayerCmdHandler(c *fiber.Ctx) error {
+func PostPlayersHandler(c *fiber.Ctx) error {
 	SubmittedForm := validator.ProcessForm(c)
 	err := SubmittedForm.ValidateInputs()
 	if err != nil {
@@ -29,7 +29,7 @@ func PlayerCmdHandler(c *fiber.Ctx) error {
 	return c.Redirect("/players")
 }
 
-func WhitelistCmdHandler(c *fiber.Ctx) error {
+func PostWhitelistHandler(c *fiber.Ctx) error {
 	SubmittedForm := validator.ProcessForm(c)
 	err := SubmittedForm.ValidateInputs()
 
@@ -39,4 +39,5 @@ func WhitelistCmdHandler(c *fiber.Ctx) error {
 	}
 
 	return c.Redirect("/whitelist")
+
 }
