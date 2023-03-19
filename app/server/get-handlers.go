@@ -22,7 +22,7 @@ func DashboardHandler(c *fiber.Ctx) error {
 		return err
 	}
 
-	commands, err := model.GetCommandLog(0)
+	commands, err := model.GetCommandLog(5)
 	if err != nil {
 		return err
 	}
