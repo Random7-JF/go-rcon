@@ -199,3 +199,22 @@ func StopServer(confirm bool) (model.NoReplyCommand, error) {
 
 	return response, nil
 }
+
+func SetWeather(weather string) model.NoReplyCommand {
+	var response model.NoReplyCommand
+
+	cmd := "weather " + weather
+	_, err := RconSession.Rcon.SendCommand(cmd)
+	if err != nil {
+		response.Error = err.Error()
+		return response
+	}
+
+	go model.AddToCommandLog(model.CommandLog{
+		CommandType: "weather",
+		Command:     cmd,
+		SentBy:      "api",
+	})
+
+	return response
+}

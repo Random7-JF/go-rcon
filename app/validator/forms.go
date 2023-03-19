@@ -62,10 +62,10 @@ func (form *Form) CheckCmd() error {
 		}
 		return nil
 	case "weather":
-		_, err := rcon.RconSession.Rcon.SendCommand("weather " + form.Value)
-		if err != nil {
-			fmt.Println(err)
-			return err
+		resp := rcon.SetWeather(form.Value)
+		if len(resp.Error) > 0 {
+			fmt.Println(resp.Error)
+			return errors.New(resp.Error)
 		}
 		return nil
 	case "whitelist":
