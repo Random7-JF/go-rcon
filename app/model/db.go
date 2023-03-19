@@ -49,3 +49,22 @@ func AddToCommandLog(log CommandLog) error {
 
 	return nil
 }
+
+func GetCommandLog(limit int) ([]CommandLog, error) {
+	var cmdlog []CommandLog
+	if limit > 0 {
+		query := dbSession.Db.Limit(limit).Where("command != ?", "list").Order("created_at DESC").Find(&cmdlog)
+		if query.Error != nil {
+			fmt.Println(query.Error)
+			return cmdlog, query.Error
+		}
+	} else {
+		query := dbSession.Db.Where("command != ?", "list").Order("created_at DESC").Find(&cmdlog)
+		if query.Error != nil {
+			fmt.Println(query.Error)
+			return cmdlog, query.Error
+		}
+	}
+	fmt.Println(cmdlog)
+	return cmdlog, nil
+}

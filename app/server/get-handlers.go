@@ -22,10 +22,16 @@ func DashboardHandler(c *fiber.Ctx) error {
 		return err
 	}
 
+	commands, err := model.GetCommandLog(0)
+	if err != nil {
+		return err
+	}
+
 	data := make(map[string]interface{})
 	data["Players"] = players
 	data["Rcon"] = AppConfig.RconSettings.Connection
 	data["Whitelist"] = whitelist
+	data["Commands"] = commands
 
 	return c.Render("pages/dashboard", model.TempalteData{
 		Title: "Dashboard",
