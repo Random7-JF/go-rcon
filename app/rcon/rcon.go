@@ -200,6 +200,8 @@ func StopServer(confirm bool) (model.NoReplyCommand, error) {
 	return response, nil
 }
 
+// SetWeather sends the weather XXXX command to the server of the rcon connection
+// this will switch the current weather on the server and then log it to the command log database.
 func SetWeather(weather string) model.CommandResponse {
 	var response model.CommandResponse
 

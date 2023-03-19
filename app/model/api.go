@@ -1,10 +1,5 @@
 package model
 
-type Api struct {
-	Message string `json:"message"`
-	Version string `json:"version"`
-}
-
 type NoReplyCommand struct {
 	Error string `json:"error"`
 }
