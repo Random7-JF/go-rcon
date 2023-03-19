@@ -200,11 +200,11 @@ func StopServer(confirm bool) (model.NoReplyCommand, error) {
 	return response, nil
 }
 
-func SetWeather(weather string) model.NoReplyCommand {
-	var response model.NoReplyCommand
+func SetWeather(weather string) model.CommandResponse {
+	var response model.CommandResponse
 
 	cmd := "weather " + weather
-	_, err := RconSession.Rcon.SendCommand(cmd)
+	resp, err := RconSession.Rcon.SendCommand(cmd)
 	if err != nil {
 		response.Error = err.Error()
 		return response
@@ -213,6 +213,7 @@ func SetWeather(weather string) model.NoReplyCommand {
 	go model.AddToCommandLog(model.CommandLog{
 		CommandType: "weather",
 		Command:     cmd,
+		Response:    resp,
 		SentBy:      "api",
 	})
 
