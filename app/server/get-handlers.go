@@ -13,6 +13,7 @@ func IndexHandler(c *fiber.Ctx) error {
 }
 
 func DashboardHandler(c *fiber.Ctx) error {
+
 	players, err := rcon.GetPlayers()
 	if err != nil {
 		return err
@@ -21,7 +22,6 @@ func DashboardHandler(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-
 	commands, err := model.GetCommandLog(5)
 	if err != nil {
 		return err
