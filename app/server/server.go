@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/session"
 	"github.com/gofiber/template/html"
 )
 
@@ -21,11 +22,11 @@ func Serve(App *config.App) {
 		Views: htmlEngine,
 	})
 
+	App.Store = session.New()
 	App.WebServer.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
 		AllowHeaders: "Origin, Content-Type, Accept",
 	}))
-
 	App.WebServer.Static("/static", "./views/static")
 
 	SetupRoutes(App)

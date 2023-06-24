@@ -1,6 +1,8 @@
 package server
 
 import (
+	"fmt"
+
 	"github.com/Random7-JF/go-rcon/app/model"
 	"github.com/Random7-JF/go-rcon/app/rcon"
 	"github.com/gofiber/fiber/v2"
@@ -76,6 +78,17 @@ func WhitelistHandler(c *fiber.Ctx) error {
 }
 
 func LoginHandler(c *fiber.Ctx) error {
+
+	session, err := AppConfig.Store.Get(c)
+	if err != nil {
+		fmt.Println(err)
+	}
+	auth := session.Get("auth")
+	fmt.Println("Auth: ", auth)
+
+	keys := session.Keys()
+	fmt.Println("Keys: ", keys)
+
 	return c.Render("pages/login", model.TempalteData{
 		Title: "Login",
 	}, "layouts/main")

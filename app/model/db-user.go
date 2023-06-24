@@ -1,6 +1,11 @@
 package model
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+
+	"golang.org/x/crypto/bcrypt"
+)
 
 func GetAllUsers() ([]Users, error) {
 	var users []Users
@@ -11,7 +16,7 @@ func GetAllUsers() ([]Users, error) {
 	return users, nil
 }
 
-func GetUserById(id int) (Users, error) {
+func GetUserById(id uint) (Users, error) {
 	var user Users
 	result := dbSession.Db.Find(&user, id)
 	if result.Error != nil {
@@ -34,4 +39,21 @@ func GetUserByUsername(username string) (Users, error) {
 func UpdateUser(id int) error {
 
 	return nil
+}
+
+func Authenticate(username, testPassword string) (uint, string, error) {
+
+	result, err := GetUserByUsername(username)
+	if err != nil {
+		return 0, "", err
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(result.Password), []byte(testPassword))
+	if err == bcrypt.ErrMismatchedHashAndPassword {
+		return 0, "", errors.New("incorrect password")
+	} else if err != nil {
+		return 0, "", err
+	}
+	fmt.Println("Logged in")
+	return result.ID, result.Password, nil
 }

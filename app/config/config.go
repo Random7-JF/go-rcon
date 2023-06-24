@@ -9,6 +9,7 @@ import (
 
 	mcrcon "github.com/Kelwing/mc-rcon"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/session"
 	"gorm.io/gorm"
 )
 
@@ -16,6 +17,7 @@ type App struct {
 	WebServer    *fiber.App
 	Db           *gorm.DB
 	Rcon         *mcrcon.MCConn
+	Store        *session.Store
 	WebSettings  WebSettings  `json:"web"`
 	RconSettings RconSettings `json:"rcon"`
 	DbSettings   DbSettings   `json:"db"`
