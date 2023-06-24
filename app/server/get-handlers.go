@@ -74,3 +74,9 @@ func WhitelistHandler(c *fiber.Ctx) error {
 		Data:  data,
 	}, "layouts/main")
 }
+
+func LoginHandler(c *fiber.Ctx) error {
+	return c.Render("pages/login", model.TempalteData{
+		Title: "Login",
+	}, "layouts/main")
+}

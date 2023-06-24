@@ -12,9 +12,11 @@ func SetupRoutes(App *config.App) {
 	App.WebServer.Get("/players", PlayersPageHandler)
 	App.WebServer.Get("/commands", CommandsHandler)
 	App.WebServer.Get("/whitelist", WhitelistHandler)
+	App.WebServer.Get("/user/login", LoginHandler)
 	//Post
 	App.WebServer.Post("/commands", PostCommandsHandler)
 	App.WebServer.Post("/players", PostPlayersHandler)
 	App.WebServer.Post("/whitelist", PostWhitelistHandler)
+	App.WebServer.Post("/user/login", PostLoginHandler)
 
 }

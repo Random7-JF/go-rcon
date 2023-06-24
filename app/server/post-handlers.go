@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 
+	"github.com/Random7-JF/go-rcon/app/model"
 	"github.com/Random7-JF/go-rcon/app/validator"
 	"github.com/gofiber/fiber/v2"
 )
@@ -40,4 +41,13 @@ func PostWhitelistHandler(c *fiber.Ctx) error {
 
 	return c.Redirect("/whitelist")
 
+}
+
+func PostLoginHandler(c *fiber.Ctx) error {
+	_, err := model.GetUserByUsername("random")
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+
+	return c.Redirect("/user/login")
 }
