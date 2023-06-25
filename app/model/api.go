@@ -38,5 +38,6 @@ type TeleportCommand struct {
 
 type TempalteData struct {
 	Title string
+	Flash map[string]string
 	Data  map[string]interface{}
 }

@@ -2,4 +2,9 @@
   <div class="container text-center">
         <span class="mx-auto">Go-Rcon Made by Jon Fingas</span>
   </div>
+  <div class="container text-right">
+            {{if .Data.Auth}}
+        <span class="text-right">Login status: <span class={{if .Data.Auth.Status }}text-success> Logged In</span> {{ else }} text-danger> Logged Out</span> {{ end}}</span>
+        {{end}}
+  </div>
 </footer>

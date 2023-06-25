@@ -1,21 +1,29 @@
 package server
 
 import (
-	"fmt"
-
+	"github.com/Random7-JF/go-rcon/app/helper"
 	"github.com/Random7-JF/go-rcon/app/model"
 	"github.com/Random7-JF/go-rcon/app/rcon"
 	"github.com/gofiber/fiber/v2"
 )
 
 func IndexHandler(c *fiber.Ctx) error {
-	return c.Render("pages/index", model.TempalteData{
+	auth, err := helper.GetAuthStatus(AppConfig, c)
+	if err != nil {
+		return err
+	}
+
+	data := make(map[string]interface{})
+	data["Auth"] = auth
+
+	td := model.TempalteData{
 		Title: "Home",
-	}, "layouts/main")
+		Data:  data,
+	}
+	return c.Render("pages/index", td, "layouts/main")
 }
 
 func DashboardHandler(c *fiber.Ctx) error {
-
 	players, err := rcon.GetPlayers()
 	if err != nil {
 		return err
@@ -28,17 +36,24 @@ func DashboardHandler(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
+	auth, err := helper.GetAuthStatus(AppConfig, c)
+	if err != nil {
+		return err
+	}
 
 	data := make(map[string]interface{})
 	data["Players"] = players
 	data["Rcon"] = AppConfig.RconSettings.Connection
 	data["Whitelist"] = whitelist
 	data["Commands"] = commands
+	data["Auth"] = auth
 
-	return c.Render("pages/dashboard", model.TempalteData{
+	td := model.TempalteData{
 		Title: "Dashboard",
 		Data:  data,
-	}, "layouts/main")
+	}
+
+	return c.Render("pages/dashboard", td, "layouts/main")
 }
 
 func PlayersPageHandler(c *fiber.Ctx) error {
@@ -46,20 +61,37 @@ func PlayersPageHandler(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
+	auth, err := helper.GetAuthStatus(AppConfig, c)
+	if err != nil {
+		return err
+	}
 
 	data := make(map[string]interface{})
 	data["Players"] = players
+	data["Auth"] = auth
 
-	return c.Render("pages/players", model.TempalteData{
+	td := model.TempalteData{
 		Title: "Players",
 		Data:  data,
-	}, "layouts/main")
+	}
+
+	return c.Render("pages/players", td, "layouts/main")
 }
 
 func CommandsHandler(c *fiber.Ctx) error {
-	return c.Render("pages/commands", model.TempalteData{
+	auth, err := helper.GetAuthStatus(AppConfig, c)
+	if err != nil {
+		return err
+	}
+
+	data := make(map[string]interface{})
+	data["Auth"] = auth
+
+	td := model.TempalteData{
 		Title: "Commands",
-	}, "layouts/main")
+		Data:  data,
+	}
+	return c.Render("pages/commands", td, "layouts/main")
 }
 
 func WhitelistHandler(c *fiber.Ctx) error {
@@ -67,29 +99,45 @@ func WhitelistHandler(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
+	auth, err := helper.GetAuthStatus(AppConfig, c)
+	if err != nil {
+		return err
+	}
 
 	data := make(map[string]interface{})
 	data["Whitelist"] = whitelist
+	data["Auth"] = auth
 
-	return c.Render("pages/whitelist", model.TempalteData{
+	td := model.TempalteData{
 		Title: "Whitelist",
 		Data:  data,
-	}, "layouts/main")
+	}
+
+	return c.Render("pages/whitelist", td, "layouts/main")
 }
 
 func LoginHandler(c *fiber.Ctx) error {
 
-	session, err := AppConfig.Store.Get(c)
+	auth, err := helper.GetAuthStatus(AppConfig, c)
 	if err != nil {
-		fmt.Println(err)
+		return err
 	}
-
-	auth := session.Get("Auth")
 	data := make(map[string]interface{})
 	data["Auth"] = auth
 
-	return c.Render("pages/login", model.TempalteData{
+	td := model.TempalteData{
 		Title: "Login",
 		Data:  data,
-	}, "layouts/main")
+	}
+
+	return c.Render("pages/login", td, "layouts/main")
+}
+
+func LogoutHandler(c *fiber.Ctx) error {
+	helper.UpdateSessionKey(AppConfig, c, "Auth", model.Auth{
+		Status:  false,
+		Message: "Successful logout",
+	})
+
+	return c.Redirect("/")
 }

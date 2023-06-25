@@ -18,3 +18,12 @@ func UpdateSessionKey(app *config.App, c *fiber.Ctx, key string, value interface
 	}
 	return nil
 }
+
+func GetAuthStatus(app *config.App, c *fiber.Ctx) (interface{}, error) {
+	session, err := app.Store.Get(c)
+	if err != nil {
+		return nil, errors.New("unable to get session store")
+	}
+	auth := session.Get("Auth")
+	return auth, nil
+}
