@@ -53,7 +53,7 @@ func PostLoginHandler(c *fiber.Ctx) error {
 			Status:  false,
 			Message: "Enter Username / Password",
 		})
-		return c.Redirect("/user/login")
+		return c.Redirect("/login")
 	}
 
 	err = model.Authenticate(userForm.User, userForm.Password)
@@ -62,7 +62,7 @@ func PostLoginHandler(c *fiber.Ctx) error {
 			Status:  false,
 			Message: "Incorrect Username / Password",
 		})
-		return c.Redirect("/user/login")
+		return c.Redirect("/login")
 	}
 
 	helper.UpdateSessionKey(AppConfig, c, "Auth", model.Auth{
@@ -70,5 +70,5 @@ func PostLoginHandler(c *fiber.Ctx) error {
 		Message: "Successful Login",
 	})
 
-	return c.Redirect("/user/login")
+	return c.Redirect("/login")
 }

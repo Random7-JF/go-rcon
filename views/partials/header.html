@@ -8,23 +8,23 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             {{if and .Data.Auth .Data.Auth.Status}}
-            <a class="nav-link" href="/dashboard">Dashboard</a>
+            <a class="nav-link" href="/user/dashboard">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/players">Players</a>
+            <a class="nav-link" href="/user/players">Players</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/commands">Commands</a>
+            <a class="nav-link" href="/user/commands">Commands</a>
           </li>    
           <li class="nav-item">
-            <a class="nav-link" href="/whitelist">Whitelist</a>
+            <a class="nav-link" href="/user/whitelist">Whitelist</a>
           </li>
           {{end}}
           <li class="nav-item">
             {{if and .Data.Auth .Data.Auth.Status}}
             <a class="nav-link" href="/user/logout">Logout</a>
             {{ else }}
-            <a class="nav-link" href="/user/login">Login</a>
+            <a class="nav-link" href="/login">Login</a>
             {{ end }}
           </li>        
         </ul>
