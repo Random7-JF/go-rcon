@@ -1,16 +1,14 @@
 package server
 
 import (
-	"fmt"
-
 	"github.com/Random7-JF/go-rcon/app/config"
-	"github.com/Random7-JF/go-rcon/app/helper"
-	"github.com/Random7-JF/go-rcon/app/model"
-	"github.com/gofiber/fiber/v2"
+	"github.com/Random7-JF/go-rcon/app/middleware"
 	"github.com/gofiber/fiber/v2/middleware/helmet"
+	"github.com/gofiber/fiber/v2/middleware/monitor"
 )
 
 func SetupRoutes(App *config.App) {
+	mw := middleware.Mwconfig{AppConfig: App}
 	//Public
 	App.WebServer.Use(helmet.New())
 	//Get
@@ -20,27 +18,7 @@ func SetupRoutes(App *config.App) {
 	App.WebServer.Post("/login", PostLoginHandler)
 
 	//Protected
-	user := App.WebServer.Group("/user")
-	user.Use(
-		func(c *fiber.Ctx) error {
-			auth, err := helper.GetAuthStatus(AppConfig, c)
-			if err != nil {
-				fmt.Println("Middleware Auth Error:", err)
-				return c.Redirect("/login")
-			}
-			if auth == nil {
-				fmt.Println("Middleware Auth Error:", err)
-				return c.Redirect("/login")
-			}
-
-			if auth.(model.Auth).Status {
-				fmt.Println("Middleware Auth Success")
-				return c.Next()
-			}
-
-			fmt.Println("Middleware Auth Error: Not Logged in")
-			return c.Redirect("/")
-		})
+	user := App.WebServer.Group("/user", mw.Auth())
 	// Get
 	user.Get("/dashboard", DashboardHandler)
 	user.Get("/players", PlayersPageHandler)
@@ -52,5 +30,9 @@ func SetupRoutes(App *config.App) {
 	user.Post("/players", PostPlayersHandler)
 	user.Post("/whitelist", PostWhitelistHandler)
 	user.Post("/login", PostLoginHandler)
+
+	admin := App.WebServer.Group("/admin", mw.Auth())
+
+	admin.Get("/metrics", monitor.New())
 
 }
