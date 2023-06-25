@@ -2,7 +2,6 @@ package model
 
 import (
 	"errors"
-	"fmt"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -22,7 +21,6 @@ func GetUserById(id uint) (Users, error) {
 	if result.Error != nil {
 		return user, nil
 	}
-	fmt.Println("User: ", user)
 	return user, nil
 }
 
@@ -32,7 +30,6 @@ func GetUserByUsername(username string) (Users, error) {
 	if result.Error != nil {
 		return user, nil
 	}
-	fmt.Println("User: ", user)
 	return user, nil
 }
 
@@ -41,19 +38,20 @@ func UpdateUser(id int) error {
 	return nil
 }
 
-func Authenticate(username, testPassword string) (uint, string, error) {
-
+func Authenticate(username, testPassword string) error {
 	result, err := GetUserByUsername(username)
 	if err != nil {
-		return 0, "", err
+		return err
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(result.Password), []byte(testPassword))
+
 	if err == bcrypt.ErrMismatchedHashAndPassword {
-		return 0, "", errors.New("incorrect password")
+		err = errors.New("incorrect password")
+		return err
 	} else if err != nil {
-		return 0, "", err
+		return err
 	}
-	fmt.Println("Logged in")
-	return result.ID, result.Password, nil
+
+	return nil
 }

@@ -21,9 +21,8 @@ func ProcessUserForm(c *fiber.Ctx) UserForm {
 }
 
 func (userForm *UserForm) CheckForBlanks() error {
-	if len(userForm.User) != 0 && len(userForm.Password) != 0 {
-		return nil
+	if len(userForm.User) == 0 || len(userForm.Password) == 0 {
+		return errors.New("this form has a blank submission")
 	}
-	err := errors.New("this form has a blank submission")
-	return err
+	return nil
 }

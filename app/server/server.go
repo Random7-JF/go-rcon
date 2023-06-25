@@ -1,6 +1,8 @@
 package server
 
 import (
+	"time"
+
 	"github.com/Random7-JF/go-rcon/app/config"
 
 	"github.com/gofiber/fiber/v2"
@@ -22,7 +24,7 @@ func Serve(App *config.App) {
 		Views: htmlEngine,
 	})
 
-	App.Store = session.New()
+	App.Store = session.New(session.Config{Expiration: 10 * time.Minute})
 	App.WebServer.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
 		AllowHeaders: "Origin, Content-Type, Accept",

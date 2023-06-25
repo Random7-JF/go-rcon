@@ -3,7 +3,6 @@ package server
 import (
 	"fmt"
 
-	"github.com/Random7-JF/go-rcon/app/helper"
 	"github.com/Random7-JF/go-rcon/app/model"
 	"github.com/Random7-JF/go-rcon/app/validator"
 	"github.com/gofiber/fiber/v2"
@@ -45,17 +44,42 @@ func PostWhitelistHandler(c *fiber.Ctx) error {
 }
 
 func PostLoginHandler(c *fiber.Ctx) error {
-	form := validator.ProcessUserForm(c)
-	err := form.CheckForBlanks()
+	session, err := AppConfig.Store.Get(c)
 	if err != nil {
-		fmt.Println("Error:", err)
+		fmt.Println(err)
 	}
-	_, _, err = model.Authenticate(form.User, form.Password)
+	userForm := validator.ProcessUserForm(c)
+	err = userForm.CheckForBlanks()
+
 	if err != nil {
-		fmt.Println("Error:", err)
-		return c.Redirect("/")
+		session.Set("Auth", model.Auth{
+			Status:  false,
+			Message: "Enter Username / Password",
+		})
+		if err := session.Save(); err != nil {
+			return err
+		}
+		return c.Redirect("/user/login")
 	}
 
-	helper.UpdateSessionKey(AppConfig, c, "auth", true)
+	err = model.Authenticate(userForm.User, userForm.Password)
+	if err != nil {
+		session.Set("Auth", model.Auth{
+			Status:  false,
+			Message: "Incorrect Username / Password",
+		})
+		if err := session.Save(); err != nil {
+			return err
+		}
+		return c.Redirect("/user/login")
+	}
+
+	session.Set("Auth", model.Auth{
+		Status:  true,
+		Message: "Successful Login",
+	})
+	if err := session.Save(); err != nil {
+		return err
+	}
 	return c.Redirect("/user/login")
 }

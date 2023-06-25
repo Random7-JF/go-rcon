@@ -83,13 +83,13 @@ func LoginHandler(c *fiber.Ctx) error {
 	if err != nil {
 		fmt.Println(err)
 	}
-	auth := session.Get("auth")
-	fmt.Println("Auth: ", auth)
 
-	keys := session.Keys()
-	fmt.Println("Keys: ", keys)
+	auth := session.Get("Auth")
+	data := make(map[string]interface{})
+	data["Auth"] = auth
 
 	return c.Render("pages/login", model.TempalteData{
 		Title: "Login",
+		Data:  data,
 	}, "layouts/main")
 }

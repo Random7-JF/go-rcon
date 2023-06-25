@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/gob"
+
 	"github.com/Random7-JF/go-rcon/app/config"
 	"github.com/Random7-JF/go-rcon/app/model"
 	"github.com/Random7-JF/go-rcon/app/rcon"
@@ -10,6 +12,7 @@ import (
 var App config.App
 
 func main() {
+	registerGlobs()
 	//Load app configuration from either the config.json or env variables
 	App.SetupAppConfig()
 	//Start the main functions of the app, connecting to the DB, connecting to the Rcon server
@@ -34,4 +37,8 @@ func setupRcon() {
 	rcon.SetupConnection(&App)
 	rconsession := rcon.SetupRconSession(&App)
 	rcon.NewRconSession(rconsession)
+}
+
+func registerGlobs() {
+	gob.Register(model.Auth{})
 }
