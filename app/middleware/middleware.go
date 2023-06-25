@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/Random7-JF/go-rcon/app/config"
@@ -13,9 +14,9 @@ type Mwconfig struct {
 	AppConfig *config.App
 }
 
-func (m Mwconfig) Auth() fiber.Handler {
+func (mw Mwconfig) Auth() fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		auth, err := helper.GetAuthStatus(m.AppConfig, c)
+		auth, err := helper.GetAuthStatus(mw.AppConfig, c)
 		if err != nil {
 			fmt.Println("Middleware Auth Error:", err)
 			return c.Redirect("/login")
@@ -30,6 +31,20 @@ func (m Mwconfig) Auth() fiber.Handler {
 			return c.Next()
 		}
 		fmt.Println("Middleware Auth Error: Not Logged in")
+		return c.Next()
+	}
+}
+
+func (mw Mwconfig) SaveSession() fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		session, err := mw.AppConfig.Store.Get(c)
+		if err != nil {
+			return errors.New("unable to get session store")
+		}
+		if err := session.Save(); err != nil {
+			return err
+		}
+		fmt.Println("Saved Session")
 		return c.Next()
 	}
 }
