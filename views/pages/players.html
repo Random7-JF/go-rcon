@@ -24,7 +24,7 @@
               <tr>
                 <td>{{ .Name}}</td>
                 <td>
-                  <form action="/players" method="post">
+                  <form action="/app/players" method="post">
                     <input type="hidden" id="cmd" name="cmd" value="tp"/>
                     <input type="hidden" id="value" name="value" value="{{ .Name}}"/>
                     <button name="{{ .Name}}-tp" type="submit" class="btn btn-info">
@@ -33,7 +33,7 @@
                   </form>
                 </td>
                 <td>
-                  <form action="/players" method="post">
+                  <form action="/app/players" method="post">
                     <input type="hidden" id="cmd" name="cmd" value="op"/>
                     <input type="hidden" id="value" name="value" value="{{ .Name}}"/>
                     <button name="{{ .Name}}-op" type="submit" class="btn btn-warning">
@@ -42,7 +42,7 @@
                   </form>
                 </td>
                 <td>
-                  <form action="/players" method="post">
+                  <form action="/app/players" method="post">
                     <input type="hidden" id="cmd" name="cmd" value="kick"/>
                     <input type="hidden" id="value" name="value" value="{{ .Name}}"/>
                     <button name="{{ .Name}}-kick" type="submit" class="btn btn-danger">

@@ -14,7 +14,7 @@ func PostCommandsHandler(c *fiber.Ctx) error {
 	err := SubmittedForm.ValidateInputs()
 	if err != nil {
 		fmt.Println("Error in form submission: " + err.Error())
-		return c.Redirect("/commands")
+		return c.Redirect("/app/commands")
 	}
 
 	return c.Redirect("/app/commands")
@@ -25,7 +25,7 @@ func PostPlayersHandler(c *fiber.Ctx) error {
 	err := SubmittedForm.ValidateInputs()
 	if err != nil {
 		fmt.Println("Error in form submission: " + err.Error())
-		return c.Redirect("/players")
+		return c.Redirect("/app/players")
 	}
 
 	return c.Redirect("/app/players")

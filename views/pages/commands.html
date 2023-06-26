@@ -11,7 +11,7 @@
           <p class="card-text">
             Use the field bellow to send a text message to the whole server.
           </p>
-          <form action="/commands" method="post">
+          <form action="/app/commands" method="post">
             <div class="form-floating mb-3">
               <input type="hidden" id="cmd" name="cmd" value="say"/>
               <input type="text" class="form-control mt-3" name="value" id="say-cmd" placeholder="Hello Server"/>
@@ -32,7 +32,7 @@
           Use the field below to set the time. Enter a number from 1-13000
           </p>
           <div class="form-floating mb-3">
-            <form action="/commands" method="post">
+            <form action="/app/commands" method="post">
               <div class="form-floating mb-3">
                 <input type="hidden" id="cmd" name="cmd" value="time" />
                 <input type="text" class="form-control mt-3" name="value" id="time-cmd" placeholder="1 for day, 13000 for night"/>
@@ -55,7 +55,7 @@
             server wide.
           </p>
           <div class="form-floating mb-3">
-            <form action="/commands" method="post">
+            <form action="/app/commands" method="post">
               <input type="hidden" id="cmd" name="cmd" value="weather" />
               <select class="form-select" id="value" name="value">
                 <option selected>Choose...</option>
