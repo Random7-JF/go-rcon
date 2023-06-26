@@ -170,25 +170,47 @@
       <div class="card text-bg-secondary mb-3 h-100">
         <div class="card-header">User List</div>
         <div class="card-body">
-          {{if .Data.Commands}}
+          {{if .Data.Users}}
           <table class="table table-bordered table-striped table-dark">
             <thead>
               <tr>
                 <th scope="col">User</th>
                 <th scope="col">Admin</th>
-                <th scope="col">Last Login</th>
-                <th scope="col">Last Command</th>
                 <th scope="col">Remove</th>
               </tr>
             </thead>
             <tbody>
-            {{range .Data.Commands}}
+            {{range .Data.Users}}
             <tr>
-              <td>{{.Command}}</td>
-              <td>{{.Response}}</td>
-              <td>{{.CreatedAt}}</td>
-              <td>{{.SentBy}}</td>
-              <td>{{.SentBy}}</td>
+              <td>{{.UserName}}</td>
+              <td>
+                {{if .Admin}}
+                <form action="/app/admin/user" method="post">
+                  <input type="hidden" id="action" name="action" value="admin-user"/>
+                  <input type="hidden" id="value" name="value" value="{{ .UserName}}"/>
+                  <button name="{{ .UserName}}-tp" type="submit" class="btn btn-warning">
+                   Revoke
+                  </button>
+                </form>
+                {{else}}
+                <form action="/app/admin/user" method="post">
+                  <input type="hidden" id="action" name="action" value="remove-admin-user"/>
+                  <input type="hidden" id="value" name="value" value="{{ .UserName}}"/>
+                  <button name="{{ .UserName}}-tp" type="submit" class="btn btn-info">
+                   Grant
+                  </button>
+                </form>
+                {{end}}
+              </td>
+              <td>
+                <form action="/app/admin/user" method="post">
+                <input type="hidden" id="action" name="action" value="delete-user"/>
+                <input type="hidden" id="value" name="value" value="{{ .UserName}}"/>
+                <button name="{{ .UserName}}-tp" type="submit" class="btn btn-danger">
+                 Remove
+                </button>
+              </form>
+            </td>
             </tr>
             {{end}}
             </tbody>

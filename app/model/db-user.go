@@ -34,6 +34,20 @@ func GetUserByUsername(username string) (Users, error) {
 	return user, nil
 }
 
+func DeleteUser(id uint) error {
+	user, err := GetUserById(id)
+	if err != nil {
+		fmt.Println("Delete user error:", err)
+	}
+
+	result := dbSession.Db.Delete(&user)
+	if result.Error != nil {
+		fmt.Println("Delete user error:", result.Error)
+	}
+
+	return nil
+}
+
 func UpdateUserPass(id int, password string) error {
 	curUser, _ := GetUserById(uint(id))
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), 12)
