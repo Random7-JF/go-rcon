@@ -28,6 +28,7 @@ func (mw Mwconfig) Auth() fiber.Handler {
 
 		if auth.(model.Auth).Status {
 			fmt.Println("Middleware Auth Success")
+			fmt.Println(auth)
 			return c.Next()
 		}
 		fmt.Println("Middleware Auth Error: Not Logged in")
@@ -45,6 +46,20 @@ func (mw Mwconfig) SaveSession() fiber.Handler {
 			return err
 		}
 		fmt.Println("Saved Session")
+		return c.Next()
+	}
+}
+
+func (mw Mwconfig) SetupSession() fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		session, err := mw.AppConfig.Store.Get(c)
+		if err != nil {
+			return errors.New("unable to get session store")
+		}
+		auth := session.Get("Auth")
+		if auth == nil {
+			helper.UpdateSessionKey(mw.AppConfig, c, "Auth", model.Auth{Status: false, Message: "", Admin: false})
+		}
 		return c.Next()
 	}
 }

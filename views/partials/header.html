@@ -7,22 +7,33 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            {{if and .Data.Auth .Data.Auth.Status}}
-            <a class="nav-link" href="/user/dashboard">Dashboard</a>
+          {{if .Data.Auth.Status }}
+            <a class="nav-link" href="/app/dashboard">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/user/players">Players</a>
+            <a class="nav-link" href="/app/players">Players</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/user/commands">Commands</a>
+            <a class="nav-link" href="/app/commands">Commands</a>
           </li>    
           <li class="nav-item">
-            <a class="nav-link" href="/user/whitelist">Whitelist</a>
+            <a class="nav-link" href="/app/whitelist">Whitelist</a>
           </li>
+          {{ if .Data.Auth.Admin}}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Admin
+            </a>
+              <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                <li><a class="dropdown-item" href="/app/admin/manage">Manage</a></li>
+                <li><a class="dropdown-item" href="/app/admin/metrics">Metrics</a></li>
+              </ul>
+            </li>
+          {{end}}
           {{end}}
           <li class="nav-item">
-            {{if and .Data.Auth .Data.Auth.Status}}
-            <a class="nav-link" href="/user/logout">Logout</a>
+            {{if .Data.Auth.Status}}
+            <a class="nav-link" href="/app/logout">Logout</a>
             {{ else }}
             <a class="nav-link" href="/login">Login</a>
             {{ end }}

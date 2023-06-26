@@ -17,7 +17,7 @@ func PostCommandsHandler(c *fiber.Ctx) error {
 		return c.Redirect("/commands")
 	}
 
-	return c.Redirect("/commands")
+	return c.Redirect("/app/commands")
 }
 
 func PostPlayersHandler(c *fiber.Ctx) error {
@@ -28,7 +28,7 @@ func PostPlayersHandler(c *fiber.Ctx) error {
 		return c.Redirect("/players")
 	}
 
-	return c.Redirect("/players")
+	return c.Redirect("/app/players")
 }
 
 func PostWhitelistHandler(c *fiber.Ctx) error {
@@ -37,10 +37,10 @@ func PostWhitelistHandler(c *fiber.Ctx) error {
 
 	if err != nil {
 		fmt.Println("Error in form submission: " + err.Error())
-		return c.Redirect("/whitelist")
+		return c.Redirect("/app/whitelist")
 	}
 
-	return c.Redirect("/whitelist")
+	return c.Redirect("/app/whitelist")
 
 }
 
@@ -68,7 +68,8 @@ func PostLoginHandler(c *fiber.Ctx) error {
 	helper.UpdateSessionKey(AppConfig, c, "Auth", model.Auth{
 		Status:  true,
 		Message: "Successful Login",
+		Admin:   model.IsUserAdmin(userForm.User),
 	})
 
-	return c.Redirect("/login")
+	return c.Redirect("/app/dashboard")
 }

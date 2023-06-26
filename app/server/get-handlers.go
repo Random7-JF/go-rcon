@@ -143,9 +143,17 @@ func LogoutHandler(c *fiber.Ctx) error {
 }
 
 func ManageHandler(c *fiber.Ctx) error {
+	auth, err := helper.GetAuthStatus(AppConfig, c)
+	if err != nil {
+		return err
+	}
+	data := make(map[string]interface{})
+	data["Auth"] = auth
 
 	td := model.TempalteData{
 		Title: "Admin - Manage",
+		Data:  data,
 	}
+
 	return c.Render("pages/admin/manage", td, "layouts/main")
 }

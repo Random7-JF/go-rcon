@@ -2,6 +2,7 @@ package model
 
 import (
 	"errors"
+	"fmt"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -54,4 +55,14 @@ func Authenticate(username, testPassword string) error {
 	}
 
 	return nil
+}
+
+func IsUserAdmin(username string) bool {
+	result, err := GetUserByUsername(username)
+	if err != nil {
+		return false
+	}
+
+	fmt.Println("Admin User Login")
+	return result.Admin
 }
