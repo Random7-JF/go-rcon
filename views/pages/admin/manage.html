@@ -1,0 +1,65 @@
+<div class="container-fluid">
+    <div class="row">
+      <h2>{{.Title}}</h2>
+      <hr />
+    </div>
+    <div class="row mt-6">
+      <div class="col-sm-2 mt-3">
+        <div class="card text-bg-secondary mb-3 h-100">
+          <div class="card-header">Current Users</div>
+          <div class="card-body text-center">
+            <p>Get number of current users</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-5 mt-3">
+        <div class="card text-bg-secondary mb-3 h-100">
+          <div class="card-header">Create User</div>
+          <div class="card-body">
+            <h5 class="card-title">Create a new user account</h5>
+            <form action="/login" method="post">
+              <div class="form-floating">
+                <input type="text" class="form-control mt-3" name="username" id="username" placeholder="Username"/>
+                <label class="text-secondary" for="username"> Username </label>
+              </div>
+              <div class="form-floating ">
+                <input type="password" class="form-control mt-3" name="password" id="password" placeholder="Password"/>
+                <label class="text-secondary" for="password"> Password </label>
+              </div>
+              <div class="form-floating">
+                  <p> {{ .Data }} </p>
+               </div>
+                <button type="submit" class="btn btn-dark mt-3">
+                  Create
+                </button>
+              </div>
+          </form>
+          </div>
+        </div>
+      <div class="col-sm-5 mt-3">
+        <div class="card text-bg-secondary mb-3 h-100">
+          <div class="card-header">Update Users Password</div>
+          <div class="card-body">
+            <h5 class="card-title">Reset a Users password</h5>
+            <form action="/login" method="post">
+              <div class="form-floating">
+                <input type="text" class="form-control mt-3" name="username" id="username" placeholder="Username"/>
+                <label class="text-secondary" for="username"> Username </label>
+              </div>
+              <div class="form-floating ">
+                <input type="password" class="form-control mt-3" name="password" id="password" placeholder="Password"/>
+                <label class="text-secondary" for="password"> New Password </label>
+              </div>
+              <div class="form-floating">
+                  <p> {{ .Data }} </p>
+               </div>
+                <button type="submit" class="btn btn-dark mt-3">
+                  Update
+                </button>
+              </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  

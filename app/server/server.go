@@ -23,12 +23,14 @@ func Serve(App *config.App) {
 	App.WebServer = fiber.New(fiber.Config{
 		Views: htmlEngine,
 	})
-
+	//TODO Add this time value to a config
 	App.Store = session.New(session.Config{Expiration: 10 * time.Minute})
 	App.WebServer.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
+		//TODO add this to config
+		AllowOrigins: "https://rcon.random7.net",
 		AllowHeaders: "Origin, Content-Type, Accept",
 	}))
+
 	App.WebServer.Static("/static", "./views/static")
 
 	SetupRoutes(App)

@@ -141,3 +141,11 @@ func LogoutHandler(c *fiber.Ctx) error {
 
 	return c.Redirect("/")
 }
+
+func ManageHandler(c *fiber.Ctx) error {
+
+	td := model.TempalteData{
+		Title: "Admin - Manage",
+	}
+	return c.Render("pages/admin/manage", td, "layouts/main")
+}

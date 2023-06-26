@@ -6,10 +6,9 @@ import (
 
 type Users struct {
 	gorm.Model
-	DisplayName string
-	UserName    string
-	Password    string
-	Email       string
+	UserName string
+	Password string
+	Admin    bool
 }
 
 type CommandLog struct {

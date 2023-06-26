@@ -11,6 +11,8 @@ func SetupRoutes(App *config.App) {
 	mw := middleware.Mwconfig{AppConfig: App}
 	//Public
 	App.WebServer.Use(helmet.New())
+	//TODO make this work - need to do more research
+	//App.WebServer.Use(csrf.New())
 	//Get
 	App.WebServer.Get("/", IndexHandler)
 	App.WebServer.Get("/login", LoginHandler)
@@ -32,7 +34,7 @@ func SetupRoutes(App *config.App) {
 	user.Post("/login", PostLoginHandler)
 
 	admin := App.WebServer.Group("/admin", mw.Auth(), mw.SaveSession())
-
+	admin.Get("/manage", ManageHandler)
 	admin.Get("/metrics", monitor.New())
 
 }
