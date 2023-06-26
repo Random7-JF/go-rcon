@@ -149,6 +149,7 @@
             <h5 class="card-title">Reset a Users password</h5>
             <form action="/app/admin/user" method="post">
               <div class="form-floating">
+                <input type="hidden" name="action" id="action" value="update-user-pass"/>
                 <input type="text" class="form-control mt-3" name="username" id="username" placeholder="Username"/>
                 <label class="text-secondary" for="username"> Username </label>
               </div>

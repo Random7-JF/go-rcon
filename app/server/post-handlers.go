@@ -89,10 +89,16 @@ func PostUserHandler(c *fiber.Ctx) error {
 			return c.Redirect("/app/admin/manage")
 		}
 	} else if userForm.Action == "update-user-pass" {
-
-	} else if userForm.Action == "update-user" {
-
+		user, err := model.GetUserByUsername(userForm.User)
+		if err != nil {
+			fmt.Println("Get user error user: ", err)
+			return c.Redirect("/app/admin/manage")
+		}
+		err = model.UpdateUserPass(int(user.ID), userForm.Password)
+		if err != nil {
+			fmt.Println("create user: ", err)
+			return c.Redirect("/app/admin/manage")
+		}
 	}
-
 	return c.Redirect("/app/admin/manage")
 }

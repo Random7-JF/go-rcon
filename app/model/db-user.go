@@ -34,16 +34,25 @@ func GetUserByUsername(username string) (Users, error) {
 	return user, nil
 }
 
-func UpdateUser(id int) error {
+func UpdateUserPass(id int, password string) error {
+	curUser, _ := GetUserById(uint(id))
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), 12)
+	curUser.Password = string(hashedPassword)
 
+	result := dbSession.Db.Save(&curUser)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	fmt.Println("Updated password for: ", curUser)
 	return nil
 }
 
-func CreateUser(usename string, password string) error {
+func CreateUser(username string, password string) error {
 
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), 12)
 
-	newUser := Users{UserName: usename, Password: string(hashedPassword), Admin: false}
+	newUser := Users{UserName: username, Password: string(hashedPassword), Admin: false}
 
 	result := dbSession.Db.Create(&newUser)
 	if result.Error != nil {
