@@ -39,6 +39,20 @@ func UpdateUser(id int) error {
 	return nil
 }
 
+func CreateUser(usename string, password string) error {
+
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), 12)
+
+	newUser := Users{UserName: usename, Password: string(hashedPassword), Admin: false}
+
+	result := dbSession.Db.Create(&newUser)
+	if result.Error != nil {
+		fmt.Println("User creation error:", result.Error)
+	}
+	fmt.Println("User created:", newUser)
+	return nil
+}
+
 func Authenticate(username, testPassword string) error {
 	result, err := GetUserByUsername(username)
 	if err != nil {

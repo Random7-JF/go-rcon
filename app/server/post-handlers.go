@@ -73,3 +73,26 @@ func PostLoginHandler(c *fiber.Ctx) error {
 
 	return c.Redirect("/app/dashboard")
 }
+
+func PostUserHandler(c *fiber.Ctx) error {
+	userForm := validator.ProcessUserForm(c)
+	err := userForm.CheckForBlanks()
+	if err != nil {
+		fmt.Println("Form error: ", err)
+		return c.Redirect("/app/admin/manage")
+	}
+
+	if userForm.Action == "create-user" {
+		err = model.CreateUser(userForm.User, userForm.Password)
+		if err != nil {
+			fmt.Println("create user: ", err)
+			return c.Redirect("/app/admin/manage")
+		}
+	} else if userForm.Action == "update-user-pass" {
+
+	} else if userForm.Action == "update-user" {
+
+	}
+
+	return c.Redirect("/app/admin/manage")
+}

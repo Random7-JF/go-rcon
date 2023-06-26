@@ -9,6 +9,7 @@ import (
 type UserForm struct {
 	User     string `json:"user"`
 	Password string `json:"password"`
+	Action   string
 }
 
 func ProcessUserForm(c *fiber.Ctx) UserForm {
@@ -16,6 +17,7 @@ func ProcessUserForm(c *fiber.Ctx) UserForm {
 
 	userForm.User = c.FormValue("username")
 	userForm.Password = c.FormValue("password")
+	userForm.Action = c.FormValue("action")
 
 	return userForm
 }
