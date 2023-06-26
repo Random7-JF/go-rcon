@@ -147,8 +147,14 @@ func ManageHandler(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
+	commands, err := model.GetCommandLog(5)
+	if err != nil {
+		return err
+	}
+
 	data := make(map[string]interface{})
 	data["Auth"] = auth
+	data["Commands"] = commands
 
 	td := model.TempalteData{
 		Title: "Admin - Manage",

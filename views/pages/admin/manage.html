@@ -6,6 +6,114 @@
     <div class="row mt-6">
       <div class="col-sm-2 mt-3">
         <div class="card text-bg-secondary mb-3 h-100">
+          <div class="card-header">Rcon Connection Status</div>
+          <div class="card-body text-center">
+            <p>Current status of RCON session</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-5 mt-3">
+        <div class="card text-bg-secondary">
+          <div class="card-header">Configure RCON</div>
+          <div class="card-body">
+            <h5 class="card-title">Update Rcon connection  settings</h5>
+            <form class="row g-3" action=# method="post">
+              <div class="col">
+              <div class="form-floating">
+                <input type="text" class="form-control mt-3" name="ip" id="ip" placeholder="127.0.0.1"/>
+                <label class="text-secondary" for="ip"> IP </label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-floating">
+                <input type="text" class="form-control mt-3" name="port" id="port" placeholder="27575"/>
+                <label class="text-secondary" for="port"> Port </label>
+              </div>
+            </div>
+              <div class="col">
+              <div class="form-floating">
+                <input type="password" class="form-control mt-3" name="password" id="password" placeholder="Password"/>
+                <label class="text-secondary" for="password"> Password </label>
+              </div>
+            </div>
+          </form>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-dark mt-3">
+              Create
+            </button>
+          </div>
+          </div>
+        </div>
+        </div>  
+      <div class="col-sm-5 mt-3">
+        <div class="card text-bg-secondary mb-3 h-100">
+          <div class="card-header">Disconnect / Reconnect Rcon</div>
+          <div class="card-body">
+            <h5 class="card-title">Disconnect or reconnect the Rcon session</h5>
+            <form action=# method="post">
+              <div class="form-floating">
+                <select class="form-select" id="Action" name="Action">
+                  <option selected>Choose...</option>
+                  <option value="clear">Reconnect</option>
+                  <option value="rain">Disconnect</option>
+                  <option value="thunder">Connect</option>
+                </select>
+                <label class="text-secondary" for="Action"> Action </label>
+              </div>
+                <button type="submit" class="btn btn-dark mt-3">
+                  Update
+                </button>
+              </div>
+          </form>
+          </div>
+        </div>
+    </div>
+    <!-- Second Row -->
+    <div class="row mt-6">
+      <div class="col-sm-2 mt-3">
+        <div class="card text-bg-secondary mb-3 h-100">
+          <div class="card-header">Prune command Log</div>
+          <div class="card-body text-center">
+            <p>Prune command log by number of days</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-10 mt-3">
+        <div class="card text-bg-secondary mb-3 h-100">
+          <div class="card-header">Command Log</div>
+          <div class="card-body">
+            {{if .Data.Commands}}
+            <table class="table table-bordered table-striped table-dark">
+              <thead>
+                <tr>
+                  <th scope="col">Command</th>
+                  <th scope="col">Response</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">User</th>
+                </tr>
+              </thead>
+              <tbody>
+              {{range .Data.Commands}}
+              <tr>
+                <td>{{.Command}}</td>
+                <td>{{.Response}}</td>
+                <td>{{.CreatedAt}}</td>
+                <td>{{.SentBy}}</td>
+              </tr>
+              {{end}}
+              </tbody>
+            </table>
+            {{else}}
+            <p>No Command Log</p>
+            {{end}}
+          </div>
+          </div>
+        </div>
+    </div>
+    <!--Third Row-->
+    <div class="row mt-6">
+      <div class="col-sm-2 mt-3">
+        <div class="card text-bg-secondary mb-3 h-100">
           <div class="card-header">Current Users</div>
           <div class="card-body text-center">
             <p>Get number of current users</p>
@@ -17,7 +125,7 @@
           <div class="card-header">Create User</div>
           <div class="card-body">
             <h5 class="card-title">Create a new user account</h5>
-            <form action="/login" method="post">
+            <form action=# method="post">
               <div class="form-floating">
                 <input type="text" class="form-control mt-3" name="username" id="username" placeholder="Username"/>
                 <label class="text-secondary" for="username"> Username </label>
@@ -26,9 +134,6 @@
                 <input type="password" class="form-control mt-3" name="password" id="password" placeholder="Password"/>
                 <label class="text-secondary" for="password"> Password </label>
               </div>
-              <div class="form-floating">
-                  <p> {{ .Data }} </p>
-               </div>
                 <button type="submit" class="btn btn-dark mt-3">
                   Create
                 </button>
@@ -41,7 +146,7 @@
           <div class="card-header">Update Users Password</div>
           <div class="card-body">
             <h5 class="card-title">Reset a Users password</h5>
-            <form action="/login" method="post">
+            <form action=# method="post">
               <div class="form-floating">
                 <input type="text" class="form-control mt-3" name="username" id="username" placeholder="Username"/>
                 <label class="text-secondary" for="username"> Username </label>
@@ -50,9 +155,6 @@
                 <input type="password" class="form-control mt-3" name="password" id="password" placeholder="Password"/>
                 <label class="text-secondary" for="password"> New Password </label>
               </div>
-              <div class="form-floating">
-                  <p> {{ .Data }} </p>
-               </div>
                 <button type="submit" class="btn btn-dark mt-3">
                   Update
                 </button>
@@ -60,7 +162,6 @@
           </form>
           </div>
         </div>
-      </div>
-      <p> where is my auth {{ .Data.Auth }}</p>
     </div>
+</div>
   

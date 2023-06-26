@@ -31,8 +31,9 @@ func (mw Mwconfig) Auth() fiber.Handler {
 			fmt.Println(auth)
 			return c.Next()
 		}
+
 		fmt.Println("Middleware Auth Error: Not Logged in")
-		return c.Next()
+		return c.Redirect("/login")
 	}
 }
 
