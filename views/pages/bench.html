@@ -1,0 +1,107 @@
+<div class="container-fluid">
+  <div class="row">
+    <h2>{{.Title}}</h2>
+    <hr />
+  </div>
+  <div class="row">
+    {{if .Data.Commands}}
+    <table class="table table-bordered table-striped table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Command</th>
+          <th scope="col">Response</th>
+          <th scope="col">Date</th>
+          <th scope="col">User</th>
+        </tr>
+      </thead>
+      <tbody>
+      {{range .Data.Commands}}
+      <tr>
+        <td>{{.Command}}</td>
+        <td>{{.Response}}</td>
+        <td>{{.CreatedAt}}</td>
+        <td>{{.SentBy}}</td>
+      </tr>
+      {{end}}
+      </tbody>
+    </table>
+    {{else}}
+    <p>No Command Log</p>
+    {{end}}
+  </div>
+  <div class="row">
+    {{if ne .Data.Players.CurrentCount 0}}
+    <h5 class="card-title">Player Count</h5>
+    <p>{{.Data.Players.CurrentCount}} / {{.Data.Players.MaxCount}}</p>
+    <table class="table table-hover table-bordered table-striped table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Player</th>
+          <th scope="col">TP to Spawn</th>
+          <th scope="col">OP</th>
+          <th scope="col">Kick</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range .Data.Players.Players}}
+        <tr>
+          <td>{{ .Name}}</td>
+          <td>
+            <form action="/app/players" method="post">
+              <input type="hidden" id="cmd" name="cmd" value="tp"/>
+              <input type="hidden" id="value" name="value" value="{{ .Name}}"/>
+              <button name="{{ .Name}}-tp" type="submit" class="btn btn-info">
+                TP to Spawn
+              </button>
+            </form>
+          </td>
+          <td>
+            <form action="/app/players" method="post">
+              <input type="hidden" id="cmd" name="cmd" value="op"/>
+              <input type="hidden" id="value" name="value" value="{{ .Name}}"/>
+              <button name="{{ .Name}}-op" type="submit" class="btn btn-warning">
+                Add/Remove OP
+              </button>
+            </form>
+          </td>
+          <td>
+            <form action="/app/players" method="post">
+              <input type="hidden" id="cmd" name="cmd" value="kick"/>
+              <input type="hidden" id="value" name="value" value="{{ .Name}}"/>
+              <button name="{{ .Name}}-kick" type="submit" class="btn btn-danger">
+                Kick
+              </button>
+            </form>
+          </td>
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
+    {{else}}
+    <p>No Players Online</p>
+    {{end}}
+  </div>
+  <div class="row">
+    <table class="table table-hover table-bordered table-striped table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Player Name</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+    {{range .Data.Whitelist.Players}}
+    <tr>
+      <td>{{ .Name}}</td>
+      <td>
+        <form action="/app/whitelist" method="post">
+        <input type="hidden" id="cmd" name="cmd" value="dewhitelist"/>
+        <input type="hidden" id="value" name="value" value="{{ .Name}}"/>
+        <button name="{{ .Name}}-dewhitelist" type="submit" class="btn btn-danger">Remove</button>
+      </form>
+      </td>
+    {{end}}
+  </tbody>
+</table>
+  </div>
+</div>

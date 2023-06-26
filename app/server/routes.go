@@ -16,6 +16,7 @@ func SetupRoutes(App *config.App) {
 	//App.WebServer.Use(csrf.New())
 	//Get
 	App.WebServer.Get("/", IndexHandler)
+	App.WebServer.Get("/bench", BenchHandler)
 	App.WebServer.Get("/login", LoginHandler)
 	//Post
 	App.WebServer.Post("/login", PostLoginHandler)
