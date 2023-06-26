@@ -11,7 +11,7 @@
           <p class="card-text">
             Enter the minecraft username or UUID to add to the whitelist
           </p>
-          <form action="/whitelist" method="post">
+          <form action="/app/whitelist" method="post">
             <div class="form-floating mb-3">
               <input type="hidden" id="cmd" name="cmd" value="whitelist" />
               <input
@@ -54,7 +54,7 @@
             <tr>
               <td>{{ .Name}}</td>
               <td>
-                <form action="/whitelist" method="post">
+                <form action="/app/whitelist" method="post">
                 <input type="hidden" id="cmd" name="cmd" value="dewhitelist"/>
                 <input type="hidden" id="value" name="value" value="{{ .Name}}"/>
                 <button name="{{ .Name}}-dewhitelist" type="submit" class="btn btn-danger">Remove</button>

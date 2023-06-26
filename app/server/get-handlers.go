@@ -163,3 +163,36 @@ func ManageHandler(c *fiber.Ctx) error {
 
 	return c.Render("pages/admin/manage", td, "layouts/main")
 }
+
+func BenchHandler(c *fiber.Ctx) error {
+	players, err := rcon.GetPlayers()
+	if err != nil {
+		return err
+	}
+	whitelist, err := rcon.GetWhitelist()
+	if err != nil {
+		return err
+	}
+	commands, err := model.GetCommandLog(5)
+	if err != nil {
+		return err
+	}
+	auth, err := helper.GetAuthStatus(AppConfig, c)
+	if err != nil {
+		return err
+	}
+
+	data := make(map[string]interface{})
+	data["Players"] = players
+	data["Rcon"] = AppConfig.RconSettings.Connection
+	data["Whitelist"] = whitelist
+	data["Commands"] = commands
+	data["Auth"] = auth
+
+	td := model.TempalteData{
+		Title: "Admin - Manage",
+		Data:  data,
+	}
+	return c.Render("pages/bench", td, "layouts/main")
+
+}
