@@ -17,9 +17,6 @@
                       <input type="password" class="form-control mt-3" name="password" id="password" placeholder="Password"/>
                       <label class="text-secondary" for="password"> Password </label>
                     </div>
-                    <div class="form-floating mb-3">
-                        <p> {{ .Data }} </p>
-                     </div>
                       <button type="submit" class="btn btn-dark mt-3">
                         Login
                       </button>
@@ -27,12 +24,6 @@
                 </form>
             </div>
           </div>
-        </div>
-        <div class="row">
-            {{if .Data.Auth}}
-            <p>Login status: <span class={{if .Data.Auth.Status }}text-success> Logged In</span> {{ else }} text-danger> Logged Out</span> {{ end}}</p>
-            <p>Auth Message: {{ .Data.Auth.Message }}</p>
-            {{end}}
         </div>
     </div>
   </div>

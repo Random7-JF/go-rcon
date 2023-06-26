@@ -163,5 +163,39 @@
           </div>
         </div>
     </div>
+    <!--Fourth row-->
+    <div class="col-auto mt-3">
+      <div class="card text-bg-secondary mb-3 h-100">
+        <div class="card-header">User List</div>
+        <div class="card-body">
+          {{if .Data.Commands}}
+          <table class="table table-bordered table-striped table-dark">
+            <thead>
+              <tr>
+                <th scope="col">User</th>
+                <th scope="col">Admin</th>
+                <th scope="col">Last Login</th>
+                <th scope="col">Last Command</th>
+                <th scope="col">Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+            {{range .Data.Commands}}
+            <tr>
+              <td>{{.Command}}</td>
+              <td>{{.Response}}</td>
+              <td>{{.CreatedAt}}</td>
+              <td>{{.SentBy}}</td>
+              <td>{{.SentBy}}</td>
+            </tr>
+            {{end}}
+            </tbody>
+          </table>
+          {{else}}
+          <p>No Command Log</p>
+          {{end}}
+        </div>
+        </div>
+      </div>
 </div>
   
