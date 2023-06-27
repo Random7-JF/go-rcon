@@ -99,6 +99,17 @@ func PostUserHandler(c *fiber.Ctx) error {
 			fmt.Println("create user: ", err)
 			return c.Redirect("/app/admin/manage")
 		}
+	} else if userForm.Action == "delete-user" {
+		user, err := model.GetUserByUsername(userForm.User)
+		if err != nil {
+			fmt.Println("Get user error user: ", err)
+			return c.Redirect("/app/admin/manage")
+		}
+		err = model.DeleteUser(user.ID)
+		if err != nil {
+			fmt.Println("Get user error user: ", err)
+			return c.Redirect("/app/admin/manage")
+		}
 	}
 	return c.Redirect("/app/admin/manage")
 }
