@@ -5,12 +5,12 @@
   </div>
   <div class="col-sm-12 mt-3 h-25">
     <div class="card text-bg-secondary">
-      <div class="card-body">
+      <div class="card-body" hx-get="/app/players/list" hx-trigger="every 5s" hx-swap="innerHTML">
+{{ block "player-list-item" .}}
         {{if ne .Data.Players.CurrentCount 0}}
         <h5 class="card-title">Player Count</h5>
         <p>{{.Data.Players.CurrentCount}} / {{.Data.Players.MaxCount}}</p>
-        <table hx-get="/app/players/list" hx-trigger="every 5s" hx-swap="innerHTML" hx-target="#player-list"
-          class="table table-hover table-bordered table-striped table-dark">
+        <table class="table table-hover table-bordered table-striped table-dark">
           <thead>
             <tr>
               <th scope="col">Player</th>
@@ -20,9 +20,7 @@
             </tr>
           </thead>
           <tbody id="player-list">
-            {{ block "player-list-item" .}}
             {{range .Data.Players.Players}}
-
             <tr>
               <td>{{ .Name}}</td>
               <td>
@@ -53,14 +51,14 @@
                 </form>
               </td>
             </tr>
-            {{ end }}
-            {{ end }}
+            {{ end }} <!--If End-->
           </tbody>
         </table>
       </div>
       {{ else }}
       <p>No Players Online</p>
       {{ end }}
+{{ end }} <!--Block End-->
     </div>
   </div>
 </div>
