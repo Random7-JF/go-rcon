@@ -235,6 +235,11 @@ func PlayerListHandler(c *fiber.Ctx) error {
 		Data:  data,
 	}
 
+	if players.CurrentCount == 0 {
+		return nil
+		log.Println("No players")
+	}
+
 	log.Println("Post Player hit, Player count - ", players.CurrentCount)
 	template := template.Must(template.ParseFiles("views/pages/htmx.html"))
 	return template.ExecuteTemplate(c, "player-list-item", td)
