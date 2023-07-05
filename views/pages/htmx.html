@@ -1,11 +1,5 @@
 <div class="container-fluid">
-  <div
-    hx-get="/app/players/list"
-    hx-trigger="every 5s"
-    hx-swap="innerHTML"
-    hx-target="#player-list"
-    class="row mt-6"
-  >
+  <div class="row mt-6">
     <h2>{{.Title}}</h2>
     <hr />
   </div>
@@ -15,9 +9,8 @@
         {{if ne .Data.Players.CurrentCount 0}}
         <h5 class="card-title">Player Count</h5>
         <p>{{.Data.Players.CurrentCount}} / {{.Data.Players.MaxCount}}</p>
-        <table
-          class="table table-hover table-bordered table-striped table-dark"
-        >
+        <table hx-get="/app/players/list" hx-trigger="every 5s" hx-swap="innerHTML" hx-target="#player-list"
+          class="table table-hover table-bordered table-striped table-dark">
           <thead>
             <tr>
               <th scope="col">Player</th>
@@ -27,24 +20,16 @@
             </tr>
           </thead>
           <tbody id="player-list">
-{{ block "player-list-item" .}}
-  {{range .Data.Players.Players}}
+            {{ block "player-list-item" .}}
+            {{range .Data.Players.Players}}
+
             <tr>
               <td>{{ .Name}}</td>
               <td>
                 <form action="/app/players" method="post">
                   <input type="hidden" id="cmd" name="cmd" value="tp" />
-                  <input
-                    type="hidden"
-                    id="value"
-                    name="value"
-                    value="{{ .Name}}"
-                  />
-                  <button
-                    name="{{ .Name}}-tp"
-                    type="submit"
-                    class="btn btn-info"
-                  >
+                  <input type="hidden" id="value" name="value" value="{{ .Name}}" />
+                  <button name="{{ .Name}}-tp" type="submit" class="btn btn-info">
                     TP to Spawn
                   </button>
                 </form>
@@ -52,17 +37,8 @@
               <td>
                 <form action="/app/players" method="post">
                   <input type="hidden" id="cmd" name="cmd" value="op" />
-                  <input
-                    type="hidden"
-                    id="value"
-                    name="value"
-                    value="{{ .Name}}"
-                  />
-                  <button
-                    name="{{ .Name}}-op"
-                    type="submit"
-                    class="btn btn-warning"
-                  >
+                  <input type="hidden" id="value" name="value" value="{{ .Name}}" />
+                  <button name="{{ .Name}}-op" type="submit" class="btn btn-warning">
                     Add/Remove OP
                   </button>
                 </form>
@@ -70,24 +46,15 @@
               <td>
                 <form action="/app/players" method="post">
                   <input type="hidden" id="cmd" name="cmd" value="kick" />
-                  <input
-                    type="hidden"
-                    id="value"
-                    name="value"
-                    value="{{ .Name}}"
-                  />
-                  <button
-                    name="{{ .Name}}-kick"
-                    type="submit"
-                    class="btn btn-danger"
-                  >
+                  <input type="hidden" id="value" name="value" value="{{ .Name}}" />
+                  <button name="{{ .Name}}-kick" type="submit" class="btn btn-danger">
                     Kick
                   </button>
                 </form>
               </td>
             </tr>
-  {{ end }}
-{{ end }}
+            {{ end }}
+            {{ end }}
           </tbody>
         </table>
       </div>
