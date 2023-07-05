@@ -29,6 +29,9 @@ func SetupRoutes(App *config.App) {
 	user.Get("/commands", CommandsHandler)
 	user.Get("/whitelist", WhitelistHandler)
 	user.Get("/logout", LogoutHandler)
+	user.Get("/htmx", htmlHandler)
+	user.Get("/players/list", PlayerListHandler)
+
 	// Post
 	user.Post("/commands", PostCommandsHandler)
 	user.Post("/players", PostPlayersHandler)

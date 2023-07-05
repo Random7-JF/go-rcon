@@ -1,6 +1,9 @@
 package server
 
 import (
+	"html/template"
+	"log"
+
 	"github.com/Random7-JF/go-rcon/app/helper"
 	"github.com/Random7-JF/go-rcon/app/model"
 	"github.com/Random7-JF/go-rcon/app/rcon"
@@ -200,4 +203,39 @@ func BenchHandler(c *fiber.Ctx) error {
 	}
 	return c.Render("pages/bench", td, "layouts/main")
 
+}
+
+func htmlHandler(c *fiber.Ctx) error {
+	players, err := rcon.GetPlayers()
+	if err != nil {
+		return err
+	}
+
+	data := make(map[string]interface{})
+	data["Players"] = players
+
+	td := model.TempalteData{
+		Title: "HTMX Test",
+		Data:  data,
+	}
+	return c.Render("pages/htmx", td, "layouts/main")
+}
+
+func PlayerListHandler(c *fiber.Ctx) error {
+	players, err := rcon.GetPlayers()
+	if err != nil {
+		return err
+	}
+
+	data := make(map[string]interface{})
+	data["Players"] = players
+
+	td := model.TempalteData{
+		Title: "HTMX Test",
+		Data:  data,
+	}
+
+	log.Println("Post Player hit, Player count - ", players.CurrentCount)
+	template := template.Must(template.ParseFiles("views/pages/htmx.html"))
+	return template.ExecuteTemplate(c, "player-list-item", td)
 }
