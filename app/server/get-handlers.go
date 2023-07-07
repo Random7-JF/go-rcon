@@ -2,7 +2,6 @@ package server
 
 import (
 	"html/template"
-	"log"
 
 	"github.com/Random7-JF/go-rcon/app/helper"
 	"github.com/Random7-JF/go-rcon/app/model"
@@ -35,7 +34,7 @@ func DashboardHandler(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	commands, err := model.GetCommandLog(5)
+	commands, err := model.GetCommandLog(10)
 	if err != nil {
 		return err
 	}
@@ -150,7 +149,7 @@ func ManageHandler(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	commands, err := model.GetCommandLog(5)
+	commands, err := model.GetCommandLog(10)
 	if err != nil {
 		return err
 	}
@@ -205,22 +204,6 @@ func BenchHandler(c *fiber.Ctx) error {
 
 }
 
-func htmlHandler(c *fiber.Ctx) error {
-	players, err := rcon.GetPlayers()
-	if err != nil {
-		return err
-	}
-
-	data := make(map[string]interface{})
-	data["Players"] = players
-
-	td := model.TempalteData{
-		Title: "HTMX Test",
-		Data:  data,
-	}
-	return c.Render("pages/htmx", td, "layouts/main")
-}
-
 func PlayerListHandler(c *fiber.Ctx) error {
 	players, err := rcon.GetPlayers()
 	if err != nil {
@@ -231,16 +214,9 @@ func PlayerListHandler(c *fiber.Ctx) error {
 	data["Players"] = players
 
 	td := model.TempalteData{
-		Title: "HTMX Test",
-		Data:  data,
+		Data: data,
 	}
 
-	if players.CurrentCount == 0 {
-		return nil
-		log.Println("No players")
-	}
-
-	log.Println("Post Player hit, Player count - ", players.CurrentCount)
 	template := template.Must(template.ParseFiles("views/pages/htmx.html"))
 	return template.ExecuteTemplate(c, "player-list-item", td)
 }
