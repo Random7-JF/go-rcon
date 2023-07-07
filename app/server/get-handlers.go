@@ -217,6 +217,6 @@ func PlayerListHandler(c *fiber.Ctx) error {
 		Data: data,
 	}
 
-	template := template.Must(template.ParseFiles("views/pages/htmx.html"))
+	template := template.Must(template.ParseFiles("views/pages/players.html"))
 	return template.ExecuteTemplate(c, "player-list-item", td)
 }
