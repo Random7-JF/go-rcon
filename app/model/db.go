@@ -24,7 +24,7 @@ func NewDbSession(c *Connection) {
 
 func SetupDB(App *config.App) {
 	var err error
-	dsn := "host=" + App.DbSettings.Host + " user=" + App.DbSettings.User + " password=" + App.DbSettings.Password + " dbname=" + App.DbSettings.DbName + " port=" + App.DbSettings.Port + " sslmode=disable TimeZone=America/Winnipeg"
+	dsn := "host=" + App.DbSettings.Host + " user=" + App.DbSettings.User + " password=" + App.DbSettings.Password + " dbname=" + App.DbSettings.DbName + " port=" + App.DbSettings.Port + " sslmode=" + App.DbSettings.Sslmode + " TimeZone=America/Winnipeg"
 	App.Db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")

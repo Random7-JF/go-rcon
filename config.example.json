@@ -17,6 +17,7 @@
         "port": "5689",
         "user": "postgres",
         "password": "supersecret",
-        "dbname": "gorcon"
+        "dbname": "gorcon",
+        "sslmode": "disable"
     }
 }

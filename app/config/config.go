@@ -43,6 +43,7 @@ type DbSettings struct {
 	User     string `json:"user"`
 	Password string `json:"password"`
 	DbName   string `json:"dbname"`
+	Sslmode  string `json:"sslmode"`
 }
 
 func (App *App) SetupAppConfig() {
@@ -62,6 +63,7 @@ func (App *App) SetupAppConfig() {
 	flag.StringVar(&App.DbSettings.User, "dbuser", "postgres", "Set the username of the DB server to connect to.")
 	flag.StringVar(&App.DbSettings.Password, "dbpass", "postgres", "Set the password of the DB server to connect to.")
 	flag.StringVar(&App.DbSettings.DbName, "dbname", "gorcon", "Set the name of the database on the DB server to connect to.")
+	flag.StringVar(&App.DbSettings.Sslmode, "sslmode", "disable", "Set the sslmode of the db connection")
 
 	flag.Parse()
 
