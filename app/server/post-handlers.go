@@ -2,9 +2,11 @@ package server
 
 import (
 	"fmt"
+	"html/template"
 
 	"github.com/Random7-JF/go-rcon/app/helper"
 	"github.com/Random7-JF/go-rcon/app/model"
+	"github.com/Random7-JF/go-rcon/app/rcon"
 	"github.com/Random7-JF/go-rcon/app/validator"
 	"github.com/gofiber/fiber/v2"
 )
@@ -49,6 +51,32 @@ func PostWhitelistHandler(c *fiber.Ctx) error {
 
 	return c.Redirect("/app/whitelist")
 
+}
+
+func PostWhiteListHandler(c *fiber.Ctx) error {
+	SubmittedForm := validator.ProcessForm(c)
+	err := SubmittedForm.ValidateInputs()
+
+	if err != nil {
+		fmt.Println("Error in form submission: " + err.Error())
+		return c.Redirect("/app/whitelist")
+	}
+
+	whitelist, err := rcon.GetWhitelist()
+	if err != nil {
+		fmt.Println("Error in whitelist: " + err.Error())
+		return c.Redirect("/app/whitelist")
+	}
+
+	data := make(map[string]interface{})
+	data["Whitelist"] = whitelist
+
+	td := model.TempalteData{
+		Data: data,
+	}
+
+	template := template.Must(template.ParseFiles("views/pages/whitelist.html"))
+	return template.ExecuteTemplate(c, "whitelist-table", td)
 }
 
 func PostLoginHandler(c *fiber.Ctx) error {

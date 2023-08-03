@@ -39,6 +39,8 @@ func SetupRoutes(App *config.App) {
 	user.Post("/players", PostPlayersHandler)
 	user.Post("/whitelist", PostWhitelistHandler)
 	user.Post("/login", PostLoginHandler)
+	//HTMX Endpoints
+	user.Post("/whitelist/update", PostWhiteListHandler)
 
 	admin := user.Group("/admin", mw.Auth(), mw.SaveSession())
 	admin.Get("/manage", ManageHandler)

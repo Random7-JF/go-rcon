@@ -11,7 +11,7 @@
           <p class="card-text">
             Enter the minecraft username or UUID to add to the whitelist
           </p>
-          <form action="/app/whitelist" method="post">
+          <form hx-post="/app/whitelist/update" hx-target="#WhitelistTable" hx-swap="innerHTML">
             <div class="form-floating mb-3">
               <input type="hidden" id="cmd" name="cmd" value="whitelist" />
               <input
@@ -36,7 +36,8 @@
     <div class="row mt-6">
     <div class="col-sm-12 mt-3 h-25">
       <div class="card text-bg-secondary">
-        <div class="card-body">
+        <div id="WhitelistTable" class="card-body">
+{{ block "whitelist-table" . }}
           <h5 class="card-title">Whitelist</h5>
           <p class="card-text">
           {{ .Data.Whitelist.Count}} currently whitelisted users on the server.
@@ -54,7 +55,7 @@
             <tr>
               <td>{{ .Name}}</td>
               <td>
-                <form action="/app/whitelist" method="post">
+                <form hx-post="/app/whitelist/update" hx-target="#WhitelistTable" hx-swap="innerHTML">
                 <input type="hidden" id="cmd" name="cmd" value="dewhitelist"/>
                 <input type="hidden" id="value" name="value" value="{{ .Name}}"/>
                 <button name="{{ .Name}}-dewhitelist" type="submit" class="btn btn-danger">Remove</button>
@@ -63,6 +64,7 @@
             {{end}}
           </tbody>
         </table>
+{{ end }}
         </div>
       </div>
     </div>
