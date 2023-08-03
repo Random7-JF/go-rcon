@@ -220,3 +220,37 @@ func PlayerListHandler(c *fiber.Ctx) error {
 	template := template.Must(template.ParseFiles("views/pages/players.html"))
 	return template.ExecuteTemplate(c, "player-list-item", td)
 }
+
+func PlayerCountHandler(c *fiber.Ctx) error {
+	players, err := rcon.GetPlayers()
+	if err != nil {
+		return err
+	}
+
+	data := make(map[string]interface{})
+	data["Players"] = players
+
+	td := model.TempalteData{
+		Data: data,
+	}
+
+	template := template.Must(template.ParseFiles("views/pages/dashboard.html"))
+	return template.ExecuteTemplate(c, "player-count-item", td)
+}
+
+func CommandsListHandler(c *fiber.Ctx) error {
+	commands, err := model.GetCommandLog(10)
+	if err != nil {
+		return err
+	}
+
+	data := make(map[string]interface{})
+	data["Commands"] = commands
+
+	td := model.TempalteData{
+		Data: data,
+	}
+
+	template := template.Must(template.ParseFiles("views/pages/dashboard.html"))
+	return template.ExecuteTemplate(c, "commands-list-item", td)
+}

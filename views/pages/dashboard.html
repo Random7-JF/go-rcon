@@ -18,7 +18,7 @@
     </div>
     <div class="col-sm-5 mt-3">
       <div class="card text-bg-secondary mb-3">
-        <div class="card-header">#2</div>
+        <div class="card-header">Commands</div>
         <div class="card-body">
           <h5 class="card-title">Special title treatment</h5>
           <p class="card-text">
@@ -45,7 +45,8 @@
     <div class="col-sm-2 mt-3">
       <div class="card text-bg-secondary mb-3">
         <div class="card-header">Players</div>
-        <div class="card-body">
+        <div class="card-body" hx-get="/app/players/count" hx-trigger="every 5s" hx-swap="innerHTML">
+{{ block "player-count-item" .}}
           {{if ne .Data.Players.CurrentCount 0}}
           <h5 class="card-text">Currently Connected Players</h5>
           <h3 class="card-text">{{.Data.Players.CurrentCount}} / {{.Data.Players.MaxCount}}</h3>
@@ -53,14 +54,15 @@
           {{else}}
           <h5 class="card-text">No Players Online</h5>
           {{end}}
-
+{{ end }} <!--Block End-->
         </div>
       </div>
     </div>
     <div class="col-sm-10 mt-3">
       <div class="card text-bg-secondary mb-3 h-100">
         <div class="card-header">Command Log</div>
-        <div class="card-body">
+        <div class="card-body" hx-get="/app/commands/list" hx-trigger="every 5s" hx-swap="innerHTML">
+{{ block "commands-list-item" .}}
             {{if .Data.Commands}}
             <table class="table table-bordered table-striped table-dark">
               <thead>
@@ -85,6 +87,7 @@
             {{else}}
             <p>No Command Log</p>
             {{end}}
+{{ end }} <!--Block End-->
           <a href="/app/commands" class="btn btn-dark">Send Commands</a>
         </div>
       </div>

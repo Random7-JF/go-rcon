@@ -29,7 +29,10 @@ func SetupRoutes(App *config.App) {
 	user.Get("/commands", CommandsHandler)
 	user.Get("/whitelist", WhitelistHandler)
 	user.Get("/logout", LogoutHandler)
+	//HTMX Endpoints
 	user.Get("/players/list", PlayerListHandler)
+	user.Get("/players/count", PlayerCountHandler)
+	user.Get("/commands/list", CommandsListHandler)
 
 	// Post
 	user.Post("/commands", PostCommandsHandler)
