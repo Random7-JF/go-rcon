@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <h2>{{.Title}}</h2>
+    <h2>{{ .Title }}</h2>
     <hr />
   </div>
   <div class="row mt-6">
@@ -33,7 +33,8 @@
         <div class="card-header">Whitelist</div>
         <div class="card-body">
           <p class="card-text">
-            Currently there are {{ .Data.Whitelist.Count}} players allowed to play on the server.
+            Currently there are {{ .Data.Whitelist.Count }} players allowed to
+            play on the server.
           </p>
           <a href="/app/whitelist" class="btn btn-dark">Add / Remove Players</a>
         </div>
@@ -45,52 +46,64 @@
     <div class="col-sm-2 mt-3">
       <div class="card text-bg-secondary mb-3">
         <div class="card-header">Players</div>
-        <div class="card-body" hx-get="/app/players/count" hx-trigger="every 5s" hx-swap="innerHTML">
-{{ block "player-count-item" .}}
-          {{if ne .Data.Players.CurrentCount 0}}
+        <div
+          class="card-body"
+          hx-get="/app/players/count"
+          hx-trigger="every 5s"
+          hx-swap="innerHTML"
+        >
+          {{ block "player-count-item" .}} 
+          {{ if ne .Data.Players.CurrentCount 0 }}
           <h5 class="card-text">Currently Connected Players</h5>
-          <h3 class="card-text">{{.Data.Players.CurrentCount}} / {{.Data.Players.MaxCount}}</h3>
+          <h3 class="card-text">
+            {{ .Data.Players.CurrentCount }} / {{ .Data.Players.MaxCount }}
+          </h3>
           <a href="/app/players" class="btn btn-dark mt-3">View Players</a>
-          {{else}}
+          {{ else }}
           <h5 class="card-text">No Players Online</h5>
-          {{end}}
-{{ end }} <!--Block End-->
+          {{ end }}
+          {{ end }}<!--Block End-->
         </div>
       </div>
     </div>
     <div class="col-sm-10 mt-3">
       <div class="card text-bg-secondary mb-3 h-100">
         <div class="card-header">Command Log</div>
-        <div class="card-body" hx-get="/app/commands/list" hx-trigger="every 5s" hx-swap="innerHTML">
-{{ block "commands-list-item" .}}
-            {{if .Data.Commands}}
-            <table class="table table-bordered table-striped table-dark">
-              <thead>
-                <tr>
-                  <th scope="col">Command</th>
-                  <th scope="col">Response</th>
-                  <th scope="col">Date</th>
-                  <th scope="col">User</th>
-                </tr>
-              </thead>
-              <tbody>
+        <div
+          class="card-body"
+          hx-get="/app/commands/list"
+          hx-trigger="every 5s"
+          hx-swap="innerHTML"
+        >
+          {{ block "commands-list-item" .}} 
+          {{ if .Data.Commands }}
+          <table class="table table-bordered table-striped table-dark">
+            <thead>
+              <tr>
+                <th scope="col">Command</th>
+                <th scope="col">Response</th>
+                <th scope="col">Date</th>
+                <th scope="col">User</th>
+              </tr>
+            </thead>
+            <tbody>
               {{range .Data.Commands}}
               <tr>
-                <td>{{.Command}}</td>
-                <td>{{.Response}}</td>
-                <td>{{.CreatedAt}}</td>
-                <td>{{.SentBy}}</td>
+                <td>{{ .Command }} </td>
+                <td>{{ .Response }} </td>
+                <td>{{ .CreatedAt }} </td>
+                <td>{{ .SentBy }} </td>
               </tr>
               {{end}}
-              </tbody>
-            </table>
-            {{else}}
-            <p>No Command Log</p>
-            {{end}}
-{{ end }} <!--Block End-->
+            </tbody>
+          </table>
+          {{ else }}
+          <p>No Command Log</p>
+          {{ end }} 
+          {{ end }}<!--Block End-->
           <a href="/app/commands" class="btn btn-dark">Send Commands</a>
         </div>
       </div>
     </div>
-  </div>    
+  </div>
 </div>
