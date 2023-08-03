@@ -17,7 +17,14 @@ func PostCommandsHandler(c *fiber.Ctx) error {
 		return c.Redirect("/app/commands")
 	}
 
-	return c.Redirect("/app/commands")
+	data := make(map[string]interface{})
+	data["Response"] = "Sent Message"
+
+	td := model.TempalteData{
+		Data: data,
+	}
+
+	return c.Render("partials/response", td)
 }
 
 func PostPlayersHandler(c *fiber.Ctx) error {

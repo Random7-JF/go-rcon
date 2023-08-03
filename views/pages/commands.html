@@ -11,7 +11,7 @@
           <p class="card-text">
             Use the field bellow to send a text message to the whole server.
           </p>
-          <form action="/app/commands" method="post">
+          <form hx-post="/app/commands" hx-target="#Msgresponse">
             <div class="form-floating mb-3">
               <input type="hidden" id="cmd" name="cmd" value="say"/>
               <input type="text" class="form-control mt-3" name="value" id="say-cmd" placeholder="Hello Server"/>
@@ -19,6 +19,7 @@
               <button type="submit" class="btn btn-dark mt-3">
               Send Server Message
               </button>
+              <div id="Msgresponse"></div>
             </div>
           </form>
         </div>
@@ -32,7 +33,7 @@
           Use the field below to set the time. Enter a number from 1-13000
           </p>
           <div class="form-floating mb-3">
-            <form action="/app/commands" method="post">
+            <form hx-post="/app/commands" hx-target="#Timeresponse">
               <div class="form-floating mb-3">
                 <input type="hidden" id="cmd" name="cmd" value="time" />
                 <input type="text" class="form-control mt-3" name="value" id="time-cmd" placeholder="1 for day, 13000 for night"/>
@@ -40,6 +41,7 @@
                 <button type="submit" class="btn btn-dark mt-3">
                   Set Server Time
                 </button>
+                <div id="Timeresponse"></div>
               </div>
             </form>
           </div>
@@ -55,7 +57,7 @@
             server wide.
           </p>
           <div class="form-floating mb-3">
-            <form action="/app/commands" method="post">
+            <form hx-post="/app/commands" hx-target="#Weatherresponse">
               <input type="hidden" id="cmd" name="cmd" value="weather" />
               <select class="form-select" id="value" name="value">
                 <option selected>Choose...</option>
@@ -66,6 +68,7 @@
               <button type="submit" class="btn btn-dark mt-3">
                 Set Server Weather
               </button>
+              <div id="Weatherresponse"></div>
             </form>
           </div>
         </div>
