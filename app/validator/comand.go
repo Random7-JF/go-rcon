@@ -14,27 +14,28 @@ func ProcessCmdForm(c *fiber.Ctx) CmdForm {
 	cmdForm.Options = c.FormValue("options")
 	cmdForm.Value = c.FormValue("value")
 
+	fmt.Println("cmd: " + cmdForm.Cmd + " options: " + cmdForm.Options + " value: " + cmdForm.Value)
 	return cmdForm
 }
 
 func isBlank(field string) bool {
-	if len(field) <= 0 {
-		return false
-	} else {
+	if len(field) <= 1 {
 		return true
+	} else {
+		return false
 	}
 }
 
 func hasValue(cmd string, value string) (bool, error) {
 	if isBlank(value) {
-		return false, fmt.Errorf("%s say requires value, got no value", cmd)
+		return false, fmt.Errorf("%s command requires value, got no value: %s", cmd, value)
 	}
 	return true, nil
 }
 
 func hasOption(cmd string, option string, validOptions []string) (bool, error) {
 	if isBlank(option) {
-		return false, fmt.Errorf("%s say requires and option, got no option", cmd)
+		return false, fmt.Errorf("%s command requires and option, got no option", cmd)
 	}
 	for _, opt := range validOptions {
 		if option == opt {
@@ -57,7 +58,7 @@ func (f *CmdForm) CheckForReqFields() (bool, error) {
 	case "op":
 		return hasValue(f.Cmd, f.Value)
 	case "whitelist":
-		validOptions := []string{"add", "del"}
+		validOptions := []string{"add", "remove"}
 		value, err := hasValue(f.Cmd, f.Value)
 		if err != nil {
 			return false, err

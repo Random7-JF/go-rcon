@@ -12,18 +12,37 @@ import (
 )
 
 func PostCommandsHandler(c *fiber.Ctx) error {
-	SubmittedForm := validator.ProcessForm(c)
-	err := SubmittedForm.ValidateInputs()
-	if err != nil {
-		fmt.Println("Error in form submission: " + err.Error())
-		return c.Redirect("/app/commands")
-	}
+
+	SubmittedForm := validator.ProcessCmdForm(c)
+	valid, err := SubmittedForm.CheckForReqFields()
 
 	data := make(map[string]interface{})
-	data["Response"] = "Sent Command"
-
 	td := model.TempalteData{
 		Data: data,
+	}
+
+	if err != nil {
+		fmt.Println("Error in form submission: " + err.Error())
+		data["Response"] = err
+		return c.Render("partials/response", td)
+	}
+
+	if valid {
+		switch SubmittedForm.Cmd {
+		case "say":
+			rcon.SendMessage(SubmittedForm.Value)
+		case "time":
+			cmdresp, _ := rcon.SetTime(SubmittedForm.Value)
+			data["Response"] = cmdresp
+		case "weather":
+			cmdresp := rcon.SetWeather("")
+			data["Response"] = cmdresp
+		case "kick":
+			cmdresp, _ := rcon.KickPlayer(SubmittedForm.Value)
+			data["Response"] = cmdresp
+		default:
+			data["Response"] = "No command found"
+		}
 	}
 
 	return c.Render("partials/response", td)
