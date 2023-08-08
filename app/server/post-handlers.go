@@ -48,14 +48,37 @@ func PostCommandsHandler(c *fiber.Ctx) error {
 }
 
 func PostPlayersHandler(c *fiber.Ctx) error {
-	SubmittedForm := validator.ProcessForm(c)
-	err := SubmittedForm.ValidateInputs()
-	if err != nil {
-		fmt.Println("Error in form submission: " + err.Error())
-		return c.Redirect("/app/players")
+	SubmittedForm := validator.ProcessCmdForm(c)
+	valid, err := SubmittedForm.CheckForReqFields()
+
+	data := make(map[string]interface{})
+	td := model.TempalteData{
+		Data: data,
 	}
 
-	return c.Redirect("/app/players")
+	if err != nil {
+		data["Response"] = err
+		return c.Render("partials/response", td)
+	}
+
+	if valid {
+		switch SubmittedForm.Cmd {
+		case "tp":
+			//TODO implement
+			cmdresp, _ := rcon.RconSession.Rcon.SendCommand(fmt.Sprintf("tp %s", SubmittedForm.Value))
+			data["Response"] = cmdresp
+		case "op":
+			cmdresp, _ := rcon.RconSession.Rcon.SendCommand(fmt.Sprintf("op %s", SubmittedForm.Value))
+			data["Response"] = cmdresp
+		case "kick":
+			cmdresp, _ := rcon.KickPlayer(SubmittedForm.Value)
+			data["Response"] = cmdresp
+		default:
+			data["Response"] = "No command found"
+		}
+	}
+
+	return c.Render("partials/response", td)
 }
 
 func PostWhitelistHandler(c *fiber.Ctx) error {
