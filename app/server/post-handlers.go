@@ -81,19 +81,6 @@ func PostPlayersHandler(c *fiber.Ctx) error {
 	return c.Render("partials/response", td)
 }
 
-func PostWhitelistHandler(c *fiber.Ctx) error {
-	SubmittedForm := validator.ProcessForm(c)
-	err := SubmittedForm.ValidateInputs()
-
-	if err != nil {
-		fmt.Println("Error in form submission: " + err.Error())
-		return c.Redirect("/app/whitelist")
-	}
-
-	return c.Redirect("/app/whitelist")
-
-}
-
 func PostWhiteListHandler(c *fiber.Ctx) error {
 	SubmittedForm := validator.ProcessForm(c)
 	err := SubmittedForm.ValidateInputs()

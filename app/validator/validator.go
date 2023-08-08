@@ -22,7 +22,7 @@ type UserForm1 struct {
 
 type AdminForm struct {
 	User  string `json:"user"`
-	Admin bool   `json:"admin:`
+	Admin bool   `json:"admin"`
 }
 
 type LoginForm struct {
