@@ -20,7 +20,7 @@ func PostCommandsHandler(c *fiber.Ctx) error {
 	}
 
 	data := make(map[string]interface{})
-	data["Response"] = "Sent Message"
+	data["Response"] = "Sent Command"
 
 	td := model.TempalteData{
 		Data: data,
