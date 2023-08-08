@@ -12,7 +12,6 @@ import (
 )
 
 func PostCommandsHandler(c *fiber.Ctx) error {
-
 	SubmittedForm := validator.ProcessCmdForm(c)
 	valid, err := SubmittedForm.CheckForReqFields()
 
