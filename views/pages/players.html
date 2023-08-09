@@ -33,20 +33,21 @@
                 </form>
               </td>
               <td>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-center">                <form hx-post="/app/players" hx-target="#Response">
-                  <input type="hidden" id="cmd" name="cmd" value="op" />
-                  <input type="hidden" id="value" name="value" value="{{ .Name}}" />
-                  <button name="{{ .Name}}-op" type="submit" class="btn btn-warning">
-                    Add OP
-                  </button>
-                </form>
-                <form hx-post="/app/players" hx-target="#Response">
-                  <input type="hidden" id="cmd" name="cmd" value="deop" />
-                  <input type="hidden" id="value" name="value" value="{{ .Name}}" />
-                  <button name="{{ .Name}}-op" type="submit" class="btn btn-info">
-                    Remove OP
-                  </button>
-                </form>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                  <form hx-post="/app/players" hx-target="#Response">
+                    <input type="hidden" id="cmd" name="cmd" value="op" />
+                    <input type="hidden" id="value" name="value" value="{{ .Name}}" />
+                    <button name="{{ .Name}}-op" type="submit" class="btn btn-warning">
+                      Add OP
+                    </button>
+                  </form>
+                  <form hx-post="/app/players" hx-target="#Response">
+                    <input type="hidden" id="cmd" name="cmd" value="deop" />
+                    <input type="hidden" id="value" name="value" value="{{ .Name}}" />
+                    <button name="{{ .Name}}-op" type="submit" class="btn btn-info">
+                      Remove OP
+                    </button>
+                  </form>
               </div>
               </td>
               <td>
