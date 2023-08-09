@@ -26,24 +26,25 @@ func IndexHandler(c *fiber.Ctx) error {
 }
 
 func DashboardHandler(c *fiber.Ctx) error {
+	data := make(map[string]interface{})
+
 	players, err := rcon.GetPlayers()
 	if err != nil {
-		return err
+		data["Error"] = err
 	}
 	whitelist, err := rcon.GetWhitelist()
 	if err != nil {
-		return err
+		data["Error"] = err
 	}
 	commands, err := model.GetCommandLog(10)
 	if err != nil {
-		return err
+		data["Error"] = err
 	}
 	auth, err := helper.GetAuthStatus(AppConfig, c)
 	if err != nil {
-		return err
+		data["Error"] = err
 	}
 
-	data := make(map[string]interface{})
 	data["Players"] = players
 	data["Rcon"] = AppConfig.RconSettings.Connection
 	data["Whitelist"] = whitelist

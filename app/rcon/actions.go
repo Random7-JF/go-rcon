@@ -1,6 +1,7 @@
 package rcon
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -12,10 +13,15 @@ import (
 // the Current player count, Max player count and list of currently connected players in models.Players
 func GetPlayers() (model.PlayersCommand, error) {
 	var playersJson model.PlayersCommand
+	if !RconSession.Connected {
+		fmt.Println("RCON disconnected")
+		return model.PlayersCommand{}, errors.New("rcon Disconnected")
+	}
 	cmdresp, err := RconSession.Rcon.SendCommand("list")
 
 	if err != nil {
 		fmt.Println("SendCommand Failed:", err)
+		RconSession.Connected = false
 		return playersJson, err
 	}
 
@@ -45,6 +51,10 @@ func GetPlayers() (model.PlayersCommand, error) {
 // the function the parses the string to pull the count out and convert it to an int, and populates the model.whitelistcommand.players with names of the players.
 func GetWhitelist() (model.WhitelistCommand, error) {
 	var whitelist model.WhitelistCommand
+	if !RconSession.Connected {
+		fmt.Println("RCON disconnected")
+		return model.WhitelistCommand{}, errors.New("rcon Disconnected")
+	}
 	cmdresp, err := RconSession.Rcon.SendCommand("whitelist list")
 
 	if err != nil {

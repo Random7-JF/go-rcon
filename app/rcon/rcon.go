@@ -9,7 +9,8 @@ import (
 )
 
 type Connection struct {
-	Rcon *mcrcon.MCConn
+	Rcon      *mcrcon.MCConn
+	Connected bool
 }
 
 var RconSession *Connection
