@@ -57,6 +57,8 @@ func (f *CmdForm) CheckForReqFields() (bool, error) {
 		return hasValue(f.Cmd, f.Value)
 	case "op":
 		return hasValue(f.Cmd, f.Value)
+	case "deop":
+		return hasValue(f.Cmd, f.Value)
 	case "whitelist":
 		validOptions := []string{"add", "remove"}
 		value, err := hasValue(f.Cmd, f.Value)

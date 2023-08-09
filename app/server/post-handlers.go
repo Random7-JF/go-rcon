@@ -70,6 +70,9 @@ func PostPlayersHandler(c *fiber.Ctx) error {
 		case "op":
 			cmdresp, _ := rcon.RconSession.Rcon.SendCommand(fmt.Sprintf("op %s", SubmittedForm.Value))
 			data["Response"] = cmdresp
+		case "deop":
+			cmdresp, _ := rcon.RconSession.Rcon.SendCommand(fmt.Sprintf("deop %s", SubmittedForm.Value))
+			data["Response"] = cmdresp
 		case "kick":
 			cmdresp, _ := rcon.KickPlayer(SubmittedForm.Value)
 			data["Response"] = cmdresp
