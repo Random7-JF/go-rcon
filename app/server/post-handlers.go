@@ -12,45 +12,76 @@ import (
 )
 
 func PostCommandsHandler(c *fiber.Ctx) error {
-	SubmittedForm := validator.ProcessForm(c)
-	err := SubmittedForm.ValidateInputs()
-	if err != nil {
-		fmt.Println("Error in form submission: " + err.Error())
-		return c.Redirect("/app/commands")
-	}
+	SubmittedForm := validator.ProcessCmdForm(c)
+	valid, err := SubmittedForm.CheckForReqFields()
 
 	data := make(map[string]interface{})
-	data["Response"] = "Sent Message"
-
 	td := model.TempalteData{
 		Data: data,
+	}
+
+	if err != nil {
+		fmt.Println("Error in form submission: " + err.Error())
+		data["Response"] = err
+		return c.Render("partials/response", td)
+	}
+
+	if valid {
+		switch SubmittedForm.Cmd {
+		case "say":
+			rcon.SendMessage(SubmittedForm.Value)
+		case "time":
+			cmdresp, _ := rcon.SetTime(SubmittedForm.Value)
+			data["Response"] = cmdresp
+		case "weather":
+			cmdresp := rcon.SetWeather(SubmittedForm.Options)
+			data["Response"] = cmdresp
+		case "kick":
+			cmdresp, _ := rcon.KickPlayer(SubmittedForm.Value)
+			data["Response"] = cmdresp
+		default:
+			data["Response"] = "No command found"
+		}
 	}
 
 	return c.Render("partials/response", td)
 }
 
 func PostPlayersHandler(c *fiber.Ctx) error {
-	SubmittedForm := validator.ProcessForm(c)
-	err := SubmittedForm.ValidateInputs()
-	if err != nil {
-		fmt.Println("Error in form submission: " + err.Error())
-		return c.Redirect("/app/players")
+	SubmittedForm := validator.ProcessCmdForm(c)
+	valid, err := SubmittedForm.CheckForReqFields()
+
+	data := make(map[string]interface{})
+	td := model.TempalteData{
+		Data: data,
 	}
 
-	return c.Redirect("/app/players")
-}
-
-func PostWhitelistHandler(c *fiber.Ctx) error {
-	SubmittedForm := validator.ProcessForm(c)
-	err := SubmittedForm.ValidateInputs()
-
 	if err != nil {
-		fmt.Println("Error in form submission: " + err.Error())
-		return c.Redirect("/app/whitelist")
+		data["Response"] = err
+		return c.Render("partials/response", td)
 	}
 
-	return c.Redirect("/app/whitelist")
+	if valid {
+		switch SubmittedForm.Cmd {
+		case "tp":
+			//TODO implement
+			cmdresp, _ := rcon.RconSession.Rcon.SendCommand(fmt.Sprintf("tp %s", SubmittedForm.Value))
+			data["Response"] = cmdresp
+		case "op":
+			cmdresp, _ := rcon.RconSession.Rcon.SendCommand(fmt.Sprintf("op %s", SubmittedForm.Value))
+			data["Response"] = cmdresp
+		case "deop":
+			cmdresp, _ := rcon.RconSession.Rcon.SendCommand(fmt.Sprintf("deop %s", SubmittedForm.Value))
+			data["Response"] = cmdresp
+		case "kick":
+			cmdresp, _ := rcon.KickPlayer(SubmittedForm.Value)
+			data["Response"] = cmdresp
+		default:
+			data["Response"] = "No command found"
+		}
+	}
 
+	return c.Render("partials/response", td)
 }
 
 func PostWhiteListHandler(c *fiber.Ctx) error {

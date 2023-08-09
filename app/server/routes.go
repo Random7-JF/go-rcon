@@ -37,7 +37,6 @@ func SetupRoutes(App *config.App) {
 	// Post
 	user.Post("/commands", PostCommandsHandler)
 	user.Post("/players", PostPlayersHandler)
-	user.Post("/whitelist", PostWhitelistHandler)
 	user.Post("/login", PostLoginHandler)
 	//HTMX Endpoints
 	user.Post("/whitelist/update", PostWhiteListHandler)

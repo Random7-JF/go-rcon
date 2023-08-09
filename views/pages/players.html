@@ -24,7 +24,7 @@
             <tr>
               <td>{{ .Name}}</td>
               <td>
-                <form action="/app/players" method="post">
+                <form hx-post="/app/players" hx-target="#Response">
                   <input type="hidden" id="cmd" name="cmd" value="tp" />
                   <input type="hidden" id="value" name="value" value="{{ .Name}}" />
                   <button name="{{ .Name}}-tp" type="submit" class="btn btn-info">
@@ -33,20 +33,29 @@
                 </form>
               </td>
               <td>
-                <form action="/app/players" method="post">
-                  <input type="hidden" id="cmd" name="cmd" value="op" />
-                  <input type="hidden" id="value" name="value" value="{{ .Name}}" />
-                  <button name="{{ .Name}}-op" type="submit" class="btn btn-warning">
-                    Add/Remove OP
-                  </button>
-                </form>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                  <form hx-post="/app/players" hx-target="#Response">
+                    <input type="hidden" id="cmd" name="cmd" value="op" />
+                    <input type="hidden" id="value" name="value" value="{{ .Name}}" />
+                    <button name="{{ .Name}}-op" type="submit" class="btn btn-warning">
+                      Add OP
+                    </button>
+                  </form>
+                  <form hx-post="/app/players" hx-target="#Response">
+                    <input type="hidden" id="cmd" name="cmd" value="deop" />
+                    <input type="hidden" id="value" name="value" value="{{ .Name}}" />
+                    <button name="{{ .Name}}-op" type="submit" class="btn btn-info">
+                      Remove OP
+                    </button>
+                  </form>
+              </div>
               </td>
               <td>
-                <form action="/app/players" method="post">
+                <form hx-post="/app/players" hx-target="#Response">
                   <input type="hidden" id="cmd" name="cmd" value="kick" />
                   <input type="hidden" id="value" name="value" value="{{ .Name}}" />
                   <button name="{{ .Name}}-kick" type="submit" class="btn btn-danger">
-                    Kick
+                    Kick {{ .Name }}
                   </button>
                 </form>
               </td>
@@ -59,6 +68,7 @@
       <p>No Players Online</p>
       {{ end }}
 {{ end }} <!--Block End-->
+    <div id="Response"></div>
     </div>
   </div>
 </div>
