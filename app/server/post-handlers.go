@@ -50,8 +50,8 @@ func PostCommandsHandler(c *fiber.Ctx) error {
 func PostPlayersHandler(c *fiber.Ctx) error {
 	SubmittedForm := validator.ProcessCmdForm(c)
 	valid, err := SubmittedForm.CheckForReqFields()
-
 	data := make(map[string]interface{})
+
 	td := model.TempalteData{
 		Data: data,
 	}
@@ -60,6 +60,12 @@ func PostPlayersHandler(c *fiber.Ctx) error {
 		data["Response"] = err
 		return c.Render("partials/response", td)
 	}
+
+	players, err := rcon.GetPlayers()
+	if err != nil {
+		return err
+	}
+	data["Players"] = players
 
 	if valid {
 		switch SubmittedForm.Cmd {
@@ -85,29 +91,38 @@ func PostPlayersHandler(c *fiber.Ctx) error {
 }
 
 func PostWhiteListHandler(c *fiber.Ctx) error {
-	SubmittedForm := validator.ProcessForm(c)
-	err := SubmittedForm.ValidateInputs()
+
+	SubmittedForm := validator.ProcessCmdForm(c)
+	valid, err := SubmittedForm.CheckForReqFields()
+
+	data := make(map[string]interface{})
+	td := model.TempalteData{
+		Data: data,
+	}
 
 	if err != nil {
-		fmt.Println("Error in form submission: " + err.Error())
-		return c.Redirect("/app/whitelist")
+		data["Response"] = err
+		return c.Render("partials/response", td)
+	}
+
+	if valid {
+		cmdresp, _ := rcon.RconSession.Rcon.SendCommand(fmt.Sprintf("whitelist %s %s", SubmittedForm.Options, SubmittedForm.Value))
+		data["Response"] = cmdresp
 	}
 
 	whitelist, err := rcon.GetWhitelist()
 	if err != nil {
 		fmt.Println("Error in whitelist: " + err.Error())
-		return c.Redirect("/app/whitelist")
+		data["Response"] = err
+		template := template.Must(template.ParseFiles("views/pages/whitelist.html"))
+		return template.ExecuteTemplate(c, "whitelist-table", td)
 	}
 
-	data := make(map[string]interface{})
 	data["Whitelist"] = whitelist
-
-	td := model.TempalteData{
-		Data: data,
-	}
 
 	template := template.Must(template.ParseFiles("views/pages/whitelist.html"))
 	return template.ExecuteTemplate(c, "whitelist-table", td)
+
 }
 
 func PostLoginHandler(c *fiber.Ctx) error {

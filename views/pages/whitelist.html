@@ -14,6 +14,7 @@
           <form hx-post="/app/whitelist/update" hx-target="#WhitelistTable" hx-swap="innerHTML">
             <div class="form-floating mb-3">
               <input type="hidden" id="cmd" name="cmd" value="whitelist" />
+              <input type="hidden" id="options" name="options" value="add"/>
               <input
                 type="text"
                 class="form-control mt-3"
@@ -56,7 +57,8 @@
               <td>{{ .Name}}</td>
               <td>
                 <form hx-post="/app/whitelist/update" hx-target="#WhitelistTable" hx-swap="innerHTML">
-                <input type="hidden" id="cmd" name="cmd" value="dewhitelist"/>
+                <input type="hidden" id="cmd" name="cmd" value="whitelist"/>
+                <input type="hidden" id="options" name="options" value="remove"/>
                 <input type="hidden" id="value" name="value" value="{{ .Name}}"/>
                 <button name="{{ .Name}}-dewhitelist" type="submit" class="btn btn-danger">Remove</button>
               </form>
