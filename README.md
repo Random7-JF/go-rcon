@@ -18,6 +18,4 @@ Go-Rcon is a Web App written in Go to use Rcon commands for a minecraft server
 
 # ToDo
 - Manage rcon connection (reconnect, disconnect and being able to know if the connection is connected )
-- User and User authentication
 - Advanced commands
-- Command log viewable in browser
