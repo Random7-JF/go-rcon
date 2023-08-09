@@ -3,6 +3,7 @@ package validator
 import (
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -38,7 +39,7 @@ func hasOption(cmd string, option string, validOptions []string) (bool, error) {
 		return false, fmt.Errorf("%s command requires and option, got no option", cmd)
 	}
 	for _, opt := range validOptions {
-		if option == opt {
+		if strings.EqualFold(option, opt) {
 			return true, nil
 		}
 	}
@@ -52,7 +53,8 @@ func (f *CmdForm) CheckForReqFields() (bool, error) {
 	case "time":
 		return hasValue(f.Cmd, f.Value)
 	case "weather":
-		return hasValue(f.Cmd, f.Value)
+		validOptions := []string{"clear", "rain", "thunder"}
+		return hasOption(f.Cmd, f.Options, validOptions)
 	case "kick":
 		return hasValue(f.Cmd, f.Value)
 	case "op":

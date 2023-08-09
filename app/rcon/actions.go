@@ -159,9 +159,10 @@ func StopServer(confirm bool) (model.NoReplyCommand, error) {
 // this will switch the current weather on the server and then log it to the command log database.
 func SetWeather(weather string) model.CommandResponse {
 	var response model.CommandResponse
+	var err error
 
 	cmd := "weather " + weather
-	resp, err := RconSession.Rcon.SendCommand(cmd)
+	response.Response, err = RconSession.Rcon.SendCommand(cmd)
 	if err != nil {
 		response.Error = err.Error()
 		return response
@@ -170,7 +171,7 @@ func SetWeather(weather string) model.CommandResponse {
 	go model.AddToCommandLog(model.CommandLog{
 		CommandType: "weather",
 		Command:     cmd,
-		Response:    resp,
+		Response:    response.Response,
 		SentBy:      "api",
 	})
 

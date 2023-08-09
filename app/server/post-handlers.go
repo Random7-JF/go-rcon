@@ -34,7 +34,7 @@ func PostCommandsHandler(c *fiber.Ctx) error {
 			cmdresp, _ := rcon.SetTime(SubmittedForm.Value)
 			data["Response"] = cmdresp
 		case "weather":
-			cmdresp := rcon.SetWeather("")
+			cmdresp := rcon.SetWeather(SubmittedForm.Options)
 			data["Response"] = cmdresp
 		case "kick":
 			cmdresp, _ := rcon.KickPlayer(SubmittedForm.Value)
