@@ -34,3 +34,18 @@ func GetCommandLog(limit int) ([]CommandLog, error) {
 	}
 	return cmdlog, nil
 }
+
+func SetSpawnCoords(coords string) error {
+
+	var serverSetting ServerSettings
+	serverSetting.SpawnCoords = coords
+
+	result := dbSession.Db.Create(&serverSetting)
+
+	if result.Error != nil {
+		fmt.Println(result.Error.Error())
+		return result.Error
+	}
+
+	return nil
+}

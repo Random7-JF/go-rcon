@@ -33,5 +33,6 @@ func SetupDB(App *config.App) {
 	// Migrate the schema
 	App.Db.AutoMigrate(&Users{})
 	App.Db.AutoMigrate(&CommandLog{})
+	App.Db.AutoMigrate(&ServerSettings{})
 
 }

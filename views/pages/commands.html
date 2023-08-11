@@ -75,4 +75,27 @@
       </div>
     </div>
   </div>
+  <div class="row mt-6">
+    <div class="col-sm-4 mt-3">
+      <div class="card text-bg-secondary h-100">
+        <div class="card-body">
+          <h5 class="card-title">Set The Server Spawn Coordinates</h5>
+          <p class="card-text">
+            Use the field bellow to set the server spawn coordinates. This will enable the "TP to Spawn" button.
+          </p>
+          <form hx-post="/app/commands" hx-target="#Msgresponse">
+            <div class="form-floating mb-3">
+              <input type="hidden" id="cmd" name="cmd" value="say"/>
+              <input type="text" class="form-control mt-3" name="value" id="say-cmd" placeholder="Hello Server"/>
+              <label class="text-secondary" for="say-cmd">Message</label>
+              <button type="submit" class="btn btn-dark mt-3">
+              Send Server Message
+              </button>
+              <div id="Msgresponse"></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

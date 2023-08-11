@@ -18,3 +18,8 @@ type CommandLog struct {
 	SentBy      string
 	Response    string
 }
+
+type ServerSettings struct {
+	gorm.Model
+	SpawnCoords string
+}
