@@ -61,7 +61,7 @@ func PostPlayersHandler(c *fiber.Ctx) error {
 		return c.Render("partials/response", td)
 	}
 
-	players, err := rcon.GetPlayers()
+	players, err := rcon.RconSession.GetPlayers()
 	if err != nil {
 		return err
 	}

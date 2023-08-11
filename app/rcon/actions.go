@@ -11,12 +11,8 @@ import (
 
 // GetPlayers sends a command over the rcon connection and takes the response, parse the string and return
 // the Current player count, Max player count and list of currently connected players in models.Players
-func GetPlayers() (model.PlayersCommand, error) {
+func (r *Connection) GetPlayers() (model.PlayersCommand, error) {
 	var playersJson model.PlayersCommand
-	if !RconSession.Connected {
-		fmt.Println("RCON disconnected")
-		return model.PlayersCommand{}, errors.New("rcon Disconnected")
-	}
 	cmdresp, err := RconSession.Rcon.SendCommand("list")
 
 	if err != nil {

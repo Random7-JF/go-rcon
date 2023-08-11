@@ -2,30 +2,13 @@ package rcon
 
 import (
 	"fmt"
-
-	"github.com/Random7-JF/go-rcon/app/config"
+	"log"
 
 	mcrcon "github.com/Kelwing/mc-rcon"
+	"github.com/Random7-JF/go-rcon/app/config"
 )
 
-type Connection struct {
-	Rcon      *mcrcon.MCConn
-	Connected bool
-}
-
-var RconSession *Connection
-
-func SetupRconSession(a *config.App) *Connection {
-	return &Connection{
-		Rcon: a.Rcon.Session,
-	}
-}
-
-func NewRconSession(c *Connection) {
-	RconSession = c
-}
-
-func SetupConnection(App *config.App) error {
+func ConnectSession(App *config.App) error {
 	App.Rcon.Session = new(mcrcon.MCConn)
 
 	ip := App.Rcon.Ip + ":" + App.Rcon.Port
@@ -40,13 +23,22 @@ func SetupConnection(App *config.App) error {
 		return err
 	}
 
-	test, err := App.Rcon.Session.SendCommand("list")
-	if err != nil {
-		fmt.Println("Error sending command:", err)
-		return err
-	}
-
-	fmt.Println(test)
+	TestSession(App)
 	App.Rcon.Connection = true
 	return nil
+}
+
+func DisconnectSession(App *config.App) {
+	App.Rcon.Session.Close()
+}
+
+func TestSession(App *config.App) {
+	test, err := App.Rcon.Session.SendCommand("list")
+	if err != nil {
+		log.Println("Error sending command:", err)
+		App.Rcon.Connection = false
+	}
+
+	log.Println("Test Session - Session: " + test)
+	App.Rcon.Connection = true
 }
