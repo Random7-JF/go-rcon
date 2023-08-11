@@ -50,6 +50,7 @@ func DashboardHandler(c *fiber.Ctx) error {
 	data["Whitelist"] = whitelist
 	data["Commands"] = commands
 	data["Auth"] = auth
+	data["Rcon"] = AppConfig.Rcon
 
 	td := model.TempalteData{
 		Title: "Dashboard",
