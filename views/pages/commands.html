@@ -85,12 +85,10 @@
           </p>
           <form hx-post="/app/commands" hx-target="#Msgresponse">
             <div class="form-floating mb-3">
-              <input type="hidden" id="cmd" name="cmd" value="say"/>
-              <input type="text" class="form-control mt-3" name="value" id="say-cmd" placeholder="Hello Server"/>
-              <label class="text-secondary" for="say-cmd">Message</label>
-              <button type="submit" class="btn btn-dark mt-3">
-              Send Server Message
-              </button>
+              <input type="hidden" id="cmd" name="cmd" value="spawn"/>
+              <input type="text" class="form-control mt-3" name="value" id="say-cmd"/>
+              <label class="text-secondary" for="say-cmd">Coordinates (X,Y,Z)</label>
+              <button type="submit" class="btn btn-dark mt-3">Set Server Spawn</button>
               <div id="Msgresponse"></div>
             </div>
           </form>
