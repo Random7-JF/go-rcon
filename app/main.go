@@ -34,9 +34,10 @@ func setupDB() {
 // it for reference in other functions. The program will run with this unable to connect but won't be
 // able to use rcon functions.
 func setupRcon() {
-	rcon.SetupConnection(&App)
-	rconsession := rcon.SetupRconSession(&App)
-	rcon.NewRconSession(rconsession)
+	rcon.ConnectSession(&App)
+	//rcon.SetupConnection(&App)
+	//rconsession := rcon.SetupRconSession(&App)
+	//rcon.NewRconSession(rconsession)
 }
 
 func registerGlobs() {

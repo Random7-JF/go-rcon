@@ -2,10 +2,7 @@ package validator
 
 import (
 	"errors"
-	"fmt"
-	"strings"
 
-	"github.com/Random7-JF/go-rcon/app/rcon"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -45,67 +42,68 @@ func (form *Form) CheckForBlanks() error {
 }
 
 func (form *Form) CheckCmd() error {
-
-	switch form.Cmd {
-	case "say":
-		_, err := rcon.SendMessage(form.Value)
-		if err != nil {
-			fmt.Println(err)
-			return err
-		}
-		return nil
-	case "time":
-		_, err := rcon.SetTime(form.Value)
-		if err != nil {
-			fmt.Println(err)
-			return err
-		}
-		return nil
-	case "weather":
-		resp := rcon.SetWeather(form.Value)
-		if len(resp.Error) > 0 {
-			fmt.Println(resp.Error)
-			return errors.New(resp.Error)
-		}
-		return nil
-	case "whitelist":
-		_, err := rcon.RconSession.Rcon.SendCommand("whitelist add " + form.Value)
-		if err != nil {
-			fmt.Println(err)
-			return err
-		}
-		return nil
-	case "kick":
-		_, err := rcon.RconSession.Rcon.SendCommand("kick " + form.Value)
-		if err != nil {
-			fmt.Println(err)
-			return err
-		}
-		return nil
-	case "op":
-		resp, err := rcon.RconSession.Rcon.SendCommand("op " + form.Value)
-		if err != nil {
-			fmt.Println(err)
-			return err
-		}
-		if strings.Contains(resp, "already is an operator") {
-			_, err = rcon.RconSession.Rcon.SendCommand("deop " + form.Value)
+	/*
+		switch form.Cmd {
+		case "say":
+			_, err := rcon.SendMessage(form.Value)
 			if err != nil {
 				fmt.Println(err)
 				return err
 			}
-		}
-		return nil
-	case "dewhitelist":
-		resp, err := rcon.RconSession.Rcon.SendCommand("whitelist remove " + form.Value)
-		if err != nil {
-			fmt.Println(err)
+			return nil
+		case "time":
+			_, err := rcon.SetTime(form.Value)
+			if err != nil {
+				fmt.Println(err)
+				return err
+			}
+			return nil
+		case "weather":
+			resp := rcon.SetWeather(form.Value)
+			if len(resp.Error) > 0 {
+				fmt.Println(resp.Error)
+				return errors.New(resp.Error)
+			}
+			return nil
+		case "whitelist":
+			_, err := rcon.RconSession.Rcon.SendCommand("whitelist add " + form.Value)
+			if err != nil {
+				fmt.Println(err)
+				return err
+			}
+			return nil
+		case "kick":
+			_, err := rcon.RconSession.Rcon.SendCommand("kick " + form.Value)
+			if err != nil {
+				fmt.Println(err)
+				return err
+			}
+			return nil
+		case "op":
+			resp, err := rcon.RconSession.Rcon.SendCommand("op " + form.Value)
+			if err != nil {
+				fmt.Println(err)
+				return err
+			}
+			if strings.Contains(resp, "already is an operator") {
+				_, err = rcon.RconSession.Rcon.SendCommand("deop " + form.Value)
+				if err != nil {
+					fmt.Println(err)
+					return err
+				}
+			}
+			return nil
+		case "dewhitelist":
+			resp, err := rcon.RconSession.Rcon.SendCommand("whitelist remove " + form.Value)
+			if err != nil {
+				fmt.Println(err)
+				return err
+			}
+			fmt.Println("whitelist remove:" + resp)
+			return nil
+		default:
+			err := errors.New("no command found")
 			return err
-		}
-		fmt.Println("whitelist remove:" + resp)
-		return nil
-	default:
-		err := errors.New("no command found")
-		return err
-	}
+		}*/
+	return nil
 }

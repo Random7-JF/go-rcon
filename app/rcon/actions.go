@@ -3,24 +3,27 @@ package rcon
 import (
 	"errors"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 
+	"github.com/Random7-JF/go-rcon/app/config"
 	"github.com/Random7-JF/go-rcon/app/model"
 )
 
 // GetPlayers sends a command over the rcon connection and takes the response, parse the string and return
 // the Current player count, Max player count and list of currently connected players in models.Players
-func GetPlayers() (model.PlayersCommand, error) {
+func GetPlayers(App *config.App) (model.PlayersCommand, error) {
 	var playersJson model.PlayersCommand
-	if !RconSession.Connected {
+
+	if !App.Rcon.Connection {
 		fmt.Println("RCON disconnected")
 		return model.PlayersCommand{}, errors.New("rcon Disconnected")
 	}
-	cmdresp, err := RconSession.Rcon.SendCommand("list")
+	cmdresp, err := App.Rcon.Session.SendCommand("list")
 
 	if err != nil {
-		fmt.Println("SendCommand Failed:", err)
+		log.Println("GetPlayers send command failed: ", err)
 		RconSession.Connected = false
 		return playersJson, err
 	}
@@ -34,7 +37,7 @@ func GetPlayers() (model.PlayersCommand, error) {
 	}
 
 	if err != nil {
-		fmt.Println("Parse Failed Failed:", err)
+		log.Println("GetPlayers Parse Failed Failed: ", err)
 		return playersJson, err
 	}
 
@@ -49,13 +52,13 @@ func GetPlayers() (model.PlayersCommand, error) {
 
 // GetWhitelist sends the whitelist list command which returns a string of the current count of whitelisted players and the play names.
 // the function the parses the string to pull the count out and convert it to an int, and populates the model.whitelistcommand.players with names of the players.
-func GetWhitelist() (model.WhitelistCommand, error) {
+func GetWhitelist(App *config.App) (model.WhitelistCommand, error) {
 	var whitelist model.WhitelistCommand
-	if !RconSession.Connected {
+	if !App.Rcon.Connection {
 		fmt.Println("RCON disconnected")
 		return model.WhitelistCommand{}, errors.New("rcon Disconnected")
 	}
-	cmdresp, err := RconSession.Rcon.SendCommand("whitelist list")
+	cmdresp, err := App.Rcon.Session.SendCommand("whitelist list")
 
 	if err != nil {
 		fmt.Println("SendCommand failed:", err)
@@ -81,12 +84,12 @@ func GetWhitelist() (model.WhitelistCommand, error) {
 
 // KickPlayer send them kick command over the rcon session, the target is the players name who you wish to kick
 // function returns a model.kickcommand and error. if there is an error it is inputted into model.kickcommand.Error
-func KickPlayer(target string) (model.KickCommand, error) {
+func KickPlayer(App *config.App, target string) (model.KickCommand, error) {
 	var kickCommand model.KickCommand
 	var err error
 
 	cmd := fmt.Sprintf("kick " + target)
-	kickCommand.Response, err = RconSession.Rcon.SendCommand(cmd)
+	kickCommand.Response, err = App.Rcon.Session.SendCommand(cmd)
 	if err != nil {
 		kickCommand.Error = err.Error()
 	}
@@ -103,14 +106,14 @@ func KickPlayer(target string) (model.KickCommand, error) {
 
 // SendMessage send a message prefixed with "[Go-Rcon]" to the server for all players to see.
 // Using strings.replace to replace any %20 with a space that come from the Params.
-func SendMessage(message string) (model.NoReplyCommand, error) {
+func SendMessage(App *config.App, message string) (model.NoReplyCommand, error) {
 	var response model.NoReplyCommand
 	var err error
 
 	msg := "say [Go-Rcon]: " + message
 	msg = strings.Replace(msg, "%20", " ", -1)
 
-	response.Error, err = RconSession.Rcon.SendCommand(msg)
+	response.Error, err = App.Rcon.Session.SendCommand(msg)
 	if err != nil {
 		response.Error = err.Error()
 		return response, err
@@ -127,12 +130,12 @@ func SendMessage(message string) (model.NoReplyCommand, error) {
 
 // SendMessage send a message prefixed with "[Go-Rcon]" to the server for all players to see.
 // Using strings.replace to replace any %20 with a space that come from the Params.
-func SetTime(time string) (model.CommandResponse, error) {
+func SetTime(App *config.App, time string) (model.CommandResponse, error) {
 	var response model.CommandResponse
 	var err error
 
 	cmd := "time set " + time
-	response.Response, err = RconSession.Rcon.SendCommand(cmd)
+	response.Response, err = App.Rcon.Session.SendCommand(cmd)
 	if err != nil {
 		response.Error = err.Error()
 		return response, err
@@ -150,11 +153,11 @@ func SetTime(time string) (model.CommandResponse, error) {
 
 // StopServer send the "stop" command to the sever over the rcon connection
 // this will tell the server to shutdown and it will shutdown. A managed server should start backup after
-func StopServer(confirm bool) (model.NoReplyCommand, error) {
+func StopServer(App *config.App, confirm bool) (model.NoReplyCommand, error) {
 	var response model.NoReplyCommand
 
 	if confirm {
-		response.Error, _ = RconSession.Rcon.SendCommand("stop")
+		response.Error, _ = App.Rcon.Session.SendCommand("stop")
 		go model.AddToCommandLog(model.CommandLog{
 			CommandType: "stop",
 			Command:     "stop",
@@ -167,12 +170,12 @@ func StopServer(confirm bool) (model.NoReplyCommand, error) {
 
 // SetWeather sends the weather XXXX command to the server of the rcon connection
 // this will switch the current weather on the server and then log it to the command log database.
-func SetWeather(weather string) model.CommandResponse {
+func SetWeather(App *config.App, weather string) model.CommandResponse {
 	var response model.CommandResponse
 	var err error
 
 	cmd := "weather " + weather
-	response.Response, err = RconSession.Rcon.SendCommand(cmd)
+	response.Response, err = App.Rcon.Session.SendCommand(cmd)
 	if err != nil {
 		response.Error = err.Error()
 		return response

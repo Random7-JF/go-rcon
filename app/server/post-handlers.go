@@ -29,15 +29,15 @@ func PostCommandsHandler(c *fiber.Ctx) error {
 	if valid {
 		switch SubmittedForm.Cmd {
 		case "say":
-			rcon.SendMessage(SubmittedForm.Value)
+			rcon.SendMessage(AppConfig, SubmittedForm.Value)
 		case "time":
-			cmdresp, _ := rcon.SetTime(SubmittedForm.Value)
+			cmdresp, _ := rcon.SetTime(AppConfig, SubmittedForm.Value)
 			data["Response"] = cmdresp
 		case "weather":
-			cmdresp := rcon.SetWeather(SubmittedForm.Options)
+			cmdresp := rcon.SetWeather(AppConfig, SubmittedForm.Options)
 			data["Response"] = cmdresp
 		case "kick":
-			cmdresp, _ := rcon.KickPlayer(SubmittedForm.Value)
+			cmdresp, _ := rcon.KickPlayer(AppConfig, SubmittedForm.Value)
 			data["Response"] = cmdresp
 		default:
 			data["Response"] = "No command found"
@@ -61,7 +61,7 @@ func PostPlayersHandler(c *fiber.Ctx) error {
 		return c.Render("partials/response", td)
 	}
 
-	players, err := rcon.GetPlayers()
+	players, err := rcon.GetPlayers(AppConfig)
 	if err != nil {
 		return err
 	}
@@ -71,16 +71,16 @@ func PostPlayersHandler(c *fiber.Ctx) error {
 		switch SubmittedForm.Cmd {
 		case "tp":
 			//TODO implement
-			cmdresp, _ := rcon.RconSession.Rcon.SendCommand(fmt.Sprintf("tp %s", SubmittedForm.Value))
+			cmdresp, _ := AppConfig.Rcon.Session.SendCommand(fmt.Sprintf("tp %s", SubmittedForm.Value))
 			data["Response"] = cmdresp
 		case "op":
-			cmdresp, _ := rcon.RconSession.Rcon.SendCommand(fmt.Sprintf("op %s", SubmittedForm.Value))
+			cmdresp, _ := AppConfig.Rcon.Session.SendCommand(fmt.Sprintf("op %s", SubmittedForm.Value))
 			data["Response"] = cmdresp
 		case "deop":
-			cmdresp, _ := rcon.RconSession.Rcon.SendCommand(fmt.Sprintf("deop %s", SubmittedForm.Value))
+			cmdresp, _ := AppConfig.Rcon.Session.SendCommand(fmt.Sprintf("deop %s", SubmittedForm.Value))
 			data["Response"] = cmdresp
 		case "kick":
-			cmdresp, _ := rcon.KickPlayer(SubmittedForm.Value)
+			cmdresp, _ := rcon.KickPlayer(AppConfig, SubmittedForm.Value)
 			data["Response"] = cmdresp
 		default:
 			data["Response"] = "No command found"
@@ -106,11 +106,11 @@ func PostWhiteListHandler(c *fiber.Ctx) error {
 	}
 
 	if valid {
-		cmdresp, _ := rcon.RconSession.Rcon.SendCommand(fmt.Sprintf("whitelist %s %s", SubmittedForm.Options, SubmittedForm.Value))
+		cmdresp, _ := AppConfig.Rcon.Session.SendCommand(fmt.Sprintf("whitelist %s %s", SubmittedForm.Options, SubmittedForm.Value))
 		data["Response"] = cmdresp
 	}
 
-	whitelist, err := rcon.GetWhitelist()
+	whitelist, err := rcon.GetWhitelist(AppConfig)
 	if err != nil {
 		fmt.Println("Error in whitelist: " + err.Error())
 		data["Response"] = err
