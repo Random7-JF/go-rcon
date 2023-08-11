@@ -28,11 +28,11 @@ func IndexHandler(c *fiber.Ctx) error {
 func DashboardHandler(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
 
-	players, err := rcon.GetPlayers()
+	players, err := rcon.GetPlayers(AppConfig)
 	if err != nil {
 		data["Error"] = err
 	}
-	whitelist, err := rcon.GetWhitelist()
+	whitelist, err := rcon.GetWhitelist(AppConfig)
 	if err != nil {
 		data["Error"] = err
 	}
@@ -46,10 +46,11 @@ func DashboardHandler(c *fiber.Ctx) error {
 	}
 
 	data["Players"] = players
-	data["Rcon"] = AppConfig.RconSettings.Connection
+	data["Rcon"] = AppConfig.Rcon.Connection
 	data["Whitelist"] = whitelist
 	data["Commands"] = commands
 	data["Auth"] = auth
+	data["Rcon"] = AppConfig.Rcon
 
 	td := model.TempalteData{
 		Title: "Dashboard",
@@ -60,7 +61,7 @@ func DashboardHandler(c *fiber.Ctx) error {
 }
 
 func PlayersPageHandler(c *fiber.Ctx) error {
-	players, err := rcon.GetPlayers()
+	players, err := rcon.GetPlayers(AppConfig)
 	if err != nil {
 		return err
 	}
@@ -98,7 +99,7 @@ func CommandsHandler(c *fiber.Ctx) error {
 }
 
 func WhitelistHandler(c *fiber.Ctx) error {
-	whitelist, err := rcon.GetWhitelist()
+	whitelist, err := rcon.GetWhitelist(AppConfig)
 	if err != nil {
 		return err
 	}
@@ -173,11 +174,11 @@ func ManageHandler(c *fiber.Ctx) error {
 }
 
 func BenchHandler(c *fiber.Ctx) error {
-	players, err := rcon.GetPlayers()
+	players, err := rcon.GetPlayers(AppConfig)
 	if err != nil {
 		return err
 	}
-	whitelist, err := rcon.GetWhitelist()
+	whitelist, err := rcon.GetWhitelist(AppConfig)
 	if err != nil {
 		return err
 	}
@@ -192,7 +193,7 @@ func BenchHandler(c *fiber.Ctx) error {
 
 	data := make(map[string]interface{})
 	data["Players"] = players
-	data["Rcon"] = AppConfig.RconSettings.Connection
+	data["Rcon"] = AppConfig.Rcon.Connection
 	data["Whitelist"] = whitelist
 	data["Commands"] = commands
 	data["Auth"] = auth
@@ -206,7 +207,8 @@ func BenchHandler(c *fiber.Ctx) error {
 }
 
 func PlayerListHandler(c *fiber.Ctx) error {
-	players, err := rcon.GetPlayers()
+	rcon.TestSession(AppConfig)
+	players, err := rcon.GetPlayers(AppConfig)
 	if err != nil {
 		return err
 	}
@@ -223,7 +225,7 @@ func PlayerListHandler(c *fiber.Ctx) error {
 }
 
 func PlayerCountHandler(c *fiber.Ctx) error {
-	players, err := rcon.GetPlayers()
+	players, err := rcon.GetPlayers(AppConfig)
 	if err != nil {
 		return err
 	}
