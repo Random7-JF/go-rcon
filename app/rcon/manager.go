@@ -1,7 +1,6 @@
 package rcon
 
 import (
-	"fmt"
 	"log"
 
 	mcrcon "github.com/Kelwing/mc-rcon"
@@ -14,12 +13,12 @@ func ConnectSession(App *config.App) error {
 	ip := App.Rcon.Ip + ":" + App.Rcon.Port
 	err := App.Rcon.Session.Open(ip, App.Rcon.Password)
 	if err != nil {
-		fmt.Println("Error opening rcon connection:", err)
+		log.Println("ConnectSession - Open: Error opening rcon connection: ", err)
 		return err
 	}
 	err = App.Rcon.Session.Authenticate()
 	if err != nil {
-		fmt.Println("Error authenticating rcon connection:", err)
+		log.Println("ConnectSession - Authenticate: Error authenticating rcon connection: ", err)
 		return err
 	}
 
@@ -35,10 +34,10 @@ func DisconnectSession(App *config.App) {
 func TestSession(App *config.App) {
 	test, err := App.Rcon.Session.SendCommand("list")
 	if err != nil {
-		log.Println("Error sending command:", err)
+		log.Println("TestSession - SendCommand: Error sending command: ", err)
 		App.Rcon.Connection = false
 	}
 
-	log.Println("Test Rcon Session: " + test)
+	log.Println("TestSession - SendCommand: " + test)
 	App.Rcon.Connection = true
 }
