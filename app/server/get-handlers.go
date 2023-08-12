@@ -10,7 +10,7 @@ import (
 )
 
 func IndexHandler(c *fiber.Ctx) error {
-	auth, err := helper.GetAuthStatus(AppConfig, c)
+	auth, err := helper.GetKey(AppConfig, c, "Auth")
 	if err != nil {
 		return err
 	}
@@ -40,7 +40,7 @@ func DashboardHandler(c *fiber.Ctx) error {
 	if err != nil {
 		data["Error"] = err
 	}
-	auth, err := helper.GetAuthStatus(AppConfig, c)
+	auth, err := helper.GetKey(AppConfig, c, "Auth")
 	if err != nil {
 		data["Error"] = err
 	}
@@ -65,7 +65,7 @@ func PlayersPageHandler(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	auth, err := helper.GetAuthStatus(AppConfig, c)
+	auth, err := helper.GetKey(AppConfig, c, "Auth")
 	if err != nil {
 		return err
 	}
@@ -83,7 +83,7 @@ func PlayersPageHandler(c *fiber.Ctx) error {
 }
 
 func CommandsHandler(c *fiber.Ctx) error {
-	auth, err := helper.GetAuthStatus(AppConfig, c)
+	auth, err := helper.GetKey(AppConfig, c, "Auth")
 	if err != nil {
 		return err
 	}
@@ -103,7 +103,7 @@ func WhitelistHandler(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	auth, err := helper.GetAuthStatus(AppConfig, c)
+	auth, err := helper.GetKey(AppConfig, c, "Auth")
 	if err != nil {
 		return err
 	}
@@ -122,7 +122,7 @@ func WhitelistHandler(c *fiber.Ctx) error {
 
 func LoginHandler(c *fiber.Ctx) error {
 
-	auth, err := helper.GetAuthStatus(AppConfig, c)
+	auth, err := helper.GetKey(AppConfig, c, "Auth")
 	if err != nil {
 		return err
 	}
@@ -147,7 +147,7 @@ func LogoutHandler(c *fiber.Ctx) error {
 }
 
 func ManageHandler(c *fiber.Ctx) error {
-	auth, err := helper.GetAuthStatus(AppConfig, c)
+	auth, err := helper.GetKey(AppConfig, c, "Auth")
 	if err != nil {
 		return err
 	}
@@ -186,7 +186,7 @@ func BenchHandler(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	auth, err := helper.GetAuthStatus(AppConfig, c)
+	auth, err := helper.GetKey(AppConfig, c, "Auth")
 	if err != nil {
 		return err
 	}

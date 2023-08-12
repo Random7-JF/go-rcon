@@ -99,7 +99,5 @@ func IsUserAdmin(username string) bool {
 	if err != nil {
 		return false
 	}
-
-	fmt.Println("Admin User Login")
 	return result.Admin
 }

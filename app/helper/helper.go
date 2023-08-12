@@ -2,6 +2,7 @@ package helper
 
 import (
 	"errors"
+	"log"
 
 	"github.com/Random7-JF/go-rcon/app/config"
 	"github.com/gofiber/fiber/v2"
@@ -19,11 +20,12 @@ func UpdateSessionKey(app *config.App, c *fiber.Ctx, key string, value interface
 	return nil
 }
 
-func GetAuthStatus(app *config.App, c *fiber.Ctx) (interface{}, error) {
+func GetKey(app *config.App, c *fiber.Ctx, key string) (interface{}, error) {
 	session, err := app.Store.Get(c)
 	if err != nil {
 		return nil, errors.New("unable to get session store")
 	}
-	auth := session.Get("Auth")
-	return auth, nil
+	reqKey := session.Get(key)
+	log.Printf("%s Key Data: %v", key, reqKey)
+	return reqKey, nil
 }

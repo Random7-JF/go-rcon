@@ -5,7 +5,6 @@ type Auth struct {
 	Message string
 	Admin   bool
 }
-
 type Flash struct {
 	Info    string
 	Warning string

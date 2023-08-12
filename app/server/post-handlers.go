@@ -152,10 +152,11 @@ func PostLoginHandler(c *fiber.Ctx) error {
 		return c.Redirect("/login")
 	}
 
+	admin := model.IsUserAdmin(userForm.User)
 	helper.UpdateSessionKey(AppConfig, c, "Auth", model.Auth{
 		Status:  true,
 		Message: "Successful Login",
-		Admin:   model.IsUserAdmin(userForm.User),
+		Admin:   admin,
 	})
 
 	return c.Redirect("/app/dashboard")

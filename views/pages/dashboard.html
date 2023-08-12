@@ -13,7 +13,9 @@
           {{else}}
           <h5 class="card-text">Go-Rcon is not connected</h5>
           {{end}}
+          {{ if .Data.Auth.Admin}}
           <a href="/app/admin/manage" class="mt-3 btn btn-dark"> Configure </a>
+          {{ end }}          
         </div>
       </div>
     </div>

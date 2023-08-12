@@ -16,7 +16,7 @@ type Mwconfig struct {
 
 func (mw Mwconfig) Auth() fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		auth, err := helper.GetAuthStatus(mw.AppConfig, c)
+		auth, err := helper.GetKey(mw.AppConfig, c, "Auth")
 		if err != nil {
 			return c.Redirect("/login")
 		}
@@ -51,10 +51,12 @@ func (mw Mwconfig) SetupSession() fiber.Handler {
 		if err != nil {
 			return errors.New("unable to get session store")
 		}
+
 		auth := session.Get("Auth")
 		if auth == nil {
 			helper.UpdateSessionKey(mw.AppConfig, c, "Auth", model.Auth{Status: false, Message: "", Admin: false})
 		}
+
 		return c.Next()
 	}
 }
