@@ -1,7 +1,7 @@
 package rcon
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/Random7-JF/go-rcon/app/config"
 
@@ -14,12 +14,12 @@ func SetupConnection(App *config.App) error {
 	ip := App.Rcon.Ip + ":" + App.Rcon.Port
 	err := App.Rcon.Session.Open(ip, App.Rcon.Password)
 	if err != nil {
-		fmt.Println("Error opening rcon connection:", err)
+		log.Printf("SetupConnection - Open: Error opening rcon connection: %v", err)
 		return err
 	}
 	err = App.Rcon.Session.Authenticate()
 	if err != nil {
-		fmt.Println("Error authenticating rcon connection:", err)
+		log.Printf("SetupConnection - Authenticate: Error opening rcon connection: %v", err)
 		return err
 	}
 

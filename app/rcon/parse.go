@@ -1,7 +1,7 @@
 package rcon
 
 import (
-	"fmt"
+	"log"
 	"strconv"
 	"strings"
 
@@ -23,14 +23,14 @@ func ParseListOld(cmdresp string) (model.PlayersCommand, error) {
 
 	playersJson.CurrentCount, err = strconv.Atoi(strings.Trim(count[0], " "))
 	if err != nil {
-		fmt.Println("CurrentCount AtoI Failed:", err)
+		log.Printf("ParseListOld - AtoI current count: Error: %v", err)
 		return playersJson, err
 
 	}
 
 	playersJson.MaxCount, err = strconv.Atoi(strings.Trim(count[1], " "))
 	if err != nil {
-		fmt.Println("MaxCount AtoI Failed:", err)
+		log.Printf("ParseListOld - AtoI max count: Error: %v", err)
 		return playersJson, err
 	}
 
@@ -46,13 +46,13 @@ func ParseListNew(cmdresp string) (model.PlayersCommand, error) {
 
 	playersJson.CurrentCount, err = strconv.Atoi(ParseForCount(countStr[0]))
 	if err != nil {
-		fmt.Println("CurrentCount AtoI Failed:", err)
+		log.Printf("ParseListNew - AtoI current count: Error: %v", err)
 		return playersJson, err
 
 	}
 	playersJson.MaxCount, err = strconv.Atoi(ParseForCount(countStr[1]))
 	if err != nil {
-		fmt.Println("MaxCount AtoI Failed:", err)
+		log.Printf("ParseListNew - AtoI max count: Error: %v", err)
 		return playersJson, err
 	}
 
