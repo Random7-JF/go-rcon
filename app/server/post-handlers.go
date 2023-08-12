@@ -39,6 +39,9 @@ func PostCommandsHandler(c *fiber.Ctx) error {
 		case "kick":
 			cmdresp, _ := rcon.KickPlayer(AppConfig, SubmittedForm.Value)
 			data["Response"] = cmdresp
+		case "setworldspawn":
+			cmdresp := rcon.SetWorldSpawn(AppConfig, SubmittedForm.Value)
+			data["Response"] = cmdresp
 		default:
 			data["Response"] = "No command found"
 		}
@@ -72,6 +75,9 @@ func PostPlayersHandler(c *fiber.Ctx) error {
 		case "tp":
 			//TODO implement
 			cmdresp, _ := AppConfig.Rcon.Session.SendCommand(fmt.Sprintf("tp %s", SubmittedForm.Value))
+			data["Response"] = cmdresp
+		case "tpspawn":
+			cmdresp, _ := rcon.TpToSpawn(AppConfig, SubmittedForm.Value)
 			data["Response"] = cmdresp
 		case "op":
 			cmdresp, _ := AppConfig.Rcon.Session.SendCommand(fmt.Sprintf("op %s", SubmittedForm.Value))

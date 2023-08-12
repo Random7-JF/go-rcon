@@ -25,7 +25,7 @@
               <td>{{ .Name}}</td>
               <td>
                 <form hx-post="/app/players" hx-target="#Response">
-                  <input type="hidden" id="cmd" name="cmd" value="tp" />
+                  <input type="hidden" id="cmd" name="cmd" value="tpspawn" />
                   <input type="hidden" id="value" name="value" value="{{ .Name}}" />
                   <button name="{{ .Name}}-tp" type="submit" class="btn btn-info">
                     TP to Spawn

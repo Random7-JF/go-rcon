@@ -190,3 +190,57 @@ func SetWeather(App *config.App, weather string) model.CommandResponse {
 
 	return response
 }
+
+func SetWorldSpawn(App *config.App, coord string) model.CommandResponse {
+	var resp model.CommandResponse
+	var err error
+
+	cmd := "setworldspawn " + coord
+	resp.Response, err = App.Rcon.Session.SendCommand(cmd)
+	if err != nil {
+		resp.Error = err.Error()
+		return resp
+	}
+
+	model.SetSpawnCoords(coord)
+	if err != nil {
+		resp.Error = err.Error()
+		return resp
+	}
+
+	go model.AddToCommandLog(model.CommandLog{
+		CommandType: "setworldspwan",
+		Command:     cmd,
+		Response:    resp.Response,
+		SentBy:      "api",
+	})
+
+	return resp
+}
+
+func TpToSpawn(App *config.App, player string) (model.CommandResponse, error) {
+	var resp model.CommandResponse
+
+	server, err := model.GetServerSettings()
+	if err != nil {
+		resp.Error = err.Error()
+		return resp, err
+	}
+
+	cmd := "tp " + player + " " + server.SpawnCoords
+	resp.Response, err = App.Rcon.Session.SendCommand(cmd)
+	if err != nil {
+		resp.Error = err.Error()
+		return resp, err
+	}
+
+	go model.AddToCommandLog(model.CommandLog{
+		CommandType: "tpspawn",
+		Command:     cmd,
+		Response:    resp.Response,
+		SentBy:      "api",
+	})
+
+	return resp, nil
+
+}

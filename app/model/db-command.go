@@ -36,7 +36,6 @@ func GetCommandLog(limit int) ([]CommandLog, error) {
 }
 
 func SetSpawnCoords(coords string) error {
-
 	var serverSetting ServerSettings
 	serverSetting.SpawnCoords = coords
 
@@ -48,4 +47,15 @@ func SetSpawnCoords(coords string) error {
 	}
 
 	return nil
+}
+
+func GetServerSettings() (ServerSettings, error) {
+	var serverSettings ServerSettings
+
+	query := dbSession.Db.Last(&serverSettings)
+	if query.Error != nil {
+		fmt.Println(query.Error)
+		return serverSettings, query.Error
+	}
+	return serverSettings, nil
 }

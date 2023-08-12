@@ -70,6 +70,10 @@ func (f *CmdForm) CheckForReqFields() (bool, error) {
 		if value {
 			return hasOption(f.Cmd, f.Options, validOptions)
 		}
+	case "setworldspawn":
+		return hasValue(f.Cmd, f.Value)
+	case "tpspawn":
+		return hasValue(f.Cmd, f.Value)
 	default:
 		return false, errors.New("no command found")
 	}
