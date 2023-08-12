@@ -2,7 +2,6 @@ package rcon
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"strconv"
 	"strings"
@@ -17,13 +16,13 @@ func GetPlayers(App *config.App) (model.PlayersCommand, error) {
 	var playersJson model.PlayersCommand
 
 	if !App.Rcon.Connection {
-		fmt.Println("RCON disconnected")
-		return model.PlayersCommand{}, errors.New("rcon Disconnected")
+		log.Println("GetPlayers - Rcon.Connection: Not Connected.")
+		return model.PlayersCommand{}, errors.New("getPlayers - Rcon.Connection: Not Connected")
 	}
 	cmdresp, err := App.Rcon.Session.SendCommand("list")
 
 	if err != nil {
-		log.Println("GetPlayers send command failed: ", err)
+		log.Println("GetPlayers - SendCommand failed: ", err)
 		App.Rcon.Connection = false
 		return playersJson, err
 	}
@@ -37,7 +36,7 @@ func GetPlayers(App *config.App) (model.PlayersCommand, error) {
 	}
 
 	if err != nil {
-		log.Println("GetPlayers Parse Failed Failed: ", err)
+		log.Println("GetPlayers - Parse Failed: ", err)
 		return playersJson, err
 	}
 
@@ -55,13 +54,13 @@ func GetPlayers(App *config.App) (model.PlayersCommand, error) {
 func GetWhitelist(App *config.App) (model.WhitelistCommand, error) {
 	var whitelist model.WhitelistCommand
 	if !App.Rcon.Connection {
-		fmt.Println("RCON disconnected")
-		return model.WhitelistCommand{}, errors.New("rcon Disconnected")
+		log.Println("GetWhitelist - Rcon.Connection: Not Connected.")
+		return model.WhitelistCommand{}, errors.New("getWhitelist - Rcon.Connection: Not Connected")
 	}
 	cmdresp, err := App.Rcon.Session.SendCommand("whitelist list")
 
 	if err != nil {
-		fmt.Println("SendCommand failed:", err)
+		log.Printf("GetWhitelist - Rcon.Connection: %v", err)
 		return whitelist, err
 	}
 
@@ -69,7 +68,7 @@ func GetWhitelist(App *config.App) (model.WhitelistCommand, error) {
 	count := ParseForCount(parseStr[0])
 	whitelist.Count, err = strconv.Atoi(count)
 	if err != nil {
-		fmt.Println("MaxCount AtoI Failed:", err)
+		log.Printf("GetWhitelist - AtoI: %v", err)
 		return whitelist, err
 	}
 	players := strings.Split(parseStr[1], ",")
@@ -88,7 +87,7 @@ func KickPlayer(App *config.App, target string) (model.KickCommand, error) {
 	var kickCommand model.KickCommand
 	var err error
 
-	cmd := fmt.Sprintf("kick " + target)
+	cmd := "kick " + target
 	kickCommand.Response, err = App.Rcon.Session.SendCommand(cmd)
 	if err != nil {
 		kickCommand.Error = err.Error()
