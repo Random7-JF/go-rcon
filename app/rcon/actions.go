@@ -24,7 +24,7 @@ func GetPlayers(App *config.App) (model.PlayersCommand, error) {
 
 	if err != nil {
 		log.Println("GetPlayers send command failed: ", err)
-		RconSession.Connected = false
+		App.Rcon.Connection = false
 		return playersJson, err
 	}
 

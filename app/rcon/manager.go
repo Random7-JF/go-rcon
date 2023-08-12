@@ -39,6 +39,6 @@ func TestSession(App *config.App) {
 		App.Rcon.Connection = false
 	}
 
-	log.Println("Test Session - Session: " + test)
+	log.Println("Test Rcon Session: " + test)
 	App.Rcon.Connection = true
 }

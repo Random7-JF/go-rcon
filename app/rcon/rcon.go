@@ -8,23 +8,6 @@ import (
 	mcrcon "github.com/Kelwing/mc-rcon"
 )
 
-type Connection struct {
-	Rcon      *mcrcon.MCConn
-	Connected bool
-}
-
-var RconSession *Connection
-
-func SetupRconSession(a *config.App) *Connection {
-	return &Connection{
-		Rcon: a.Rcon.Session,
-	}
-}
-
-func NewRconSession(c *Connection) {
-	RconSession = c
-}
-
 func SetupConnection(App *config.App) error {
 	App.Rcon.Session = new(mcrcon.MCConn)
 
@@ -40,13 +23,8 @@ func SetupConnection(App *config.App) error {
 		return err
 	}
 
-	test, err := App.Rcon.Session.SendCommand("list")
-	if err != nil {
-		fmt.Println("Error sending command:", err)
-		return err
-	}
+	TestSession(App)
 
-	fmt.Println(test)
 	App.Rcon.Connection = true
 	return nil
 }
