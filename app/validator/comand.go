@@ -8,6 +8,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+type CmdForm struct {
+	Cmd     string `json:"cmd"`
+	Value   string `json:"value"`
+	Options string `json:"options"`
+}
+
 func ProcessCmdForm(c *fiber.Ctx) CmdForm {
 	var cmdForm CmdForm
 
