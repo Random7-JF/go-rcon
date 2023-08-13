@@ -17,6 +17,7 @@ func ConnectSession(App *config.App) error {
 	}
 
 	ip := rconSettings.RconIp + ":" + rconSettings.RconPort
+	log.Println("Current rcon ip:port", ip, " and pass: ", rconSettings.RconPass)
 	err = App.Rcon.Session.Open(ip, rconSettings.RconPass)
 
 	if err != nil {
