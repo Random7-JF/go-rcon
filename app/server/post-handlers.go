@@ -204,24 +204,39 @@ func PostUserHandler(c *fiber.Ctx) error {
 }
 
 func PostRconHandler(c *fiber.Ctx) error {
+
 	rconForm := validator.ProcessRconForm(c)
 	err := rconForm.CheckForReqFields()
+	data := make(map[string]interface{})
+	td := model.TempalteData{
+		Data: data,
+	}
+
 	if err != nil {
 		log.Println("PostRconHandler - CheckForReqFields: " + err.Error())
+		data["Response"] = "PostRconHandler - CheckForReqFields: " + err.Error()
 	}
 
 	err = model.SetRconSettings(rconForm.Ip, rconForm.Port, rconForm.Password)
 	if err != nil {
 		log.Println("PostRconHandler - SetRconSettings: " + err.Error())
+		data["Response"] = "PostRconHandler - SetRconSettings: " + err.Error()
 
 	}
 
-	return c.Redirect("/app/admin/manage")
+	data["Response"] = "Rcon Settings Updated."
+
+	return c.Render("partials/response", td)
 }
 
 func PostRconSessionHandler(c *fiber.Ctx) error {
 	rconSessionForm := validator.ProcessRconSessionForm(c)
 	err := rconSessionForm.CheckForReqFields()
+	data := make(map[string]interface{})
+	td := model.TempalteData{
+		Data: data,
+	}
+
 	if err != nil {
 		log.Println("PostRconSessionHandler - CheckForReqFields: " + err.Error())
 	}
@@ -229,13 +244,17 @@ func PostRconSessionHandler(c *fiber.Ctx) error {
 	switch rconSessionForm.Action {
 	case "stop":
 		rcon.DisconnectSession(AppConfig)
+		data["Response"] = "Rcon Disconnected"
 	case "start":
 		rcon.ConnectSession(AppConfig)
+		data["Response"] = "Rcon Connected"
+
 	case "restart":
 		rcon.DisconnectSession(AppConfig)
 		rcon.ConnectSession(AppConfig)
+		data["Response"] = "Rcon Reconnected"
 
 	}
 
-	return c.Redirect("/app/admin/manage")
+	return c.Render("partials/response", td)
 }

@@ -21,7 +21,7 @@
           <div class="card-header">Configure RCON</div>
           <div class="card-body">
             <h5 class="card-title">Update Rcon connection  settings</h5>
-            <form class="row g-3" hx-post="/app/admin/rcon">
+            <form class="row g-3" hx-post="/app/admin/rcon" hx-target="#rconresponse">
               <div class="col">
               <div class="form-floating">
                 <input type="text" class="form-control mt-3" name="ip" id="ip" placeholder="127.0.0.1"/>
@@ -44,7 +44,7 @@
               Create
             </button>
           </form>
-          <div id="response"></div>
+          <div id="rconresponse"></div>
           </div>
         </div>
         </div>  
@@ -53,7 +53,7 @@
           <div class="card-header">Disconnect / Reconnect Rcon</div>
           <div class="card-body">
             <h5 class="card-title">Disconnect or reconnect the Rcon session</h5>
-            <form hx-post="/app/admin/rcon/session">
+            <form hx-post="/app/admin/rcon/session" hx-target="#Sessionresponse">
               <div class="form-floating">
                 <select class="form-select" id="action" name="action">
                   <option selected>Choose...</option>
@@ -68,7 +68,7 @@
                 </button>
               </div>
           </form>
-          <div id="response"></div>
+          <div id="Sessionresponse"></div>
           </div>
         </div>
     </div>
