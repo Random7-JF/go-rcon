@@ -244,14 +244,21 @@ func PostRconSessionHandler(c *fiber.Ctx) error {
 	switch rconSessionForm.Action {
 	case "stop":
 		rcon.DisconnectSession(AppConfig)
-		data["Response"] = "Rcon Disconnected"
 	case "start":
-		rcon.ConnectSession(AppConfig)
+		err = rcon.ConnectSession(AppConfig)
+		if err != nil {
+			data["Response"] = err
+			return c.Render("partials/response", td)
+		}
 		data["Response"] = "Rcon Connected"
 
 	case "restart":
 		rcon.DisconnectSession(AppConfig)
-		rcon.ConnectSession(AppConfig)
+		err = rcon.ConnectSession(AppConfig)
+		if err != nil {
+			data["Response"] = err
+			return c.Render("partials/response", td)
+		}
 		data["Response"] = "Rcon Reconnected"
 
 	}

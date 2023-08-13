@@ -22,11 +22,13 @@ func ConnectSession(App *config.App) error {
 
 	if err != nil {
 		log.Println("ConnectSession - Open: Error opening rcon connection: ", err)
+		App.Rcon.Connection = false
 		return err
 	}
 	err = App.Rcon.Session.Authenticate()
 	if err != nil {
 		log.Println("ConnectSession - Authenticate: Error authenticating rcon connection: ", err)
+		App.Rcon.Connection = false
 		return err
 	}
 
