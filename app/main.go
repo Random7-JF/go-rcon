@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/gob"
+	"log"
 
 	"github.com/Random7-JF/go-rcon/app/config"
 	"github.com/Random7-JF/go-rcon/app/model"
@@ -16,7 +17,7 @@ func main() {
 	//Load app configuration from either the config.json or env variables
 	App.SetupAppConfig()
 	//Start the main functions of the app, connecting to the DB, connecting to the Rcon server
-	go setupDB()
+	setupDB()
 	go setupRcon()
 	//and start the webserver to take requests
 	server.Serve(&App)
@@ -34,6 +35,12 @@ func setupDB() {
 // it for reference in other functions. The program will run with this unable to connect but won't be
 // able to use rcon functions.
 func setupRcon() {
+
+	err := model.SetRconSettings(App.Rcon.Ip, App.Rcon.Port, App.Rcon.Password)
+	if err != nil {
+		log.Println("setupRcon - SetRconSettings: Unable to set rcon settings: ", err)
+	}
+
 	rcon.ConnectSession(&App)
 	//rcon.SetupConnection(&App)
 	//rconsession := rcon.SetupRconSession(&App)

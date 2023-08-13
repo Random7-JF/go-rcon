@@ -5,13 +5,20 @@ import (
 
 	mcrcon "github.com/Kelwing/mc-rcon"
 	"github.com/Random7-JF/go-rcon/app/config"
+	"github.com/Random7-JF/go-rcon/app/model"
 )
 
 func ConnectSession(App *config.App) error {
 	App.Rcon.Session = new(mcrcon.MCConn)
 
-	ip := App.Rcon.Ip + ":" + App.Rcon.Port
-	err := App.Rcon.Session.Open(ip, App.Rcon.Password)
+	rconSettings, err := model.GetServerSettings()
+	if err != nil {
+		log.Println("ConnectSession - GetSeverSettings: Error getting server settings: ", err)
+	}
+
+	ip := rconSettings.RconIp + ":" + rconSettings.RconPort
+	err = App.Rcon.Session.Open(ip, rconSettings.RconPass)
+
 	if err != nil {
 		log.Println("ConnectSession - Open: Error opening rcon connection: ", err)
 		return err
