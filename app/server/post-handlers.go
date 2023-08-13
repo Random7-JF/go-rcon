@@ -203,6 +203,14 @@ func PostUserHandler(c *fiber.Ctx) error {
 	return c.Redirect("/app/admin/manage")
 }
 
+func PostUserAdmin(c *fiber.Ctx) error {
+	return c.Redirect("/app/admin/manage")
+}
+
+func PostUserRemove(c *fiber.Ctx) error {
+	return c.Redirect("/app/admin/manage")
+}
+
 func PostRconHandler(c *fiber.Ctx) error {
 
 	rconForm := validator.ProcessRconForm(c)

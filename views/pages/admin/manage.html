@@ -189,7 +189,7 @@
               <td>{{.UserName}}</td>
               <td>
                 {{if .Admin}}
-                <form action="/app/admin/user" method="post">
+                <form action="/app/admin/user/update" method="post">
                   <input type="hidden" id="action" name="action" value="admin-user"/>
                   <input type="hidden" id="value" name="value" value="{{ .UserName}}"/>
                   <button name="{{ .UserName}}-tp" type="submit" class="btn btn-warning">
@@ -197,7 +197,7 @@
                   </button>
                 </form>
                 {{else}}
-                <form action="/app/admin/user" method="post">
+                <form action="/app/admin/user/update" method="post">
                   <input type="hidden" id="action" name="action" value="remove-admin-user"/>
                   <input type="hidden" id="value" name="value" value="{{ .UserName}}"/>
                   <button name="{{ .UserName}}-tp" type="submit" class="btn btn-info">
@@ -207,7 +207,7 @@
                 {{end}}
               </td>
               <td>
-                <form action="/app/admin/user" method="post">
+                <form action="/app/admin/user/remove" method="post">
                 <input type="hidden" id="action" name="action" value="delete-user"/>
                 <input type="hidden" id="value" name="value" value="{{ .UserName}}"/>
                 <button name="{{ .UserName}}-tp" type="submit" class="btn btn-danger">
