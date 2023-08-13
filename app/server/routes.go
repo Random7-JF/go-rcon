@@ -45,5 +45,6 @@ func SetupRoutes(App *config.App) {
 	admin.Get("/manage", ManageHandler)
 	admin.Get("/metrics", monitor.New())
 	admin.Post("/user", PostUserHandler)
+	admin.Post("/rcon", PostRconHandler)
 
 }

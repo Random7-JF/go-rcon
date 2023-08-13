@@ -1,6 +1,9 @@
 package model
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+)
 
 // AddToCommandLog takes a Commandlog and enters it into the database.
 func AddToCommandLog(log CommandLog) error {
@@ -22,13 +25,13 @@ func GetCommandLog(limit int) ([]CommandLog, error) {
 	if limit > 0 {
 		query := dbSession.Db.Limit(limit).Where("command != ?", "list").Order("created_at DESC").Find(&cmdlog)
 		if query.Error != nil {
-			fmt.Println(query.Error)
+			log.Println(query.Error)
 			return cmdlog, query.Error
 		}
 	} else {
 		query := dbSession.Db.Where("command != ?", "list").Order("created_at DESC").Find(&cmdlog)
 		if query.Error != nil {
-			fmt.Println(query.Error)
+			log.Println(query.Error)
 			return cmdlog, query.Error
 		}
 	}
@@ -37,15 +40,40 @@ func GetCommandLog(limit int) ([]CommandLog, error) {
 
 func SetSpawnCoords(coords string) error {
 	var serverSetting ServerSettings
-	serverSetting.SpawnCoords = coords
 
-	result := dbSession.Db.Create(&serverSetting)
-
+	result := dbSession.Db.Last(&serverSetting)
 	if result.Error != nil {
-		fmt.Println(result.Error.Error())
-		return result.Error
+		result := dbSession.Db.Create(&serverSetting)
+		if result.Error != nil {
+			log.Println(result.Error.Error())
+			return result.Error
+		}
+		return nil
 	}
 
+	serverSetting.SpawnCoords = coords
+	dbSession.Db.Save(&serverSetting)
+
+	return nil
+}
+
+func SetRconSettings(ip string, port string, password string) error {
+	var serverSettings ServerSettings
+
+	result := dbSession.Db.Last(&serverSettings)
+	if result.Error != nil {
+		result := dbSession.Db.Create(&serverSettings)
+		if result.Error != nil {
+			log.Println(result.Error.Error())
+			return result.Error
+		}
+		return nil
+	}
+
+	serverSettings.RconIp = ip
+	serverSettings.RconPort = port
+	serverSettings.RconPass = password
+	dbSession.Db.Save(&serverSettings)
 	return nil
 }
 
@@ -54,7 +82,7 @@ func GetServerSettings() (ServerSettings, error) {
 
 	query := dbSession.Db.Last(&serverSettings)
 	if query.Error != nil {
-		fmt.Println(query.Error)
+		log.Println(query.Error)
 		return serverSettings, query.Error
 	}
 	return serverSettings, nil

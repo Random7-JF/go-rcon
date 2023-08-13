@@ -22,4 +22,7 @@ type CommandLog struct {
 type ServerSettings struct {
 	gorm.Model
 	SpawnCoords string
+	RconIp      string
+	RconPass    string
+	RconPort    string
 }

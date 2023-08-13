@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"html/template"
+	"log"
 
 	"github.com/Random7-JF/go-rcon/app/helper"
 	"github.com/Random7-JF/go-rcon/app/model"
@@ -199,5 +200,21 @@ func PostUserHandler(c *fiber.Ctx) error {
 			return c.Redirect("/app/admin/manage")
 		}
 	}
+	return c.Redirect("/app/admin/manage")
+}
+
+func PostRconHandler(c *fiber.Ctx) error {
+	rconForm := validator.ProcessRconForm(c)
+	err := rconForm.CheckForReqFields()
+	if err != nil {
+		log.Println("PostRconHandler - CheckForReqFields: " + err.Error())
+	}
+
+	err = model.SetRconSettings(rconForm.Ip, rconForm.Port, rconForm.Password)
+	if err != nil {
+		log.Println("PostRconHandler - SetRconSettings: " + err.Error())
+
+	}
+
 	return c.Redirect("/app/admin/manage")
 }

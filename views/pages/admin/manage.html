@@ -17,7 +17,7 @@
           <div class="card-header">Configure RCON</div>
           <div class="card-body">
             <h5 class="card-title">Update Rcon connection  settings</h5>
-            <form class="row g-3" action=# method="post">
+            <form class="row g-3" hx-post="/app/admin/rcon">
               <div class="col">
               <div class="form-floating">
                 <input type="text" class="form-control mt-3" name="ip" id="ip" placeholder="127.0.0.1"/>
@@ -32,16 +32,15 @@
             </div>
               <div class="col">
               <div class="form-floating">
-                <input type="password" class="form-control mt-3" name="password" id="password" placeholder="Password"/>
-                <label class="text-secondary" for="password"> Password </label>
+                <input type="password" class="form-control mt-3" name="pass" id="pass" placeholder="Password"/>
+                <label class="text-secondary" for="pass"> Password </label>
               </div>
             </div>
-          </form>
-          <div class="col-auto">
             <button type="submit" class="btn btn-dark mt-3">
               Create
             </button>
-          </div>
+          </form>
+          <div id="response"></div>
           </div>
         </div>
         </div>  
