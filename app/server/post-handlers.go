@@ -218,3 +218,24 @@ func PostRconHandler(c *fiber.Ctx) error {
 
 	return c.Redirect("/app/admin/manage")
 }
+
+func PostRconSessionHandler(c *fiber.Ctx) error {
+	rconSessionForm := validator.ProcessRconSessionForm(c)
+	err := rconSessionForm.CheckForReqFields()
+	if err != nil {
+		log.Println("PostRconSessionHandler - CheckForReqFields: " + err.Error())
+	}
+
+	switch rconSessionForm.Action {
+	case "stop":
+		rcon.DisconnectSession(AppConfig)
+	case "start":
+		rcon.ConnectSession(AppConfig)
+	case "restart":
+		rcon.DisconnectSession(AppConfig)
+		rcon.ConnectSession(AppConfig)
+
+	}
+
+	return c.Redirect("/app/admin/manage")
+}

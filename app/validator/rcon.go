@@ -13,6 +13,10 @@ type RconFrom struct {
 	Password string
 }
 
+type RconSession struct {
+	Action string
+}
+
 func ProcessRconForm(c *fiber.Ctx) RconFrom {
 	var rconForm RconFrom
 
@@ -31,4 +35,28 @@ func (r *RconFrom) CheckForReqFields() error {
 	} else {
 		return nil
 	}
+}
+
+func ProcessRconSessionForm(c *fiber.Ctx) RconSession {
+	var rconSessionForm RconSession
+
+	rconSessionForm.Action = c.FormValue("action")
+	return rconSessionForm
+}
+
+func (r *RconSession) CheckForReqFields() error {
+	valid, err := hasValue("action", r.Action)
+	if err != nil {
+		log.Println("CheckForReqFields - hasValue errored: ", err)
+	}
+	if valid {
+		valid, err := hasOption("action", r.Action, []string{"stop", "start", "restart"})
+		if err != nil {
+			log.Println("CheckForReqFields - hasOption errored: ", err)
+		}
+		if valid {
+			return nil
+		}
+	}
+	return err
 }

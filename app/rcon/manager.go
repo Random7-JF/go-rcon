@@ -36,6 +36,7 @@ func ConnectSession(App *config.App) error {
 
 func DisconnectSession(App *config.App) {
 	App.Rcon.Session.Close()
+	App.Rcon.Connection = false
 }
 
 func TestSession(App *config.App) {

@@ -49,21 +49,22 @@
           <div class="card-header">Disconnect / Reconnect Rcon</div>
           <div class="card-body">
             <h5 class="card-title">Disconnect or reconnect the Rcon session</h5>
-            <form action=# method="post">
+            <form hx-post="/app/admin/rcon/session">
               <div class="form-floating">
-                <select class="form-select" id="Action" name="Action">
+                <select class="form-select" id="action" name="action">
                   <option selected>Choose...</option>
-                  <option value="clear">Reconnect</option>
-                  <option value="rain">Disconnect</option>
-                  <option value="thunder">Connect</option>
+                  <option value="restart">Reconnect</option>
+                  <option value="stop">Disconnect</option>
+                  <option value="start">Connect</option>
                 </select>
-                <label class="text-secondary" for="Action"> Action </label>
+                <label class="text-secondary" for="action"> Action </label>
               </div>
                 <button type="submit" class="btn btn-dark mt-3">
-                  Update
+                  Submit
                 </button>
               </div>
           </form>
+          <div id="response"></div>
           </div>
         </div>
     </div>

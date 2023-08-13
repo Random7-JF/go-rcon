@@ -14,14 +14,14 @@ func isBlank(field string) bool {
 }
 
 func hasValue(cmd string, value string) (bool, error) {
-	if isBlank(value) {
+	if !isBlank(value) {
 		return false, fmt.Errorf("%s command requires value, got no value: %s", cmd, value)
 	}
 	return true, nil
 }
 
 func hasOption(cmd string, option string, validOptions []string) (bool, error) {
-	if isBlank(option) {
+	if !isBlank(option) {
 		return false, fmt.Errorf("%s command requires and option, got no option", cmd)
 	}
 	for _, opt := range validOptions {
