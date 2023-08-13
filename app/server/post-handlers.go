@@ -211,8 +211,6 @@ func PostUserUpdate(c *fiber.Ctx) error {
 		Data: data,
 	}
 
-	log.Printf("PostUserUpdate : Action %s Value %s", action, value)
-
 	if len(action) == 0 || len(value) == 0 {
 		data["Response"] = "Error: Blank submission"
 		log.Println("PostUserUpdate : Blank submission ")
@@ -228,7 +226,6 @@ func PostUserUpdate(c *fiber.Ctx) error {
 
 		}
 		data["Response"] = "User set as admin."
-		log.Println("PostUserUpdate - SetUserAdmin: User set as admin.")
 
 	} else if action == "remove-admin-user" {
 		err := model.SetUserAdmin(value, false)
@@ -238,15 +235,41 @@ func PostUserUpdate(c *fiber.Ctx) error {
 			return c.Render("partials/response", td)
 		}
 		data["Response"] = "User no longer admin."
-		log.Println("PostUserUpdate - SetUserAdmin: User no longer admin.")
-
 	}
 
 	return c.Render("partials/response", td)
 }
 
 func PostUserRemove(c *fiber.Ctx) error {
-	return c.Redirect("/app/admin/manage")
+	target := c.FormValue("value")
+	data := make(map[string]interface{})
+	td := model.TempalteData{
+		Data: data,
+	}
+
+	if len(target) == 0 {
+		data["Response"] = "Error: Blank submission"
+		log.Println("PostUserRemove : Blank submission ")
+		return c.Render("partials/response", td)
+	}
+
+	user, err := model.GetUserByUsername(target)
+	if err != nil {
+		data["Response"] = "GetUserByUsername Error: " + err.Error()
+		log.Println("PostUserRemove - GetUserByUsername: " + err.Error())
+		return c.Render("partials/response", td)
+
+	}
+	err = model.DeleteUser(user.ID)
+	if err != nil {
+		data["Response"] = "DeleteUser Error: " + err.Error()
+		log.Println("PostUserRemove - DeleteUser: " + err.Error())
+		return c.Render("partials/response", td)
+
+	}
+
+	data["Response"] = "User deleted."
+	return c.Render("partials/response", td)
 }
 
 func PostRconHandler(c *fiber.Ctx) error {
