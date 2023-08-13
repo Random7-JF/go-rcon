@@ -46,11 +46,10 @@ func DashboardHandler(c *fiber.Ctx) error {
 	}
 
 	data["Players"] = players
-	data["Rcon"] = AppConfig.Rcon.Connection
+	data["Rcon"] = AppConfig.Rcon
 	data["Whitelist"] = whitelist
 	data["Commands"] = commands
 	data["Auth"] = auth
-	data["Rcon"] = AppConfig.Rcon
 
 	td := model.TempalteData{
 		Title: "Dashboard",
@@ -164,6 +163,7 @@ func ManageHandler(c *fiber.Ctx) error {
 	data["Auth"] = auth
 	data["Commands"] = commands
 	data["Users"] = users
+	data["Rcon"] = AppConfig.Rcon
 
 	td := model.TempalteData{
 		Title: "Admin - Manage",

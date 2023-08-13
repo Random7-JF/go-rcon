@@ -31,12 +31,15 @@ func ConnectSession(App *config.App) error {
 
 	TestSession(App)
 	App.Rcon.Connection = true
+	log.Println("ConnectSession: Rcon Session Connected.")
 	return nil
 }
 
 func DisconnectSession(App *config.App) {
 	App.Rcon.Session.Close()
 	App.Rcon.Connection = false
+	log.Println("ConnectSession: Rcon Session Disconnected.")
+
 }
 
 func TestSession(App *config.App) {
