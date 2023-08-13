@@ -3,6 +3,7 @@ package model
 import (
 	"errors"
 	"fmt"
+	"log"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -100,4 +101,19 @@ func IsUserAdmin(username string) bool {
 		return false
 	}
 	return result.Admin
+}
+
+func SetUserAdmin(username string, admin bool) error {
+	result, err := GetUserByUsername(username)
+	if err != nil {
+		return err
+	}
+	log.Printf("User object: %v", result)
+	result.Admin = admin
+	query := dbSession.Db.Save(&result)
+	log.Printf("Updated User object: %v", result)
+	if query.Error != nil {
+		return query.Error
+	}
+	return nil
 }

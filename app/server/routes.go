@@ -44,7 +44,7 @@ func SetupRoutes(App *config.App) {
 	admin := user.Group("/admin", mw.Auth(), mw.SaveSession())
 	admin.Get("/manage", ManageHandler)
 	admin.Get("/metrics", monitor.New())
-	admin.Post("/user/update", PostUserAdmin)
+	admin.Post("/user/update", PostUserUpdate)
 	admin.Post("/user/remove", PostUserRemove)
 	admin.Post("/user", PostUserHandler)
 	admin.Post("/rcon", PostRconHandler)

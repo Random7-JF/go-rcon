@@ -203,8 +203,46 @@ func PostUserHandler(c *fiber.Ctx) error {
 	return c.Redirect("/app/admin/manage")
 }
 
-func PostUserAdmin(c *fiber.Ctx) error {
-	return c.Redirect("/app/admin/manage")
+func PostUserUpdate(c *fiber.Ctx) error {
+	action := c.FormValue("action")
+	value := c.FormValue("value")
+	data := make(map[string]interface{})
+	td := model.TempalteData{
+		Data: data,
+	}
+
+	log.Printf("PostUserUpdate : Action %s Value %s", action, value)
+
+	if len(action) == 0 || len(value) == 0 {
+		data["Response"] = "Error: Blank submission"
+		log.Println("PostUserUpdate : Blank submission ")
+		return c.Render("partials/response", td)
+	}
+
+	if action == "admin-user" {
+		err := model.SetUserAdmin(value, true)
+		if err != nil {
+			data["Response"] = err.Error()
+			log.Println("PostUserUpdate - SetUserAdmin: ", err.Error())
+			return c.Render("partials/response", td)
+
+		}
+		data["Response"] = "User set as admin."
+		log.Println("PostUserUpdate - SetUserAdmin: User set as admin.")
+
+	} else if action == "remove-admin-user" {
+		err := model.SetUserAdmin(value, false)
+		if err != nil {
+			data["Response"] = err.Error()
+			log.Println("PostUserUpdate - SetUserAdmin: ", err.Error())
+			return c.Render("partials/response", td)
+		}
+		data["Response"] = "User no longer admin."
+		log.Println("PostUserUpdate - SetUserAdmin: User no longer admin.")
+
+	}
+
+	return c.Render("partials/response", td)
 }
 
 func PostUserRemove(c *fiber.Ctx) error {
