@@ -3,6 +3,7 @@ package model
 import (
 	"errors"
 	"fmt"
+	"log"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -74,6 +75,35 @@ func CreateUser(username string, password string) error {
 	}
 	fmt.Println("User created:", newUser)
 	return nil
+}
+
+func CreateDefaultAdmin() error {
+	err := CreateUser("admin", "admin")
+	if err != nil {
+		log.Printf("CreateDefaultAdmin - CreateUser: Unable to create defaut admin: %s \n", err.Error())
+		return err
+	}
+
+	admin := SetUserAdmin("admin", true)
+	if admin != nil {
+		log.Printf("CreateDefaultAdmin - SetUserAdmin:  Unable assign admin: %s \n", err.Error())
+		return err
+	}
+
+	log.Printf("---- Created Default Admin Account ----")
+	log.Printf("---- Username: admin               ----")
+	log.Printf("---- Password: admin               ----")
+
+	return nil
+}
+
+func IsAdminAccountCreated() bool {
+	var user Users
+	result := dbSession.Db.Where("admin = ?", true).First(&user)
+	log.Println(result.RowsAffected)
+	log.Println(result.Error)
+
+	return result.Error != nil
 }
 
 func Authenticate(username, testPassword string) error {

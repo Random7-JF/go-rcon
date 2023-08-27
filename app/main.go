@@ -29,6 +29,9 @@ func setupDB() {
 	model.SetupDB(&App)
 	dbsession := model.SetupDbSession(&App)
 	model.NewDbSession(dbsession)
+	if model.IsAdminAccountCreated() {
+		model.CreateDefaultAdmin()
+	}
 }
 
 // setupRcon runs the SetupConnection function, this updates our App variable and registers need info inside
