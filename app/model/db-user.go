@@ -65,14 +65,23 @@ func UpdateUserPass(id int, password string) error {
 
 func CreateUser(username string, password string) error {
 
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), 12)
+	checkUser, err := GetUserByUsername(username)
+	if err != nil {
+		return err
+	}
+	if checkUser.UserName == username {
+		log.Println("Username Already in use.")
+		return errors.New("username already in use")
+	}
 
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), 12)
 	newUser := Users{UserName: username, Password: string(hashedPassword), Admin: false}
 
 	result := dbSession.Db.Create(&newUser)
 	if result.Error != nil {
 		fmt.Println("User creation error:", result.Error)
 	}
+
 	fmt.Println("User created:", newUser)
 	return nil
 }
